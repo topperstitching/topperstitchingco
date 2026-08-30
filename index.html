@@ -20,7 +20,7 @@
         .img-container { position: relative; width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        /* Slider CSS for Table */
+        /* Slider CSS sirf Table ke liye */
         .slider-container { position: relative; width: 100%; height: 200px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
         .slider-track { display: flex; width: 100%; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .slider-track::-webkit-scrollbar { display: none; }
@@ -48,7 +48,7 @@
         .delivery-badge { background: #e8f5e9; color: #2e7d32; font-size: 11px; text-align: center; padding: 5px; border-radius: 4px; font-weight: bold; margin-bottom: 12px; border: 1px dashed #a5d6a7; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; color: #333; }
-        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background: #fff; }
+        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background: #fff; }
         .qr-box { text-align: center; margin: 15px 0; background: #f9f9f9; padding: 10px; border-radius: 6px; border: 1px dashed #ccc; }
         .qr-box img { width: 150px; height: 150px; object-fit: contain; }
         .qr-box p { font-size: 11px; color: #666; margin-top: 5px; }
@@ -62,7 +62,6 @@
 </head>
 <body>
 
-    <!-- ऐप डाउनलोड बटन -->
     <div id="download-box" style="position: fixed; top: 12px; right: 12px; z-index: 9999;">
         <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
@@ -89,7 +88,6 @@
 
     <div class="products">
         
-        <!-- Card 1: Topper SV Tailor -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174914.png" alt="Topper SV Tailor"></div>
@@ -113,7 +111,6 @@
             </div>
         </div>
         
-        <!-- Card 2: Topper SV Tailor Deluxe -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_175005.png" alt="Topper SV Tailor Deluxe"></div>
@@ -137,7 +134,6 @@
             </div>
         </div>
 
-        <!-- Card 3: Bag Closer Single Needle -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174949.png" alt="Bag Closer Single Needle"></div>
@@ -161,7 +157,6 @@
             </div>
         </div>
 
-        <!-- Card 4: Topper TA1 Model -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="file_00000000a1f88211baaa2ea57e9f39f9.png" alt="Topper TA1"></div>
@@ -185,18 +180,17 @@
             </div>
         </div>
 
-        <!-- Card 5: Sewing Machine Top Table (Slider with wood-1 to wood-4) -->
         <div class="card">
             <div>
                 <div class="slider-container">
-                    <button class="slider-btn slider-prev" onclick="slideImages('tableSlider', -1)">&#10094;</button>
+                    <button class="slider-btn slider-prev" onclick="slideImages('tableSlider', -1)">❮</button>
                     <div class="slider-track" id="tableSlider">
                         <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">Light Wooden</div></div>
                         <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">Grey Wooden</div></div>
                         <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">Light Dark Wooden</div></div>
                         <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">Dark Wooden</div></div>
                     </div>
-                    <button class="slider-btn slider-next" onclick="slideImages('tableSlider', 1)">&#10095;</button>
+                    <button class="slider-btn slider-next" onclick="slideImages('tableSlider', 1)">❯</button>
                 </div>
 
                 <div class="card-details">
@@ -204,7 +198,7 @@
                     <div class="price">₹550</div>
                     <div class="specs">
                         <div><span>मॉडल:</span> SV / TA1</div>
-                        <div><span>कलर (Color):</span> <span id="selectedTableColorText">Light Wooden (wood-1)</span></div>
+                        <div><span>कलर (Color):</span> <span id="selectedTableColorText">Light Wooden</span></div>
                         <div><span>टाइप:</span> Top Table Only</div>
                         <div><span>वारंटी / गारंटी:</span> None</div>
                     </div>
@@ -216,7 +210,6 @@
             </div>
         </div>
 
-        <!-- Card 6: Anis Scissors -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174934.png" alt="Anis Scissors Size 10"></div>
@@ -239,7 +232,6 @@
         </div>
     </div>
 
-    <!-- Order Form Modal (Pop-up) -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
@@ -260,7 +252,7 @@
             </div>
 
             <div class="qr-box">
-                <img id="qrImage" src="UPI_QR.png" alt="UPI QR Code">
+                <img id="qrImage" src="upi-qr.png" alt="UPI QR Code">
                 <p>इस QR Code को स्कैन करके पेमेंट करें और नीचे आर्डर भेजें</p>
             </div>
 
@@ -279,7 +271,7 @@
     </div>
 
     <script>
-        // Slider JS Function & Dynamic Color Name Update for Table
+        // Table Slider Color Update Logic
         const tableSliderTrack = document.getElementById('tableSlider');
         if (tableSliderTrack) {
             tableSliderTrack.addEventListener('scroll', function() {
@@ -287,10 +279,10 @@
                 const slideWidth = tableSliderTrack.clientWidth;
                 let index = Math.round(scrollLeft / slideWidth);
                 const tableColors = [
-                    "Light Wooden (wood-1)", 
-                    "Grey Wooden (wood-2)", 
-                    "Light Dark Wooden (wood-3)", 
-                    "Dark Wooden (wood-4)"
+                    "Light Wooden", 
+                    "Grey Wooden", 
+                    "Light Dark Wooden", 
+                    "Dark Wooden"
                 ];
                 const colorEl = document.getElementById('selectedTableColorText');
                 if (colorEl && tableColors[index]) {
@@ -307,17 +299,17 @@
 
         function getSelectedTableColor() {
             const track = document.getElementById('tableSlider');
-            if (!track) return "Light Wooden (wood-1)";
+            if (!track) return "Light Wooden";
             const scrollLeft = track.scrollLeft;
             const slideWidth = track.clientWidth;
             let index = Math.round(scrollLeft / slideWidth);
             const tableColors = [
-                "Light Wooden (wood-1)", 
-                "Grey Wooden (wood-2)", 
-                "Light Dark Wooden (wood-3)", 
-                "Dark Wooden (wood-4)"
+                "Light Wooden", 
+                "Grey Wooden", 
+                "Light Dark Wooden", 
+                "Dark Wooden"
             ];
-            return tableColors[index] || "Light Wooden (wood-1)";
+            return tableColors[index] || "Light Wooden";
         }
 
         var selectedProduct = "";
@@ -384,7 +376,7 @@
             var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
                           "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
                           "💰 कीमत: ₹" + price + "%0A" + 
-                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
+                          "📍 *लाइవ लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
                           "कृपया डिलीवरी की जानकारी भेजें।";
             window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
