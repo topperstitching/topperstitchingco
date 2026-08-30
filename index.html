@@ -78,7 +78,7 @@
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
         
         /* Fixed Bottom Navigation Bar */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-space-around; padding: 10px 0; border-top: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { border: none; background: none; flex: 1; text-align: center; color: #666; font-size: 12px; cursor: pointer; font-weight: bold; outline: none; }
         .nav-item.active { color: #0d47a1; }
         .nav-item div { font-size: 18px; margin-bottom: 2px; }
@@ -360,14 +360,15 @@
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
+      // आपकी बिल्कुल सही Firebase Config
       const firebaseConfig = {
-        apiKey: "AIzaSyDcoMv4F1S-2zXA0LkNYq1fqt2EXHQ8Q4w",
+        apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
         authDomain: "toppersewingmachine.firebaseapp.com",
         projectId: "toppersewingmachine",
         storageBucket: "toppersewingmachine.firebasestorage.app",
-        messagingSenderId: "281376461079",
-        appId: "1:281376461079:web:97640170de01dbc975e512",
-        measurementId: "G-6RP4G3GE3L"
+        messagingSenderId: "281176461879",
+        appId: "1:281176461879:web:97648170de01d8c975e5b2",
+        measurementId: "G-GRP6EXGE3L"
       };
 
       const app = initializeApp(firebaseConfig);
