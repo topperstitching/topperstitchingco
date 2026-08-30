@@ -18,9 +18,6 @@
         .card:hover { transform: translateY(-3px); }
         .img-container { position: relative; width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
-        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.6); color: white; border: none; padding: 8px 12px; cursor: pointer; border-radius: 50%; font-weight: bold; font-size: 16px; z-index: 10; }
-        .prev-btn { left: 8px; }
-        .next-btn { right: 8px; }
         .card-details { margin-top: 12px; }
         .card h3 { font-size: 17px; color: #1a237e; margin-bottom: 6px; }
         .price { color: #2e7d32; font-weight: bold; font-size: 20px; margin-bottom: 8px; }
@@ -30,21 +27,33 @@
         .btn-buy:hover { background: #20ba5a; }
         .footer-address { background: #ffffff; padding: 16px; margin: 20px 16px; border-radius: 10px; text-align: center; border: 1px solid #ddd; font-size: 13px; color: #555; max-width: 1200px; margin-left: auto; margin-right: auto; }
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
-        .cart-bar { position: fixed; bottom: 0; width: 100%; background: #ffffff; border-top: 1px solid #ccc; padding: 12px; text-align: center; font-size: 13px; font-weight: bold; color: #333; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); }
+        .cart-bar { position: fixed; bottom: 0; width: 100%; background: #ffffff; border-top: 1px solid #ccc; padding: 12px; text-align: center; font-size: 13px; font-weight: bold; color: #333; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 100; }
     </style>
 </head>
 <body>
-    <!-- डाउनलोड बटन (जो केवल ब्राउज़र में दिखेगा) -->
-    <div id="download-box" style="position: fixed; top: 10px; right: 10px; z-index: 9999;">
-        <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 8px 14px; border-radius: 5px; text-decoration: none; font-size: 13px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
+
+    <!-- डाउनलोड बटन (जो केवल ब्राउज़र में दिखेगा, ऐप में छुप जाएगा) -->
+    <div id="download-box" style="position: fixed; top: 12px; right: 12px; z-index: 9999;">
+        <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
 
     <script>
-        // यदि ऐप के अंदर खुली है तो डाउनलोड बटन छुप जाएगा
+        // यह चेक करेगा कि ऐप खुली है या नहीं, अगर ऐप है तो डाउनलोड बटन गायब हो जाएगा
         if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
             document.getElementById('download-box').style.display = 'none';
         }
     </script>
+
+    <header>
+        <h1>Topper Sewing Machine</h1>
+        <p>विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</p>
+    </header>
+
+    <!-- आपका बैनर यहाँ वापस जोड़ दिया गया है -->
+    <div class="banner">
+        <h2>सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
+        <p>बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस</p>
+    </div>
 
     <div class="products">
         <div class="card">
@@ -65,6 +74,7 @@
             </div>
             <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500')">📲 व्हाट्सएप पर खरीदें</button>
         </div>
+        
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_175005.png" alt="Topper SV Tailor Deluxe"></div>
@@ -83,6 +93,7 @@
             </div>
             <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500')">📲 व्हाट्सएप पर खरीदें</button>
         </div>
+
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174949.png" alt="Bag Closer Single Needle"></div>
@@ -101,6 +112,7 @@
             </div>
             <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800')">📲 व्हाट्सएप पर खरीदें</button>
         </div>
+
         <div class="card">
             <div>
                 <div class="img-container"><img src="file_00000000a1f88211baaa2ea57e9f39f9.png" alt="Topper TA1"></div>
@@ -119,9 +131,10 @@
             </div>
             <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000')">📲 व्हाट्सएप पर खरीदें</button>
         </div>
+
         <div class="card">
             <div class="img-container">
-                <img src="file_0000000093748207a6bb6aaed2d5c375.png" alt="Light Wood Table" style="width:100%; margin-bottom:10px; border-radius:8px;">
+                <img src="file_0000000093748207a6bb6aaed2d5c375.png" alt="Light Wood Table" style="width:100%; border-radius:8px;">
             </div>
             <div class="card-details">
                 <h3>Sewing Machine Top Table</h3>
@@ -134,6 +147,7 @@
             </div>
             <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
         </div>
+
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174934.png" alt="Anis Scissors Size 10"></div>
@@ -151,13 +165,16 @@
             <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300')">📲 व्हाट्सएप पर खरीदें</button>
         </div>
     </div>
+
     <div class="footer-address">
         <strong>📍 मुख्य स्टोर का पता:</strong>
         सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
     </div>
+
     <div class="cart-bar">
         🛒 किसी भी सामान को खरीदने के लिए उसके नीचे बने बटन पर क्लिक करें
     </div>
+
     <script>
         function buyNow(productName, price) {
             var phoneNumber = "919264137710";
@@ -177,4 +194,5 @@
         }
     </script>
 </body>
-</html>
+    </html>
+    
