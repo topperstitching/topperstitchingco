@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topper Sewing Machine Shopping</title>
     
-    <!-- Firebase SDK (Version 9+ Compat Modules) -->
+    <!-- Firebase SDK (v9 Compat - Works natively in browser without bundlers) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -85,7 +85,7 @@
         .status-failed { background: #f8d7da; color: #721c24; }
 
         /* Bottom Navigation Bar */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #ccc; display: flex; justify-space-around; padding: 8px 0; z-index: 999; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #ccc; display: flex; justify-content: space-around; padding: 8px 0; z-index: 999; box-shadow: 0 -2px 8px rgba(0,0,0,0.1); }
         .nav-item { border: none; background: none; color: #666; font-size: 12px; font-weight: bold; cursor: pointer; display: flex; flex-direction: column; align-items: center; }
         .nav-item.active { color: #0d47a1; }
         .nav-item span { font-size: 18px; margin-bottom: 2px; }
@@ -285,8 +285,8 @@
     <div id="profilePage" class="page-section">
         <div class="container-box">
             <div id="loggedOutView">
-                <h3>👤 प्रोफ़ाइल / लॉगिन</h3>
-                <p style="font-size: 13px; color: #666; margin: 15px 0;">ऑनलाइन ऑर्डर ट्रैकिंग के लिए Google से लॉगिन करें</p>
+                <h3>👤 प्रोफ़ाइल / साइन अप</h3>
+                <p style="font-size: 13px; color: #666; margin: 15px 0;">ऑनलाइन ऑर्डर ट्रैकिंग के लिए Google से साइन इन करें</p>
                 <button class="google-btn" onclick="loginWithGoogle()">
                     <img src="https://www.gstatic.com/firebasejs/ui/2.0.0/images/auth/google.svg" width="18" alt="G">
                     Sign in with Google
@@ -345,18 +345,18 @@
     </div>
 
     <script>
-        // FIREBASE CONFIGURATION
+        // Firebase Config Keys
         const firebaseConfig = {
-            apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
-            authDomain: "toppersewingmachine.firebaseapp.com",
-            projectId: "toppersewingmachine",
-            storageBucket: "toppersewingmachine.firebasestorage.app",
-            messagingSenderId: "281176461879",
-            appId: "1:281176461879:web:97648170de01d8c975e5b2",
-            measurementId: "G-GRP6EXGE3L"
+          apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
+          authDomain: "toppersewingmachine.firebaseapp.com",
+          projectId: "toppersewingmachine",
+          storageBucket: "toppersewingmachine.firebasestorage.app",
+          messagingSenderId: "281176461879",
+          appId: "1:281176461879:web:97648170de01d8c975e5b2",
+          measurementId: "G-GRP6EXGE3L"
         };
 
-        // Firebase Init
+        // Firebase Initialization
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -365,7 +365,7 @@
 
         var currentUser = null;
 
-        // AUTH STATE LISTENER
+        // Firebase Auth Listener
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
@@ -383,19 +383,25 @@
             }
         });
 
-        // GOOGLE LOGIN & LOGOUT
+        // Smart Login Mechanism (Works on Browser & Android App Webview)
         function loginWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            auth.signInWithPopup(provider).catch(error => {
-                alert("लॉगिन विफल: " + error.message);
-            });
+            var isWebView = window.navigator.userAgent.includes("wv") || urlParams.get('app') === 'true';
+            
+            if (isWebView) {
+                auth.signInWithRedirect(provider);
+            } else {
+                auth.signInWithPopup(provider).catch(error => {
+                    auth.signInWithRedirect(provider);
+                });
+            }
         }
 
         function logout() {
             auth.signOut();
         }
 
-        // NAVIGATION TABS
+        // Navigation Switch
         function switchTab(pageId, btn) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -451,7 +457,7 @@
 
         function openOrderForm(productName, price, colorName) {
             if (!currentUser) {
-                alert("ऑनलाइन ऑर्डर करने के लिए कृपया पहले प्रोफ़ाइल पेज में जाकर Google से लॉगिन करें।");
+                alert("ऑनलाइन ऑर्डर करने के लिए कृपया पहले प्रोफ़ाइल पेज में जाकर Google से लॉगिन/साइन अप करें।");
                 switchTab('profilePage', document.querySelectorAll('.nav-item')[2]);
                 return;
             }
@@ -470,7 +476,7 @@
             document.getElementById("orderModal").style.display = "none";
         }
 
-        // ORDER GENERATION & FIRESTORE SAVE
+        // Save Order to Firestore Database & Redirect to WhatsApp
         function submitOnlineOrder() {
             var name = document.getElementById("custName").value.trim();
             var phone = document.getElementById("custPhone").value.trim();
@@ -518,7 +524,7 @@
             });
         }
 
-        // LOAD USER ORDERS REALTIME
+        // Fetch Realtime User Orders
         function loadUserOrders(uid) {
             db.collection("orders")
               .where("userId", "==", uid)
