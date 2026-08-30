@@ -38,14 +38,8 @@
     </div>
 
     <script>
-        // 1. अगर ब्राउज़र में PWA मोड ऑन है तो हटाएगा
-        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-            document.getElementById('download-box').style.display = 'none';
-        }
-
-        // 2. अगर ऐप के अंदर लिंक में ?app=true है तो तुरंत छुपा देगा
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('app') === 'true') {
+        // अगर ऐप के अंदर खुला है (WebView पहचान के लिए या hash चेक करने के लिए)
+        if (window.navigator.userAgent.includes("wv") || window.location.hash === "#app") {
             document.getElementById('download-box').style.display = 'none';
         }
     </script>
@@ -200,4 +194,3 @@
     </script>
 </body>
 </html>
-
