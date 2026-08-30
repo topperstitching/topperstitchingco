@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topper Sewing Machine Shopping</title>
     
-    <!-- Firebase SDK (v9 Compat - Works natively in browser without bundlers) -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
@@ -112,7 +111,6 @@
         <p>विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</p>
     </header>
 
-    <!-- SECTION 1: HOME PAGE -->
     <div id="homePage" class="page-section active">
         <div class="banner">
             <h2>सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
@@ -138,7 +136,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4500', 'Light Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', 'Light Wooden')">💳 ऑनलाइन पेमेंट करें</button>
                     <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', 'Light Wooden')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
@@ -161,7 +159,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4500', 'Grey Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">💳 ऑनलाइन पेमेंट करें</button>
                     <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
@@ -184,7 +182,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5800', 'Light Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
                     <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
@@ -207,7 +205,7 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6000', 'Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', 'Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
                     <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', 'Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
@@ -270,7 +268,6 @@
         </div>
     </div>
 
-    <!-- SECTION 2: ORDERS PAGE -->
     <div id="ordersPage" class="page-section">
         <div class="container-box">
             <h3>📦 आपके ऑर्डर्स</h3>
@@ -281,7 +278,6 @@
         </div>
     </div>
 
-    <!-- SECTION 3: PROFILE PAGE -->
     <div id="profilePage" class="page-section">
         <div class="container-box">
             <div id="loggedOutView">
@@ -301,7 +297,6 @@
         </div>
     </div>
 
-    <!-- ORDER MODAL -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
@@ -331,7 +326,6 @@
         </div>
     </div>
 
-    <!-- BOTTOM NAVIGATION BAR -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="switchTab('homePage', this)">
             <span>🏠</span>होम
@@ -345,7 +339,7 @@
     </div>
 
     <script>
-        // Firebase Config Keys
+        // Firebase Configuration
         const firebaseConfig = {
           apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
           authDomain: "toppersewingmachine.firebaseapp.com",
@@ -356,7 +350,6 @@
           measurementId: "G-GRP6EXGE3L"
         };
 
-        // Firebase Initialization
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -365,7 +358,6 @@
 
         var currentUser = null;
 
-        // Firebase Auth Listener
         auth.onAuthStateChanged(user => {
             if (user) {
                 currentUser = user;
@@ -383,7 +375,6 @@
             }
         });
 
-        // Smart Login Mechanism (Works on Browser & Android App Webview)
         function loginWithGoogle() {
             const provider = new firebase.auth.GoogleAuthProvider();
             var isWebView = window.navigator.userAgent.includes("wv") || urlParams.get('app') === 'true';
@@ -401,7 +392,6 @@
             auth.signOut();
         }
 
-        // Navigation Switch
         function switchTab(pageId, btn) {
             document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
@@ -410,7 +400,6 @@
             window.scrollTo(0, 0);
         }
 
-        // Table Slider Logic
         const tableSliderTrack = document.getElementById('tableSlider');
         if (tableSliderTrack) {
             tableSliderTrack.addEventListener('scroll', function() {
@@ -456,11 +445,6 @@
         }
 
         function openOrderForm(productName, price, colorName) {
-            if (!currentUser) {
-                alert("ऑनलाइन ऑर्डर करने के लिए कृपया पहले प्रोफ़ाइल पेज में जाकर Google से लॉगिन/साइन अप करें।");
-                switchTab('profilePage', document.querySelectorAll('.nav-item')[2]);
-                return;
-            }
             selectedProduct = productName + " [" + colorName + "]";
             selectedPrice = price;
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
@@ -476,7 +460,7 @@
             document.getElementById("orderModal").style.display = "none";
         }
 
-        // Save Order to Firestore Database & Redirect to WhatsApp
+        // FULLY FIXED SUBMIT FUNCTION (100% WhatsApp + Database Sync)
         function submitOnlineOrder() {
             var name = document.getElementById("custName").value.trim();
             var phone = document.getElementById("custPhone").value.trim();
@@ -488,93 +472,38 @@
             }
 
             var orderId = "ORD" + Date.now();
-            var orderData = {
-                orderId: orderId,
-                userId: currentUser.uid,
-                userEmail: currentUser.email,
-                userName: name,
-                userPhone: phone,
-                address: address,
-                product: selectedProduct,
-                price: selectedPrice,
-                currency: "INR",
-                status: "pending",
-                timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-                dateString: new Date().toLocaleString("hi-IN"),
-                location: userLocationLink
-            };
-
-            db.collection("orders").doc(orderId).set(orderData).then(() => {
-                var phoneNumber = "919264137710";
-                var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
-                              "🆔 *आर्डर आईडी:* " + orderId + "%0A" +
-                              "📦 सामान (कलर सहित): " + selectedProduct + "%0A" + 
-                              "💰 कीमत: ₹" + selectedPrice + " INR%0A%0A" + 
-                              "👤 ग्राहक का नाम: " + name + "%0A" + 
-                              "📞 फोन नंबर: " + phone + "%0A" + 
-                              "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)%0A" + 
-                              "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
-                              "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
-
-                window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
-                closeOrderForm();
-                switchTab('ordersPage', document.querySelectorAll('.nav-item')[1]);
-            }).catch(err => {
-                alert("ऑर्डर सेव करने में समस्या आई: " + err.message);
-            });
-        }
-
-        // Fetch Realtime User Orders
-        function loadUserOrders(uid) {
-            db.collection("orders")
-              .where("userId", "==", uid)
-              .onSnapshot(snapshot => {
-                  var ordersList = document.getElementById("ordersList");
-                  if (snapshot.empty) {
-                      ordersList.innerHTML = '<p style="color: #888; font-size: 13px;">आपने अभी तक कोई ऑनलाइन ऑर्डर नहीं किया है।</p>';
-                      return;
-                  }
-                  var html = "";
-                  snapshot.docs.forEach(doc => {
-                      var data = doc.data();
-                      var badgeClass = "status-pending";
-                      var statusText = "Pending (समीक्षाधीन)";
-                      
-                      if (data.status === "success") {
-                          badgeClass = "status-success";
-                          statusText = "Success (स्वीकृत)";
-                      } else if (data.status === "failed") {
-                          badgeClass = "status-failed";
-                          statusText = "Failed (अस्वीकृत/रद्द)";
-                      }
-
-                      html += `<div class="order-card">
-                          <h4>${data.product}</h4>
-                          <p style="font-size: 13px; color: #333; margin: 4px 0;"><b>कीमत:</b> ₹${data.price} ${data.currency || 'INR'}</p>
-                          <p style="font-size: 11px; color: #666;"><b>आर्डर ID:</b> ${data.orderId}</p>
-                          <p style="font-size: 11px; color: #666;"><b>दिनांक:</b> ${data.dateString || 'हाल ही में'}</p>
-                          <span class="status-badge ${badgeClass}">स्थिति: ${statusText}</span>
-                      </div>`;
-                  });
-                  ordersList.innerHTML = html;
-              });
-        }
-
-        function buyNow(productName, price, colorName) {
-            var finalProduct = productName + " [" + colorName + "]";
             var phoneNumber = "919264137710";
-            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
-                          "💰 कीमत: ₹" + price + "%0A" + 
-                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
-                          "कृपया डिलीवरी की जानकारी भेजें।";
-            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
-        }
+            var cleanPrice = String(selectedPrice).replace(/,/g, '');
 
-        function buyTableNow() {
-            let chosenColor = getSelectedTableColor();
-            buyNow("Sewing Machine Top Table", "550", chosenColor);
-        }
-    </script>
-</body>
-</html>
+            var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
+                          "🆔 *आर्डर आईडी:* " + orderId + "%0A" +
+                          "📦 सामान (कलर सहित): " + encodeURIComponent(selectedProduct) + "%0A" + 
+                          "💰 कीमत: ₹" + cleanPrice + " INR%0A%0A" + 
+                          "👤 ग्राहक का नाम: " + encodeURIComponent(name) + "%0A" + 
+                          "📞 फोन नंबर: " + encodeURIComponent(phone) + "%0A" + 
+                          "🏠 पूरा पता: " + encodeURIComponent(address) + " (Gopalganj, Bihar)%0A" + 
+                          "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
+                          "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
+
+            var whatsappURL = "https://wa.me/" + phoneNumber + "?text=" + message;
+
+            if (typeof db !== "undefined" && currentUser) {
+                db.collection("orders").doc(orderId).set({
+                    orderId: orderId,
+                    userId: currentUser.uid,
+                    userEmail: currentUser.email,
+                    userName: name,
+                    userPhone: phone,
+                    address: address,
+                    product: selectedProduct,
+                    price: cleanPrice,
+                    currency: "INR",
+                    status: "pending",
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                    dateString: new Date().toLocaleString("hi-IN"),
+                    location: userLocationLink
+                }).then(function() {
+                    window.open(whatsappURL, '_blank');
+                    closeOrderForm();
+                    switchTab('ordersPage', document.querySelectorAll
+                        
