@@ -55,18 +55,19 @@
         .badge-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .badge-failed { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
 
-        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow-y: auto; }
-        .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: relative; z-index: 2001; }
+        .modal { display: none; position: fixed; z-index: 99999; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow-y: auto; }
+        .modal-content { background-color: white; margin: 5% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: relative; z-index: 100000; }
         .modal-content h3 { color: #1a237e; margin-bottom: 6px; font-size: 18px; text-align: center; }
         .delivery-badge { background: #e8f5e9; color: #2e7d32; font-size: 11px; text-align: center; padding: 5px; border-radius: 4px; font-weight: bold; margin-bottom: 12px; border: 1px dashed #a5d6a7; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; color: #333; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background: #fff; }
+        .form-group input, .form-group textarea { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background: #fff; outline: none; }
+        .form-group input:focus, .form-group textarea:focus { border-color: #0d47a1; box-shadow: 0 0 5px rgba(13,71,161,0.2); }
         .qr-box { text-align: center; margin: 12px 0; background: #f9f9f9; padding: 10px; border-radius: 6px; border: 1px dashed #ccc; }
         .qr-box img { width: 150px; height: 150px; object-fit: contain; }
         .qr-box p { font-size: 11px; color: #666; margin-top: 5px; }
-        .btn-submit { background: #0d47a1; color: white; border: none; padding: 10px; width: 100%; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 15px; }
-        .btn-close { background: #d32f2f; color: white; border: none; padding: 8px; width: 100%; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 13px; margin-top: 8px; }
+        .btn-submit { background: #0d47a1; color: white; border: none; padding: 12px; width: 100%; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 15px; margin-top: 5px; }
+        .btn-close { background: #d32f2f; color: white; border: none; padding: 10px; width: 100%; font-weight: bold; border-radius: 5px; cursor: pointer; font-size: 13px; margin-top: 8px; }
 
         .footer-address { background: #ffffff; padding: 16px; margin: 20px 16px; border-radius: 10px; text-align: center; border: 1px solid #ddd; font-size: 13px; color: #555; max-width: 1200px; margin-left: auto; margin-right: auto; }
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
@@ -116,8 +117,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', '')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', '')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" type="button" onclick="openOrderForm('Topper SV Tailor', '4,500', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" type="button" onclick="buyNow('Topper SV Tailor', '4,500', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
             
@@ -138,8 +139,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', '')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', '')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" type="button" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" type="button" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
 
@@ -160,8 +161,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', '')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', '')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" type="button" onclick="openOrderForm('Bag Closer Single Needle', '5,800', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" type="button" onclick="buyNow('Bag Closer Single Needle', '5,800', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
 
@@ -182,22 +183,22 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', '')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', '')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" type="button" onclick="openOrderForm('Topper TA1 Model', '6,000', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" type="button" onclick="buyNow('Topper TA1 Model', '6,000', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
 
             <div class="card">
                 <div>
                     <div class="slider-container">
-                        <button class="slider-btn slider-prev" onclick="slideImages('tableSlider', -1)">❮</button>
+                        <button class="slider-btn slider-prev" type="button" onclick="slideImages('tableSlider', -1)">❮</button>
                         <div class="slider-track" id="tableSlider">
                             <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">Light Wooden</div></div>
                             <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">Grey Wooden</div></div>
                             <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">Light Dark Wooden</div></div>
                             <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">Dark Wooden</div></div>
                         </div>
-                        <button class="slider-btn slider-next" onclick="slideImages('tableSlider', 1)">❯</button>
+                        <button class="slider-btn slider-next" type="button" onclick="slideImages('tableSlider', 1)">❯</button>
                     </div>
 
                     <div class="card-details">
@@ -211,8 +212,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openTableOrderForm()">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" type="button" onclick="openTableOrderForm()">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" type="button" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
 
@@ -230,8 +231,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Anis Scissors (Size 10)', '300', '')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300', '')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" type="button" onclick="openOrderForm('Anis Scissors (Size 10)', '300', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" type="button" onclick="buyNow('Anis Scissors (Size 10)', '300', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
         </div>
@@ -258,7 +259,7 @@
             <h2 style="color: #1a237e;">👤 यूजर प्रोफाइल</h2>
             <div style="background: white; padding: 25px; border-radius: 10px; margin-top: 20px; border: 1px solid #ddd; text-align: center;">
                 <div id="loginSection">
-                    <button class="btn-google" onclick="loginWithGoogle()">
+                    <button class="btn-google" type="button" onclick="loginWithGoogle()">
                         <span>🌐</span> Google से तेजी से लॉगिन करें
                     </button>
                 </div>
@@ -267,7 +268,7 @@
                     <p style="color: #2e7d32; font-weight: bold; font-size: 16px;">✅ सफलतापूर्वक लॉगिन हैं!</p>
                     <p id="userNameDisplay" style="margin-top: 6px; font-weight: bold; color: #333; font-size: 15px;"></p>
                     <p id="userEmailDisplay" style="margin-top: 3px; color: #666; font-size: 13px;"></p>
-                    <button class="btn-logout" onclick="logoutUser()">लॉग आउट (Logout)</button>
+                    <button class="btn-logout" type="button" onclick="logoutUser()">लॉग आउट (Logout)</button>
                 </div>
             </div>
         </div>
@@ -275,9 +276,9 @@
 
     <!-- BOTTOM NAVIGATION -->
     <div class="bottom-nav">
-        <button class="nav-item active" onclick="switchTab('home', this)"><div>🏠</div> होम</button>
-        <button class="nav-item" onclick="switchTab('orders', this)"><div>📦</div> ऑर्डर्स</button>
-        <button class="nav-item" onclick="switchTab('profile', this)"><div>👤</div> प्रोफाइल</button>
+        <button class="nav-item active" type="button" onclick="switchTab('home', this)"><div>🏠</div> होम</button>
+        <button class="nav-item" type="button" onclick="switchTab('orders', this)"><div>📦</div> ऑर्डर्स</button>
+        <button class="nav-item" type="button" onclick="switchTab('profile', this)"><div>👤</div> प्रोफाइल</button>
     </div>
 
     <!-- ORDER MODAL -->
@@ -310,8 +311,8 @@
                 <input type="text" id="custUtr" placeholder="12-अंकों का UTR No. लिखें">
             </div>
 
-            <button class="btn-submit" onclick="submitOnlineOrder()">✅ पेमेंट करके आर्डर भेजें</button>
-            <button class="btn-close" onclick="closeOrderForm()">रद्द करें</button>
+            <button class="btn-submit" type="button" onclick="submitOnlineOrder()">✅ पेमेंट करके आर्डर भेजें</button>
+            <button class="btn-close" type="button" onclick="closeOrderForm()">रद्द करें</button>
         </div>
     </div>
 
@@ -511,25 +512,26 @@
         }
 
         var selectedProduct = "", selectedPrice = "";
-        function openOrderForm(productName, price, colorName) {
+        
+        window.openOrderForm = function(productName, price, colorName) {
             selectedProduct = colorName ? productName + " [" + colorName + "]" : productName;
             selectedPrice = price;
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
             document.getElementById("orderModal").style.display = "block";
         }
 
-        function openTableOrderForm() {
+        window.openTableOrderForm = function() {
             selectedProduct = "Sewing Machine Top Table [" + getSelectedTableColor() + "]";
             selectedPrice = "550";
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹550";
             document.getElementById("orderModal").style.display = "block";
         }
 
-        function closeOrderForm() {
+        window.closeOrderForm = function() {
             document.getElementById("orderModal").style.display = "none";
         }
 
-        function buyNow(productName, price, colorName) {
+        window.buyNow = function(productName, price, colorName) {
             var finalProduct = colorName ? productName + " [" + colorName + "]" : productName;
             var now = new Date();
             var timeStr = now.toLocaleDateString('hi-IN') + ' ' + now.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
@@ -537,7 +539,7 @@
             window.open("https://wa.me/919264137710?text=" + waMsg, '_blank');
         }
 
-        function buyTableNow() {
+        window.buyTableNow = function() {
             var finalProduct = "Sewing Machine Top Table [" + getSelectedTableColor() + "]";
             var now = new Date();
             var timeStr = now.toLocaleDateString('hi-IN') + ' ' + now.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
