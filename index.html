@@ -91,6 +91,7 @@
         <p>विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</p>
     </header>
 
+    <!-- 1. HOME PAGE -->
     <div id="page-home" class="page-content active">
         <div class="banner">
             <h2>सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
@@ -241,6 +242,7 @@
         </div>
     </div>
 
+    <!-- 2. ORDERS PAGE -->
     <div id="page-orders" class="page-content">
         <div class="page-padding">
             <h2 style="color: #1a237e; margin-bottom: 15px;">आपके ऑर्डर्स (My Orders)</h2>
@@ -250,6 +252,7 @@
         </div>
     </div>
 
+    <!-- 3. PROFILE PAGE -->
     <div id="page-profile" class="page-content">
         <div class="page-padding" style="text-align: center; margin-top: 30px;">
             <h2 style="color: #1a237e;">👤 यूजर प्रोफाइल</h2>
@@ -270,12 +273,14 @@
         </div>
     </div>
 
+    <!-- BOTTOM NAVIGATION -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="switchTab('home', this)"><div>🏠</div> होम</button>
         <button class="nav-item" onclick="switchTab('orders', this)"><div>📦</div> ऑर्डर्स</button>
         <button class="nav-item" onclick="switchTab('profile', this)"><div>👤</div> प्रोफाइल</button>
     </div>
 
+    <!-- ORDER MODAL -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
@@ -305,11 +310,12 @@
                 <input type="text" id="custUtr" placeholder="12-अंकों का UTR No. लिखें">
             </div>
 
-            <button class="btn-submit" onclick="submitOnlineOrder()">✅ पेमेंट करके आर्डर भेजें (WhatsApp)</button>
+            <button class="btn-submit" onclick="submitOnlineOrder()">✅ पेमेंट करके आर्डर भेजें</button>
             <button class="btn-close" onclick="closeOrderForm()">रद्द करें</button>
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -353,7 +359,6 @@
               document.getElementById("userEmailDisplay").innerText = user.email || "";
               if(user.photoURL) document.getElementById("userPhoto").src = user.photoURL;
               
-              // लाइव आर्डर लोड करना जो सिर्फ इस यूज़र के हैं
               loadUserOrders(user.email);
           } else {
               document.getElementById("loginSection").style.display = "block";
@@ -382,6 +387,9 @@
           }
 
           var orderId = "ORD-" + Date.now().toString().slice(-6);
+          var now = new Date();
+          var formattedDateTime = now.toLocaleDateString('hi-IN') + ' ' + now.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
+
           var newOrder = {
               id: orderId,
               product: selectedProduct,
@@ -391,18 +399,19 @@
               address: address,
               utr: utr,
               userEmail: currentUser.email,
-              orderDate: new Date().toLocaleString(),
+              orderDate: formattedDateTime,
               status: "Pending Verification (जाँच हो रही है)"
           };
 
-          // डेटाबेस में सेव करना ताकि एडमिन पैनल में दिखे
           push(ref(db, 'orders'), newOrder)
               .then(() => {
                   var phoneNumber = "919264137710";
-                  var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (Order ID: " + orderId + ")* 🌟%0A%0A" + 
+                  var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर* 🌟%0A%0A" + 
+                                "🆔 आर्डर आईडी: " + orderId + "%0A" + 
                                 "📦 सामान: " + selectedProduct + "%0A" + 
                                 "💰 कीमत: ₹" + selectedPrice + "%0A" + 
-                                "🔢 UTR No: " + utr + "%0A%0A" + 
+                                "🔢 UTR No: " + utr + "%0A" + 
+                                "📅 समय: " + formattedDateTime + "%0A%0A" + 
                                 "👤 ग्राहक: " + name + "%0A" + 
                                 "📞 फोन: " + phone + "%0A" + 
                                 "🏠 पता: " + address + "%0A" + 
@@ -418,7 +427,6 @@
               });
       };
 
-      // सिर्फ इस यूज़र के आर्डर स्क्रीन पर दिखाना
       function loadUserOrders(userEmail) {
           const ordersRef = ref(db, 'orders');
           onValue(ordersRef, (snapshot) => {
@@ -446,19 +454,22 @@
 
               myOrdersArray.reverse().forEach(ord => {
                   let badgeClass = "badge-pending";
-                  if (ord.status && (ord.status.includes("Approved") || ord.status.includes("Successful"))) {
+                  let statusText = ord.status || "Pending Verification (जाँच हो रही है)";
+
+                  if (statusText.includes("Approved") || statusText.includes("Successful") || statusText.includes("Success")) {
                       badgeClass = "badge-success";
-                  } else if (ord.status && (ord.status.includes("Failed") || ord.status.includes("Rejected"))) {
+                  } else if (statusText.includes("Failed") || statusText.includes("Rejected")) {
                       badgeClass = "badge-failed";
                   }
 
                   html += `<div class="order-card">
                               <h4>${ord.product}</h4>
+                              <div><b>आर्डर आईडी:</b> ${ord.id || 'N/A'}</div>
                               <div><b>कीमत:</b> ₹${ord.price}</div>
                               <div><b>नाम:</b> ${ord.name}</div>
                               <div><b>UTR No.:</b> ${ord.utr}</div>
                               <div><b>समय:</b> ${ord.orderDate || 'N/A'}</div>
-                              <div style="margin-top: 6px;"><span class="badge ${badgeClass}">${ord.status}</span></div>
+                              <div style="margin-top: 6px;"><span class="badge ${badgeClass}">${statusText}</span></div>
                           </div>`;
               });
               container.innerHTML = html;
@@ -520,13 +531,19 @@
 
         function buyNow(productName, price, colorName) {
             var finalProduct = colorName ? productName + " [" + colorName + "]" : productName;
-            window.open("https://wa.me/919264137710?text=नमस्ते! मुझे यह खरीदना है: " + finalProduct + " (₹" + price + ")", '_blank');
+            var now = new Date();
+            var timeStr = now.toLocaleDateString('hi-IN') + ' ' + now.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
+            var waMsg = "नमस्ते! मुझे यह खरीदना (WhatsApp Order) है:%0A%0A📦 सामान: " + finalProduct + "%0A💰 कीमत: ₹" + price + "%0A📅 समय: " + timeStr + "%0A%0Aकृपया आर्डर कन्फर्म करें।";
+            window.open("https://wa.me/919264137710?text=" + waMsg, '_blank');
         }
 
         function buyTableNow() {
-            window.open("https://wa.me/919264137710?text=नमस्ते! मुझे Sewing Machine Top Table [" + getSelectedTableColor() + "] (₹550) खरीदना है.", '_blank');
+            var finalProduct = "Sewing Machine Top Table [" + getSelectedTableColor() + "]";
+            var now = new Date();
+            var timeStr = now.toLocaleDateString('hi-IN') + ' ' + now.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
+            var waMsg = "नमस्ते! मुझे यह खरीदना (WhatsApp Order) है:%0A%0A📦 सामान: " + finalProduct + "%0A💰 कीमत: ₹550%0A📅 समय: " + timeStr + "%0A%0Aकृपया आर्डर कन्फर्म करें।";
+            window.open("https://wa.me/919264137710?text=" + waMsg, '_blank');
         }
     </script>
 </body>
-                </html>
-                
+</html>
