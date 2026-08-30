@@ -58,6 +58,7 @@
         .badge { display: inline-block; padding: 4px 8px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-top: 5px; }
         .badge-pending { background: #fff3cd; color: #856404; border: 1px solid #ffeeba; }
         .badge-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .btn-verify { background: #007bff; color: white; border: none; padding: 6px 10px; border-radius: 4px; font-size: 11px; font-weight: bold; margin-top: 8px; cursor: pointer; float: right; }
 
         /* Modal / Popup CSS */
         .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow-y: auto; }
@@ -130,8 +131,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', 'Light Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', 'Light Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
             
@@ -152,8 +153,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
 
@@ -174,8 +175,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
 
@@ -196,8 +197,8 @@
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', 'Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', 'Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', '')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', '')">📲 व्हाट्सएप पर खरीदें</button>
                 </div>
             </div>
 
@@ -457,6 +458,17 @@
             closeOrderForm();
         }
 
+        function markOrderSuccess(orderId) {
+            var orders = JSON.parse(localStorage.getItem('myOrders') || "[]");
+            for (var i = 0; i < orders.length; i++) {
+                if (orders[i].id === orderId) {
+                    orders[i].status = "Order Successful / Confirmed";
+                }
+            }
+            localStorage.setItem('myOrders', JSON.stringify(orders));
+            renderOrders();
+        }
+
         function buyNow(productName, price, colorName) {
             var finalProduct = colorName ? productName + " [" + colorName + "]" : productName;
             var phoneNumber = "919264137710";
@@ -501,11 +513,17 @@
                             '<div><b>नाम:</b> ' + ord.name + '</div>' +
                             '<div><b>UTR No.:</b> ' + (ord.utr || "N/A") + '</div>' +
                             '<div><b>ऑर्डर ID:</b> ' + ord.id + '</div>' +
-                            '<span class="badge ' + badgeClass + '">' + ord.status + '</span>' +
-                        '</div>';
+                            '<span class="badge ' + badgeClass + '">' + ord.status + '</span>';
+                
+                if (isPending) {
+                    html += '<button class="btn-verify" onclick="markOrderSuccess(\'' + ord.id + '\')">Verify Order (Success)</button>';
+                }
+                
+                html += '</div>';
             });
             container.innerHTML = html;
         }
     </script>
 </body>
-</html>
+        </html>
+                
