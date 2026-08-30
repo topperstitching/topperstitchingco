@@ -72,12 +72,12 @@
         .footer-address { background: #ffffff; padding: 16px; margin: 20px 16px; border-radius: 10px; text-align: center; border: 1px solid #ddd; font-size: 13px; color: #555; max-width: 1200px; margin-left: auto; margin-right: auto; }
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
         
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ccc; box-shadow: -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { border: none; background: none; flex: 1; text-align: center; color: #666; font-size: 12px; cursor: pointer; font-weight: bold; outline: none; }
         .nav-item.active { color: #0d47a1; }
         .nav-item div { font-size: 18px; margin-bottom: 2px; }
         
-        .btn-login-custom { background: #0d47a1; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 15px; box-shadow: 0 2px 5px rgba(13,71,161,0.3); }
+        .btn-google { background: #db4437; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 15px; display: flex; align-items: center; justify-content: center; gap: 10px; box-shadow: 0 2px 5px rgba(219,68,55,0.3); }
         .btn-logout { background: #d32f2f; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-size: 13px; font-weight: bold; margin-top: 12px; }
     </style>
 </head>
@@ -248,7 +248,7 @@
         <div class="page-padding">
             <h2 style="color: #1a237e; margin-bottom: 15px;">आपके ऑर्डर्स (My Orders)</h2>
             <div id="orders-list">
-                <p style="text-align:center; color:#777; margin-top: 20px;">कृपया पहले प्रोफाइल में लॉगिन करें।</p>
+                <p style="text-align:center; color:#777; margin-top: 20px;">कृपया पहले प्रोफाइल में गूगल से लॉगिन करें।</p>
             </div>
         </div>
     </div>
@@ -257,28 +257,18 @@
     <div id="page-profile" class="page-content">
         <div class="page-padding" style="text-align: center; margin-top: 30px;">
             <h2 style="color: #1a237e;">👤 यूजर प्रोफाइल</h2>
-            <div style="background: white; padding: 25px; border-radius: 10px; margin-top: 20px; border: 1px solid #ddd; text-align: left;">
-                
-                <!-- Login Form (Direct Email & Name) -->
+            <div style="background: white; padding: 25px; border-radius: 10px; margin-top: 20px; border: 1px solid #ddd; text-align: center;">
                 <div id="loginSection">
-                    <p style="font-size: 13px; color: #555; margin-bottom: 12px; text-align: center;">अपने ऑर्डर्स देखने के लिए अपनी जानकारी दर्ज करें:</p>
-                    <div class="form-group">
-                        <label>आपका नाम:</label>
-                        <input type="text" id="profileNameInput" placeholder="अपना नाम लिखें">
-                    </div>
-                    <div class="form-group">
-                        <label>ईमेल या मोबाइल नंबर:</label>
-                        <input type="text" id="profileEmailInput" placeholder="email@gmail.com या फोन नंबर">
-                    </div>
-                    <button class="btn-login-custom" type="button" onclick="loginCustomUser()">लॉगिन करें (Login)</button>
+                    <button class="btn-google" type="button" id="googleLoginBtn">
+                        <span>🌐</span> Google से तेजी से लॉगिन करें
+                    </button>
                 </div>
-
-                <!-- Logged In View -->
-                <div id="loggedInSection" style="display: none; text-align: center;">
+                <div id="loggedInSection" style="display: none;">
+                    <img id="userPhoto" src="" alt="Profile" style="width: 70px; height: 70px; border-radius: 50%; margin-bottom: 10px; border: 2px solid #0d47a1;">
                     <p style="color: #2e7d32; font-weight: bold; font-size: 16px;">✅ सफलतापूर्वक लॉगिन हैं!</p>
-                    <p id="userNameDisplay" style="margin-top: 8px; font-weight: bold; color: #333; font-size: 16px;"></p>
-                    <p id="userEmailDisplay" style="margin-top: 4px; color: #666; font-size: 13px;"></p>
-                    <button class="btn-logout" type="button" onclick="logoutCustomUser()">लॉग आउट (Logout)</button>
+                    <p id="userNameDisplay" style="margin-top: 6px; font-weight: bold; color: #333; font-size: 15px;"></p>
+                    <p id="userEmailDisplay" style="margin-top: 3px; color: #666; font-size: 13px;"></p>
+                    <button class="btn-logout" type="button" id="logoutBtn">लॉग आउट (Logout)</button>
                 </div>
             </div>
         </div>
@@ -321,14 +311,15 @@
                 <input type="text" id="custUtr" placeholder="12-अंकों का UTR No. लिखें">
             </div>
 
-            <button class="btn-submit" type="button" onclick="submitOnlineOrder()">✅ पेमेंट करके आर्डर भेजें</button>
-            <button class="btn-close" type="button" onclick="closeOrderForm()">रद्द करें</button>
+            <button class="btn-submit" type="button" id="submitOrderBtn">✅ पेमेंट करके आर्डर भेजें</button>
+            <button class="btn-close" type="button" id="closeModalBtn">रद्द करें</button>
         </div>
     </div>
 
-    <!-- Firebase SDKs (Realtime Database only) -->
+    <!-- Firebase SDKs with Fast Direct Google Sign-In & Fixed Buttons -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect, getRedirectResult, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
       import { getDatabase, ref, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
 
       const firebaseConfig = {
@@ -342,59 +333,52 @@
       };
 
       const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
       const db = getDatabase(app);
+      const provider = new GoogleAuthProvider();
 
       let currentUser = null;
 
-      // चेक करें कि क्या पहले से लोकल स्टोरेज में यूजर सेव है
-      window.onload = function() {
-          const savedUser = localStorage.getItem("topper_user");
-          if (savedUser) {
-              currentUser = JSON.parse(savedUser);
-              showLoggedInState(currentUser);
-              loadUserOrders(currentUser.email);
+      // मोबाइल ऐप या ब्राउज़र में तुरंत गूगल अकाउंट पिकर खोलने के लिए
+      getRedirectResult(auth).catch((error) => {
+          console.error("Redirect login result error:", error);
+      });
+
+      document.getElementById('googleLoginBtn').addEventListener('click', () => {
+          // सबसे पहले Popup ट्राय करें ताकि तुरंत अकाउंट लिस्ट आए, अगर WebView ब्लॉक करे तो Redirect पर फॉलबैक हो जाए
+          signInWithPopup(auth, provider).catch((error) => {
+              console.log("Popup blocked or failed, switching to redirect...", error);
+              signInWithRedirect(auth, provider);
+          });
+      });
+
+      document.getElementById('logoutBtn').addEventListener('click', () => {
+          signOut(auth).then(() => {
+              alert("लॉग आउट हो चुके हैं।");
+          });
+      });
+
+      onAuthStateChanged(auth, (user) => {
+          currentUser = user;
+          if (user) {
+              document.getElementById("loginSection").style.display = "none";
+              document.getElementById("loggedInSection").style.display = "block";
+              document.getElementById("userNameDisplay").innerText = user.displayName || "यूज़र";
+              document.getElementById("userEmailDisplay").innerText = user.email || "";
+              if(user.photoURL) document.getElementById("userPhoto").src = user.photoURL;
+              
+              loadUserOrders(user.email);
+          } else {
+              document.getElementById("loginSection").style.display = "block";
+              document.getElementById("loggedInSection").style.display = "none";
+              document.getElementById('orders-list').innerHTML = "<p style='text-align:center; color:#777; margin-top: 20px;'>कृपया पहले प्रोफाइल में गूगल से लॉगिन करें।</p>";
           }
-      }
+      });
 
-      window.loginCustomUser = function() {
-          var name = document.getElementById("profileNameInput").value.trim();
-          var email = document.getElementById("profileEmailInput").value.trim();
-
-          if (name === "" || email === "") {
-              alert("कृपया अपना नाम और ईमेल/मोबाइल नंबर दोनों भरें!");
-              return;
-          }
-
-          currentUser = { name: name, email: email };
-          localStorage.setItem("topper_user", JSON.stringify(currentUser));
-          
-          showLoggedInState(currentUser);
-          loadUserOrders(email);
-          alert("सफलतापूर्वक लॉगिन हो गए हैं!");
-      };
-
-      window.logoutCustomUser = function() {
-          localStorage.removeItem("topper_user");
-          currentUser = null;
-          document.getElementById("loginSection").style.display = "block";
-          document.getElementById("loggedInSection").style.display = "none";
-          document.getElementById("profileNameInput").value = "";
-          document.getElementById("profileEmailInput").value = "";
-          document.getElementById('orders-list').innerHTML = "<p style='text-align:center; color:#777; margin-top: 20px;'>कृपया पहले प्रोफाइल में लॉगिन करें।</p>";
-          alert("लॉग आउट हो चुके हैं।");
-      };
-
-      function showLoggedInState(user) {
-          document.getElementById("loginSection").style.display = "none";
-          document.getElementById("loggedInSection").style.display = "block";
-          document.getElementById("userNameDisplay").innerText = user.name;
-          document.getElementById("userEmailDisplay").innerText = user.email;
-      }
-
-      // आर्डर सबमिट करना और सीधा WhatsApp खोलना
-      window.submitOnlineOrder = function() {
+      // "पेमेंट करके आर्डर भेजें" वाले बटन का एक्टिवेशन
+      document.getElementById('submitOrderBtn').addEventListener('click', () => {
           if (!currentUser) {
-              alert("कृपया पहले प्रोफाइल में जाकर लॉगिन करें!");
+              alert("कृपया पहले प्रोफाइल में जाकर Google से लॉगिन करें!");
               switchTab('profile', document.querySelectorAll('.nav-item')[2]);
               closeOrderForm();
               return;
@@ -441,18 +425,19 @@
                                 "🏠 पता: " + address + "\n" + 
                                 "📧 ईमेल: " + currentUser.email;
 
-                  var whatsappUrl = "https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message);
-                  
+                  window.open("https://wa.me/" + phoneNumber + "?text=" + encodeURIComponent(message), '_blank');
                   closeOrderForm();
-                  alert("आपका आर्डर सफलतापूर्वक सेव हो गया है! अब WhatsApp खुलेगा, कृपया मैसेज भेजें।");
-                  
-                  // बिना पॉप-अप एरर के WhatsApp खोलने का तरीका
-                  window.location.href = whatsappUrl;
+                  alert("आपका आर्डर सफलतापूर्वक भेज दिया गया है! एडमिन द्वारा अप्रूव होते ही यहाँ दिखने लगेगा।");
+                  switchTab('orders', document.querySelectorAll('.nav-item')[1]);
               })
               .catch((error) => {
                   alert("आर्डर भेजने में समस्या आई: " + error.message);
               });
-      };
+      });
+
+      document.getElementById('closeModalBtn').addEventListener('click', () => {
+          closeOrderForm();
+      });
 
       function loadUserOrders(userEmail) {
           const ordersRef = ref(db, 'orders');
@@ -562,7 +547,7 @@
             var now = new Date();
             var timeStr = now.toLocaleDateString('hi-IN') + ' ' + now.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
             var waMsg = "नमस्ते! मुझे यह खरीदना (WhatsApp Order) है:\n\n📦 सामान: " + finalProduct + "\n💰 कीमत: ₹" + price + "\n📅 समय: " + timeStr + "\n\nकृपया आर्डर कन्फर्म करें।";
-            window.location.href = "https://wa.me/919264137710?text=" + encodeURIComponent(waMsg);
+            window.open("https://wa.me/919264137710?text=" + encodeURIComponent(waMsg), '_blank');
         }
 
         window.buyTableNow = function() {
@@ -570,7 +555,7 @@
             var now = new Date();
             var timeStr = now.toLocaleDateString('hi-IN') + ' ' + now.toLocaleTimeString('hi-IN', { hour: '2-digit', minute: '2-digit' });
             var waMsg = "नमस्ते! मुझे यह खरीदना (WhatsApp Order) है:\n\n📦 सामान: " + finalProduct + "\n💰 कीमत: ₹550\n📅 समय: " + timeStr + "\n\nकृपया आर्डर कन्फर्म करें।";
-            window.location.href = "https://wa.me/919264137710?text=" + encodeURIComponent(waMsg);
+            window.open("https://wa.me/919264137710?text=" + encodeURIComponent(waMsg), '_blank');
         }
     </script>
 </body>
