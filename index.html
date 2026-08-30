@@ -331,6 +331,25 @@
         </div>
     </div>
 
+    <!-- Firebase SDK Setup -->
+    <script type="module">
+      import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+      import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+      const firebaseConfig = {
+        apiKey: "AIzaSyDcoMv4F1S-2zXA0LkNYq1fqt2EXHQ8Q4w",
+        authDomain: "toppersewingmachine.firebaseapp.com",
+        projectId: "toppersewingmachine",
+        storageBucket: "toppersewingmachine.firebasestorage.app",
+        messagingSenderId: "281376461079",
+        appId: "1:281376461079:web:97640170de01dbc975e512",
+        measurementId: "G-6RP4G3GE3L"
+      };
+
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+    </script>
+
     <script>
         // Page Navigation Switch Function
         function switchTab(pageName, btnEl) {
@@ -525,5 +544,4 @@
         }
     </script>
 </body>
-        </html>
-                
+</html>
