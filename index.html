@@ -34,18 +34,18 @@
     </style>
 </head>
 <body>
+    <!-- डाउनलोड बटन (जो केवल ब्राउज़र में दिखेगा) -->
     <div id="download-box" style="position: fixed; top: 10px; right: 10px; z-index: 9999;">
-    <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 8px 14px; border-radius: 5px; text-decoration: none; font-size: 13px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
-</div>
-
-<script>
-    // यह चेक करेगा कि क्या ऐप पहले से इंस्टॉल है या ऐप के अंदर खुली है
-    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-        // अगर ऐप के अंदर खुली है, तो डाउनलोड बटन को छुपा देगा
-        document.getElementById('download-box').style.display = 'none';
-    }
-</script>
+        <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 8px 14px; border-radius: 5px; text-decoration: none; font-size: 13px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
+
+    <script>
+        // यदि ऐप के अंदर खुली है तो डाउनलोड बटन छुप जाएगा
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            document.getElementById('download-box').style.display = 'none';
+        }
+    </script>
+
     <div class="products">
         <div class="card">
             <div>
@@ -120,24 +120,19 @@
             <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000')">📲 व्हाट्सएप पर खरीदें</button>
         </div>
         <div class="card">
-    <div class="img-container">
-        <!-- पहली फोटो -->
-        <img src="file_0000000093748207a6bb6aaed2d5c375.png" alt="Light Wood Table" style="width:100%; margin-bottom:10px; border-radius:8px;">
-        
-        <!-- दूसरी फोटो -->
-        <img src="file_000000006c3482079dddedd4e4879e9d.png" alt="Dark Wood Table" style="width:100%; border-radius:8px;">
-    </div>
-    
-    <div class="card-details">
-        <h3>Sewing Machine Top Table</h3>
-        <div class="price">₹550</div>
-        <div class="specs">
-            <div><span>मॉडल:</span> SV / TA1</div>
-            <div><span>टाइप:</span> Top Table Only</div>
-            <div><span>वारंटी / गारंटी:</span> None</div>
-        </div>
-    </div>
-    <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
+            <div class="img-container">
+                <img src="file_0000000093748207a6bb6aaed2d5c375.png" alt="Light Wood Table" style="width:100%; margin-bottom:10px; border-radius:8px;">
+            </div>
+            <div class="card-details">
+                <h3>Sewing Machine Top Table</h3>
+                <div class="price">₹550</div>
+                <div class="specs">
+                    <div><span>मॉडल:</span> SV / TA1</div>
+                    <div><span>टाइप:</span> Top Table Only</div>
+                    <div><span>वारंटी / गारंटी:</span> None</div>
+                </div>
+            </div>
+            <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
         </div>
         <div class="card">
             <div>
@@ -164,18 +159,6 @@
         🛒 किसी भी सामान को खरीदने के लिए उसके नीचे बने बटन पर क्लिक करें
     </div>
     <script>
-        var tableImages = [
-            { src: "item5a.jpg", color: "Light Wood" },
-            { src: "item5b.jpg", color: "Dark Wood" }
-        ];
-        var currentImgIndex = 0;
-        function changeImage(direction) {
-            currentImgIndex += direction;
-            if (currentImgIndex < 0) currentImgIndex = tableImages.length - 1;
-            if (currentImgIndex >= tableImages.length) currentImgIndex = 0;
-            document.getElementById("tableImg").src = tableImages[currentImgIndex].src;
-            document.getElementById("colorName").innerText = tableImages[currentImgIndex].color;
-        }
         function buyNow(productName, price) {
             var phoneNumber = "919264137710";
             var message = "नमस्ते Topper Stitching! मुझे आपकी वेबसाइट से यह सामान ऑर्डर करना है:%0A%0A" + 
@@ -185,10 +168,9 @@
             window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
         function buyTableNow() {
-            var selectedColor = tableImages[currentImgIndex].color;
             var phoneNumber = "919264137710";
             var message = "नमस्ते Topper Stitching! मुझे आपकी वेबसाइट से यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान: Sewing Machine Top Table (" + selectedColor + ")%0A" + 
+                          "📦 सामान: Sewing Machine Top Table%0A" + 
                           "💰 कीमत: ₹550%0A%0A" + 
                           "कृपया डिलीवरी की जानकारी भेजें।";
             window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
