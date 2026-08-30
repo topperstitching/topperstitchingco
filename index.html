@@ -13,7 +13,7 @@
         #download-box a { background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
         /* Top Header */
-        header { background: linear-gradient(135deg, #0d47a1, #1a237e); color: white; padding: 18px 10px; text-align: center; sticky; top: 0; z-index: 90; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        header { background: linear-gradient(135deg, #0d47a1, #1a237e); color: white; padding: 18px 10px; text-align: center; position: sticky; top: 0; z-index: 90; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         header h1 { font-size: 22px; font-weight: bold; letter-spacing: 0.5px; }
         header p { font-size: 13px; color: #e0e0e0; margin-top: 4px; }
 
@@ -78,7 +78,7 @@
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
         
         /* Fixed Bottom Navigation Bar */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-space-around; padding: 10px 0; border-top: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
         .nav-item { border: none; background: none; flex: 1; text-align: center; color: #666; font-size: 12px; cursor: pointer; font-weight: bold; outline: none; }
         .nav-item.active { color: #0d47a1; }
         .nav-item div { font-size: 18px; margin-bottom: 2px; }
@@ -267,7 +267,7 @@
         </div>
     </div>
 
-    <!-- 3. PROFILE PAGE (WITH WORKING OTP AUTH) -->
+    <!-- 3. PROFILE PAGE (WITH WORKING VISIBLE RECAPTCHA & OTP AUTH) -->
     <div id="page-profile" class="page-content">
         <div class="page-padding" style="text-align: center; margin-top: 30px;">
             <h2 style="color: #1a237e;">👤 यूजर प्रोफाइल / साइन-अप</h2>
@@ -281,7 +281,10 @@
                         <label>मोबाइल नंबर:</label>
                         <input type="tel" id="profPhone" placeholder="10-अंकों का नंबर दर्ज करें (उदा. 9876543210)">
                     </div>
-                    <div id="recaptcha-container"></div>
+                    
+                    <!-- reCAPTCHA Container -->
+                    <div id="recaptcha-container" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+                    
                     <button class="btn-submit" id="btnSendOtp" onclick="sendOTP()">OTP भेजें (Sign Up)</button>
                 </div>
 
@@ -370,10 +373,16 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
 
-      // Setup Invisible Recaptcha
-      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'invisible'
-      });
+      // Setup Visible Recaptcha (Fixes hanging issues)
+      window.onload = function() {
+          window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+            'size': 'normal',
+            'callback': (response) => {
+               console.log("reCAPTCHA Solved");
+            }
+          });
+          window.recaptchaVerifier.render();
+      };
 
       // Send OTP Function
       window.sendOTP = function() {
@@ -393,12 +402,18 @@
         signInWithPhoneNumber(auth, phoneNumber, appVerifier)
             .then((confirmationResult) => {
                 window.confirmationResult = confirmationResult;
-                alert("आपके मोबाइल नंबर पर OTP भेज दिया गया है!");
+                alert("आपके मोबाइल नंबर पर 6 अंकों का OTP भेज दिया गया है!");
                 document.getElementById("phoneStep").style.display = "none";
                 document.getElementById("otpStep").style.display = "block";
             }).catch((error) => {
+                console.error("Firebase Auth Error:", error);
                 alert("OTP भेजने में समस्या आई: " + error.message);
                 document.getElementById("btnSendOtp").innerText = "OTP भेजें (Sign Up)";
+                if(window.recaptchaVerifier) {
+                    window.recaptchaVerifier.render().then(widgetId => {
+                        grecaptcha.reset(widgetId);
+                    });
+                }
             });
       };
 
@@ -615,5 +630,5 @@
         }
     </script>
 </body>
-                </html>
-                
+    </html>
+    
