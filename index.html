@@ -20,7 +20,7 @@
         .img-container { position: relative; width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        /* Flipkart style Slider CSS */
+        /* Slider CSS for Table */
         .slider-container { position: relative; width: 100%; height: 200px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
         .slider-track { display: flex; width: 100%; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .slider-track::-webkit-scrollbar { display: none; }
@@ -41,14 +41,14 @@
         .btn-online { background: #ff9800; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px; text-align: center; text-decoration: none; display: block; box-shadow: 0 2px 5px rgba(255,152,0,0.3); margin-top: 6px; }
         .btn-online:hover { background: #e68a00; }
         
-        /* Modal / Popup CSS for Online Form */
+        /* Modal / Popup CSS */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
         .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-content h3 { color: #1a237e; margin-bottom: 6px; font-size: 18px; text-align: center; }
         .delivery-badge { background: #e8f5e9; color: #2e7d32; font-size: 11px; text-align: center; padding: 5px; border-radius: 4px; font-weight: bold; margin-bottom: 12px; border: 1px dashed #a5d6a7; }
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; color: #333; }
-        .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
+        .form-group input, .form-group textarea, .form-group select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; background: #fff; }
         .qr-box { text-align: center; margin: 15px 0; background: #f9f9f9; padding: 10px; border-radius: 6px; border: 1px dashed #ccc; }
         .qr-box img { width: 150px; height: 150px; object-fit: contain; }
         .qr-box p { font-size: 11px; color: #666; margin-top: 5px; }
@@ -89,25 +89,17 @@
 
     <div class="products">
         
-        <!-- Card 1: Topper SV Tailor (Slider with wood-1 to wood-4) -->
+        <!-- Card 1: Topper SV Tailor -->
         <div class="card">
             <div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-prev" onclick="slideImages('slider1', -1)">&#10094;</button>
-                    <div class="slider-track" id="slider1">
-                        <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">wood-1</div></div>
-                        <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">wood-2</div></div>
-                        <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">wood-3</div></div>
-                        <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">wood-4</div></div>
-                    </div>
-                    <button class="slider-btn slider-next" onclick="slideImages('slider1', 1)">&#10095;</button>
-                </div>
+                <div class="img-container"><img src="IMG_20260829_174914.png" alt="Topper SV Tailor"></div>
                 <div class="card-details">
                     <h3>Topper SV Tailor</h3>
                     <div class="price">₹4,500</div>
                     <div class="specs">
                         <div><span>ब्रांड:</span> Topper Stitching</div>
                         <div><span>मॉडल:</span> SV tailor</div>
+                        <div><span>कलर (Color):</span> Light Wooden</div>
                         <div><span>टाइप:</span> Sewing Machine Only Head</div>
                         <div><span>वारंटी:</span> 5 Years</div>
                         <div><span>गारंटी:</span> 0 Days</div>
@@ -116,30 +108,22 @@
                 </div>
             </div>
             <div>
-                <button class="btn-online" onclick="openOrderFormWithColor('Topper SV Tailor', '4,500', 'slider1')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNowWithColor('Topper SV Tailor', '4,500', 'slider1')">📲 व्हाट्सएप पर खरीदें</button>
+                <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', 'Light Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', 'Light Wooden')">📲 व्हाट्सएप पर खरीदें</button>
             </div>
         </div>
         
-        <!-- Card 2: Topper SV Tailor Deluxe (Slider with wood-1 to wood-4) -->
+        <!-- Card 2: Topper SV Tailor Deluxe -->
         <div class="card">
             <div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-prev" onclick="slideImages('slider2', -1)">&#10094;</button>
-                    <div class="slider-track" id="slider2">
-                        <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">wood-1</div></div>
-                        <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">wood-2</div></div>
-                        <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">wood-3</div></div>
-                        <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">wood-4</div></div>
-                    </div>
-                    <button class="slider-btn slider-next" onclick="slideImages('slider2', 1)">&#10095;</button>
-                </div>
+                <div class="img-container"><img src="IMG_20260829_175005.png" alt="Topper SV Tailor Deluxe"></div>
                 <div class="card-details">
                     <h3>Topper SV Tailor Deluxe</h3>
                     <div class="price">₹4,500</div>
                     <div class="specs">
                         <div><span>ब्रांड:</span> Topper Stitching</div>
                         <div><span>मॉडल:</span> SV tailor delox</div>
+                        <div><span>कलर (Color):</span> Grey Wooden</div>
                         <div><span>टाइप:</span> Sewing Machine Only Head</div>
                         <div><span>वारंटी:</span> 5 Years</div>
                         <div><span>गारंटी:</span> 0 Days</div>
@@ -148,30 +132,22 @@
                 </div>
             </div>
             <div>
-                <button class="btn-online" onclick="openOrderFormWithColor('Topper SV Tailor Deluxe', '4,500', 'slider2')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNowWithColor('Topper SV Tailor Deluxe', '4,500', 'slider2')">📲 व्हाट्सएप पर खरीदें</button>
+                <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">📲 व्हाट्सएप पर खरीदें</button>
             </div>
         </div>
 
-        <!-- Card 3: Bag Closer Single Needle (Slider with wood-1 to wood-4) -->
+        <!-- Card 3: Bag Closer Single Needle -->
         <div class="card">
             <div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-prev" onclick="slideImages('slider3', -1)">&#10094;</button>
-                    <div class="slider-track" id="slider3">
-                        <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">wood-1</div></div>
-                        <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">wood-2</div></div>
-                        <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">wood-3</div></div>
-                        <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">wood-4</div></div>
-                    </div>
-                    <button class="slider-btn slider-next" onclick="slideImages('slider3', 1)">&#10095;</button>
-                </div>
+                <div class="img-container"><img src="IMG_20260829_174949.png" alt="Bag Closer Single Needle"></div>
                 <div class="card-details">
                     <h3>Bag Closer Single Needle</h3>
                     <div class="price">₹5,800</div>
                     <div class="specs">
                         <div><span>ब्रांड:</span> Topper Stitching</div>
                         <div><span>मॉडल:</span> single nidile</div>
+                        <div><span>कलर (Color):</span> Light Dark Wooden</div>
                         <div><span>टाइप:</span> Bag Closer Machine Only (Heavy Duty)</div>
                         <div><span>वारंटी:</span> 2 Times Service</div>
                         <div><span>गारंटी:</span> 0 Days</div>
@@ -180,30 +156,22 @@
                 </div>
             </div>
             <div>
-                <button class="btn-online" onclick="openOrderFormWithColor('Bag Closer Single Needle', '5,800', 'slider3')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNowWithColor('Bag Closer Single Needle', '5,800', 'slider3')">📲 व्हाट्सएप पर खरीदें</button>
+                <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
             </div>
         </div>
 
-        <!-- Card 4: Topper TA1 Model (Slider with wood-1 to wood-4) -->
+        <!-- Card 4: Topper TA1 Model -->
         <div class="card">
             <div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-prev" onclick="slideImages('slider4', -1)">&#10094;</button>
-                    <div class="slider-track" id="slider4">
-                        <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">wood-1</div></div>
-                        <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">wood-2</div></div>
-                        <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">wood-3</div></div>
-                        <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">wood-4</div></div>
-                    </div>
-                    <button class="slider-btn slider-next" onclick="slideImages('slider4', 1)">&#10095;</button>
-                </div>
+                <div class="img-container"><img src="file_00000000a1f88211baaa2ea57e9f39f9.png" alt="Topper TA1"></div>
                 <div class="card-details">
                     <h3>Topper TA1 Model</h3>
                     <div class="price">₹6,000</div>
                     <div class="specs">
                         <div><span>ब्रांड:</span> Topper Stitching</div>
                         <div><span>मॉडल:</span> umbrella</div>
+                        <div><span>कलर (Color):</span> Dark Wooden</div>
                         <div><span>टाइप:</span> Sewing Machine Only Head</div>
                         <div><span>वारंटी:</span> 5 Years</div>
                         <div><span>गारंटी:</span> 0 Days</div>
@@ -212,8 +180,8 @@
                 </div>
             </div>
             <div>
-                <button class="btn-online" onclick="openOrderFormWithColor('Topper TA1 Model', '6,000', 'slider4')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNowWithColor('Topper TA1 Model', '6,000', 'slider4')">📲 व्हाट्सएप पर खरीदें</button>
+                <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', 'Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', 'Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
             </div>
         </div>
 
@@ -223,10 +191,10 @@
                 <div class="slider-container">
                     <button class="slider-btn slider-prev" onclick="slideImages('tableSlider', -1)">&#10094;</button>
                     <div class="slider-track" id="tableSlider">
-                        <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">wood-1</div></div>
-                        <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">wood-2</div></div>
-                        <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">wood-3</div></div>
-                        <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">wood-4</div></div>
+                        <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">Light Wooden</div></div>
+                        <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">Grey Wooden</div></div>
+                        <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">Light Dark Wooden</div></div>
+                        <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">Dark Wooden</div></div>
                     </div>
                     <button class="slider-btn slider-next" onclick="slideImages('tableSlider', 1)">&#10095;</button>
                 </div>
@@ -236,14 +204,15 @@
                     <div class="price">₹550</div>
                     <div class="specs">
                         <div><span>मॉडल:</span> SV / TA1</div>
+                        <div><span>कलर (Color):</span> <span id="selectedTableColorText">Light Wooden (wood-1)</span></div>
                         <div><span>टाइप:</span> Top Table Only</div>
                         <div><span>वारंटी / गारंटी:</span> None</div>
                     </div>
                 </div>
             </div>
             <div>
-                <button class="btn-online" onclick="openOrderFormWithColor('Sewing Machine Top Table', '550', 'tableSlider')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNowWithColor('Sewing Machine Top Table', '550', 'tableSlider')">📲 व्हाट्सएप पर खरीदें</button>
+                <button class="btn-online" onclick="openTableOrderForm()">💳 ऑनलाइन पेमेंट करें</button>
+                <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
             </div>
         </div>
 
@@ -257,14 +226,15 @@
                     <div class="specs">
                         <div><span>ब्रांड:</span> Anis Scissors</div>
                         <div><span>साइज:</span> Size 10</div>
+                        <div><span>कलर / फिनिश:</span> Stainless Steel</div>
                         <div><span>टाइप:</span> Scissors Only</div>
                         <div><span>वारंटी / गारंटी:</span> None</div>
                     </div>
                 </div>
             </div>
             <div>
-                <button class="btn-online" onclick="openOrderForm('Anis Scissors (Size 10)', '300')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300')">📲 व्हाट्सएप पर खरीदें</button>
+                <button class="btn-online" onclick="openOrderForm('Anis Scissors (Size 10)', '300', 'Stainless Steel')">💳 ऑनलाइन पेमेंट करें</button>
+                <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300', 'Stainless Steel')">📲 व्हाट्सएप पर खरीदें</button>
             </div>
         </div>
     </div>
@@ -309,22 +279,45 @@
     </div>
 
     <script>
-        // Flipkart Slider JS Function
+        // Slider JS Function & Dynamic Color Name Update for Table
+        const tableSliderTrack = document.getElementById('tableSlider');
+        if (tableSliderTrack) {
+            tableSliderTrack.addEventListener('scroll', function() {
+                const scrollLeft = tableSliderTrack.scrollLeft;
+                const slideWidth = tableSliderTrack.clientWidth;
+                let index = Math.round(scrollLeft / slideWidth);
+                const tableColors = [
+                    "Light Wooden (wood-1)", 
+                    "Grey Wooden (wood-2)", 
+                    "Light Dark Wooden (wood-3)", 
+                    "Dark Wooden (wood-4)"
+                ];
+                const colorEl = document.getElementById('selectedTableColorText');
+                if (colorEl && tableColors[index]) {
+                    colorEl.innerText = tableColors[index];
+                }
+            });
+        }
+
         function slideImages(sliderId, direction) {
             const track = document.getElementById(sliderId);
             const slideWidth = track.clientWidth;
             track.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
         }
 
-        // Detect currently visible slide (color/model) in the slider
-        function getSelectedColorFromSlider(sliderId) {
-            const track = document.getElementById(sliderId);
-            if (!track) return "wood-1";
+        function getSelectedTableColor() {
+            const track = document.getElementById('tableSlider');
+            if (!track) return "Light Wooden (wood-1)";
             const scrollLeft = track.scrollLeft;
             const slideWidth = track.clientWidth;
             let index = Math.round(scrollLeft / slideWidth);
-            const colors = ["wood-1", "wood-2", "wood-3", "wood-4"];
-            return colors[index] || "wood-1";
+            const tableColors = [
+                "Light Wooden (wood-1)", 
+                "Grey Wooden (wood-2)", 
+                "Light Dark Wooden (wood-3)", 
+                "Dark Wooden (wood-4)"
+            ];
+            return tableColors[index] || "Light Wooden (wood-1)";
         }
 
         var selectedProduct = "";
@@ -342,18 +335,18 @@
             }, { enableHighAccuracy: true });
         }
 
-        function openOrderForm(productName, price) {
-            selectedProduct = productName + " (Standard)";
+        function openOrderForm(productName, price, colorName) {
+            selectedProduct = productName + " [" + colorName + "]";
             selectedPrice = price;
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
             document.getElementById("orderModal").style.display = "block";
         }
 
-        function openOrderFormWithColor(productName, price, sliderId) {
-            let chosenColor = getSelectedColorFromSlider(sliderId);
-            selectedProduct = productName + " [" + chosenColor + "]";
-            selectedPrice = price;
-            document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
+        function openTableOrderForm() {
+            let chosenColor = getSelectedTableColor();
+            selectedProduct = "Sewing Machine Top Table [" + chosenColor + "]";
+            selectedPrice = "550";
+            document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹550";
             document.getElementById("orderModal").style.display = "block";
         }
 
@@ -373,7 +366,7 @@
 
             var phoneNumber = "919264137710";
             var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
-                          "📦 सामान (कलर/मॉडल सहित): " + selectedProduct + "%0A" + 
+                          "📦 सामान (कलर सहित): " + selectedProduct + "%0A" + 
                           "💰 कीमत: ₹" + selectedPrice + "%0A%0A" + 
                           "👤 ग्राहक का नाम: " + name + "%0A" + 
                           "📞 फोन नंबर: " + phone + "%0A" + 
@@ -385,19 +378,29 @@
             closeOrderForm();
         }
 
-        function buyNowWithColor(productName, price, sliderId) {
-            let chosenColor = getSelectedColorFromSlider(sliderId);
-            var finalProduct = productName + " [" + chosenColor + "]";
-            
+        function buyNow(productName, price, colorName) {
+            var finalProduct = productName + " [" + colorName + "]";
             var phoneNumber = "919264137710";
             var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान (कलर/मॉडल सहित): " + finalProduct + "%0A" + 
+                          "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
                           "💰 कीमत: ₹" + price + "%0A" + 
+                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
+                          "कृपया डिलीवरी की जानकारी भेजें।";
+            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+        }
+
+        function buyTableNow() {
+            let chosenColor = getSelectedTableColor();
+            var finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
+            var phoneNumber = "919264137710";
+            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
+                          "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
+                          "💰 कीमत: ₹550%0A%0A" + 
                           "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
                           "कृपया डिलीवरी की जानकारी भेजें।";
             window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
     </script>
 </body>
-                                                                                                                </html>
-                                                                                                                
+    </html>
+    
