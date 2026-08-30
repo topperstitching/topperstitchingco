@@ -16,8 +16,21 @@
         .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 16px; max-width: 1200px; margin: auto; }
         .card { background: white; border-radius: 12px; padding: 15px; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e0e0e0; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
         .card:hover { transform: translateY(-3px); }
+        
         .img-container { position: relative; width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
+
+        /* Flipkart style Slider CSS for Card 5 */
+        .slider-container { position: relative; width: 100%; height: 200px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
+        .slider-track { display: flex; width: 100%; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
+        .slider-track::-webkit-scrollbar { display: none; }
+        .slide { flex: 0 0 100%; width: 100%; height: 100%; scroll-snap-align: start; display: flex; align-items: center; justify-content: center; background: #fff; position: relative; }
+        .slide img { max-width: 100%; max-height: 100%; object-fit: contain; }
+        .slide-name { position: absolute; bottom: 8px; background: rgba(0, 0, 0, 0.6); color: white; padding: 3px 8px; font-size: 11px; border-radius: 4px; }
+        .slider-btn { position: absolute; top: 50%; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; cursor: pointer; padding: 8px 10px; z-index: 10; font-size: 14px; border-radius: 50%; }
+        .slider-prev { left: 5px; }
+        .slider-next { right: 5px; }
+
         .card-details { margin-top: 12px; }
         .card h3 { font-size: 17px; color: #1a237e; margin-bottom: 6px; }
         .price { color: #2e7d32; font-weight: bold; font-size: 20px; margin-bottom: 8px; }
@@ -48,7 +61,7 @@
 </head>
 <body>
 
-    <!-- ऐप डाउनलोड बटन (जो केवल ब्राउज़र में दिखेगा, ऐप में छुप जाएगा) -->
+    <!-- ऐप डाउनलोड बटन -->
     <div id="download-box" style="position: fixed; top: 12px; right: 12px; z-index: 9999;">
         <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
@@ -166,12 +179,41 @@
             </div>
         </div>
 
-        <!-- Card 5: Sewing Machine Top Table -->
+        <!-- Card 5: Sewing Machine Top Table (Slider with wood-1 to wood-4) -->
         <div class="card">
             <div>
-                <div class="img-container">
-                    <img src="file_0000000093748207a6bb6aaed2d5c375.png" alt="Light Wood Table" style="width:100%; border-radius:8px;">
+                <div class="slider-container">
+                    <button class="slider-btn slider-prev" onclick="slideImages('tableSlider', -1)">&#10094;</button>
+                    <div class="slider-track" id="tableSlider">
+                        
+                        <!-- Image 1 -->
+                        <div class="slide">
+                            <img src="wood-1.png" alt="Light Wooden">
+                            <div class="slide-name">Light Wooden</div>
+                        </div>
+
+                        <!-- Image 2 -->
+                        <div class="slide">
+                            <img src="wood-2.png" alt="Grey Wooden">
+                            <div class="slide-name">Grey Wooden</div>
+                        </div>
+
+                        <!-- Image 3 -->
+                        <div class="slide">
+                            <img src="wood-3.png" alt="Light Dark Wooden">
+                            <div class="slide-name">Light Dark Wooden</div>
+                        </div>
+
+                        <!-- Image 4 -->
+                        <div class="slide">
+                            <img src="wood-4.png" alt="Dark Wooden">
+                            <div class="slide-name">Dark Wooden</div>
+                        </div>
+
+                    </div>
+                    <button class="slider-btn slider-next" onclick="slideImages('tableSlider', 1)">&#10095;</button>
                 </div>
+
                 <div class="card-details">
                     <h3>Sewing Machine Top Table</h3>
                     <div class="price">₹550</div>
@@ -249,6 +291,13 @@
     </div>
 
     <script>
+        // Flipkart Slider JS Function
+        function slideImages(sliderId, direction) {
+            const track = document.getElementById(sliderId);
+            const slideWidth = track.clientWidth;
+            track.scrollBy({ left: direction * slideWidth, behavior: 'smooth' });
+        }
+
         var selectedProduct = "";
         var selectedPrice = "";
 
@@ -298,12 +347,12 @@
         function buyTableNow() {
             var phoneNumber = "919264137710";
             var message = "नमस्ते Topper Stitching! मुझे आपकी वेबसाइट से यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान: Sewing Machine Top Table%0A" + 
+                          "📦 सामान: Sewing Machine Top Table (All Colors Available)%0A" + 
                           "💰 कीमत: ₹550%0A%0A" + 
                           "कृपया डिलीवरी की जानकारी भेजें।";
             window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
     </script>
 </body>
-                </html>
-                
+        </html>
+        
