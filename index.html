@@ -34,8 +34,17 @@
     </style>
 </head>
 <body>
-    <div style="position: fixed; top: 10px; right: 10px; z-index: 9999;">
+    <div id="download-box" style="position: fixed; top: 10px; right: 10px; z-index: 9999;">
     <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 8px 14px; border-radius: 5px; text-decoration: none; font-size: 13px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
+    </div>
+<script>
+    // यह चेक करेगा कि क्या ऐप पहले से इंस्टॉल है या ऐप के अंदर खुली है
+    if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+        // अगर ऐप के अंदर खुली है, तो डाउनलोड बटन को छुपा देगा
+        document.getElementById('download-box').style.display = 'none';
+    }
+</script>
+a>
     </div>
     <header>
         <h1>TOPPER SEWING MACHINE</h1>
