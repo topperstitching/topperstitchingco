@@ -32,14 +32,20 @@
 </head>
 <body>
 
-    <!-- डाउनलोड बटन (जो केवल ब्राउज़र में दिखेगा, ऐप में छुप जाएगा) -->
+    <!-- डाउनलोड बटन -->
     <div id="download-box" style="position: fixed; top: 12px; right: 12px; z-index: 9999;">
         <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
 
     <script>
-        // यह चेक करेगा कि ऐप खुली है या नहीं, अगर ऐप है तो डाउनलोड बटन गायब हो जाएगा
+        // 1. अगर ब्राउज़र में PWA मोड ऑन है तो हटाएगा
         if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            document.getElementById('download-box').style.display = 'none';
+        }
+
+        // 2. अगर ऐप के अंदर लिंक में ?app=true है तो तुरंत छुपा देगा
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('app') === 'true') {
             document.getElementById('download-box').style.display = 'none';
         }
     </script>
@@ -49,7 +55,6 @@
         <p>विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</p>
     </header>
 
-    <!-- आपका बैनर यहाँ वापस जोड़ दिया गया है -->
     <div class="banner">
         <h2>सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
         <p>बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस</p>
@@ -194,5 +199,5 @@
         }
     </script>
 </body>
-    </html>
-    
+</html>
+
