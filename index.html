@@ -6,18 +6,18 @@
     <title>Topper Sewing Machine Shopping</title>
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f0f2f5; padding-bottom: 80px; }
+        body { background-color: #f0f2f5; padding-bottom: 90px; }
         
         /* App Download Bar */
-        #download-box { position: fixed; top: 12px; right: 12px; z-index: 9999; }
+        #download-box { position: fixed; top: 12px; right: 12px; z-index: 999; }
         #download-box a { background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3); }
 
         /* Top Header */
-        header { background: linear-gradient(135deg, #0d47a1, #1a237e); color: white; padding: 18px 10px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
+        header { background: linear-gradient(135deg, #0d47a1, #1a237e); color: white; padding: 18px 10px; text-align: center; sticky; top: 0; z-index: 90; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
         header h1 { font-size: 22px; font-weight: bold; letter-spacing: 0.5px; }
         header p { font-size: 13px; color: #e0e0e0; margin-top: 4px; }
 
-        /* Pages Container Switch Logic */
+        /* Pages Switch Logic */
         .page-content { display: none; }
         .page-content.active { display: block; }
 
@@ -26,8 +26,7 @@
         .banner p { font-size: 12px; opacity: 0.9; }
         
         .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 16px; max-width: 1200px; margin: auto; }
-        .card { background: white; border-radius: 12px; padding: 15px; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e0e0e0; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
-        .card:hover { transform: translateY(-3px); }
+        .card { background: white; border-radius: 12px; padding: 15px; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e0e0e0; display: flex; flex-direction: column; justify-content: space-between; position: relative; z-index: 1; }
         
         .img-container { position: relative; width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
@@ -47,12 +46,12 @@
         .price { color: #2e7d32; font-weight: bold; font-size: 20px; margin-bottom: 8px; }
         .specs { font-size: 12px; color: #555; line-height: 1.6; margin-bottom: 12px; background: #f9f9f9; padding: 8px 10px; border-radius: 6px; }
         .specs span { font-weight: bold; color: #333; }
-        .btn-buy { background: #25d366; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px; text-align: center; text-decoration: none; display: block; box-shadow: 0 2px 5px rgba(37,211,102,0.3); margin-top: 6px; }
+        
+        .btn-buy { background: #25d366; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px; text-align: center; text-decoration: none; display: block; box-shadow: 0 2px 5px rgba(37,211,102,0.3); margin-top: 8px; z-index: 5; position: relative; }
         .btn-buy:hover { background: #20ba5a; }
-        .btn-online { background: #ff9800; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px; text-align: center; text-decoration: none; display: block; box-shadow: 0 2px 5px rgba(255,152,0,0.3); margin-top: 6px; }
+        .btn-online { background: #ff9800; color: white; border: none; padding: 12px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px; text-align: center; text-decoration: none; display: block; box-shadow: 0 2px 5px rgba(255,152,0,0.3); margin-top: 8px; z-index: 5; position: relative; }
         .btn-online:hover { background: #e68a00; }
         
-        /* Order List Card Style */
         .page-padding { padding: 16px; max-width: 800px; margin: auto; }
         .order-card { background: white; padding: 15px; border-radius: 10px; margin-bottom: 12px; border: 1px solid #ddd; box-shadow: 0 2px 6px rgba(0,0,0,0.05); }
         .order-card h4 { color: #1a237e; margin-bottom: 5px; }
@@ -61,8 +60,8 @@
         .badge-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
 
         /* Modal / Popup CSS */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
-        .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.6); overflow-y: auto; }
+        .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); position: relative; z-index: 2001; }
         .modal-content h3 { color: #1a237e; margin-bottom: 6px; font-size: 18px; text-align: center; }
         .delivery-badge { background: #e8f5e9; color: #2e7d32; font-size: 11px; text-align: center; padding: 5px; border-radius: 4px; font-weight: bold; margin-bottom: 12px; border: 1px dashed #a5d6a7; }
         .form-group { margin-bottom: 12px; }
@@ -77,15 +76,16 @@
         .footer-address { background: #ffffff; padding: 16px; margin: 20px 16px; border-radius: 10px; text-align: center; border: 1px solid #ddd; font-size: 13px; color: #555; max-width: 1200px; margin-left: auto; margin-right: auto; }
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
         
-        /* Bottom Fixed Navigation Bar */
-        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; padding: 8px 0; border-top: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 100; }
-        .nav-item { border: none; background: none; flex: 1; text-align: center; color: #666; font-size: 12px; cursor: pointer; font-weight: bold; }
+        /* Fixed Bottom Navigation Bar */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; display: flex; justify-content: space-around; padding: 10px 0; border-top: 1px solid #ccc; box-shadow: 0 -2px 10px rgba(0,0,0,0.1); z-index: 1000; }
+        .nav-item { border: none; background: none; flex: 1; text-align: center; color: #666; font-size: 12px; cursor: pointer; font-weight: bold; outline: none; }
         .nav-item.active { color: #0d47a1; }
         .nav-item div { font-size: 18px; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
+    <!-- APK Download Button -->
     <div id="download-box">
         <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk">Download App</a>
     </div>
@@ -105,6 +105,7 @@
         <p>विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</p>
     </header>
 
+    <!-- 1. HOME PAGE -->
     <div id="page-home" class="page-content active">
         <div class="banner">
             <h2>सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
@@ -257,6 +258,7 @@
         </div>
     </div>
 
+    <!-- 2. ORDERS PAGE -->
     <div id="page-orders" class="page-content">
         <div class="page-padding">
             <h2 style="color: #1a237e; margin-bottom: 15px;">आपके ऑर्डर्स (My Orders)</h2>
@@ -264,6 +266,7 @@
         </div>
     </div>
 
+    <!-- 3. PROFILE PAGE -->
     <div id="page-profile" class="page-content">
         <div class="page-padding" style="text-align: center; margin-top: 30px;">
             <h2 style="color: #1a237e;">👤 यूजर प्रोफाइल / साइन-अप</h2>
@@ -274,23 +277,25 @@
                     <label>मोबाइल नंबर:</label>
                     <input type="tel" id="profPhone" placeholder="10-अंकों का नंबर दर्ज करें">
                 </div>
-                <button class="btn-submit" onclick="alert('साइन-अप गेटवे जल्द ही सक्रिय किया जाएगा!')">OTP भेजें (Sign Up)</button>
+                <button class="btn-submit" onclick="alert('साइन-अप सिस्टम जल्द शुरू होगा!')">OTP भेजें (Sign Up)</button>
             </div>
         </div>
     </div>
 
+    <!-- BOTTOM NAVIGATION BAR -->
     <div class="bottom-nav">
         <button class="nav-item active" onclick="switchTab('home', this)">
-            <div>🏠</div> होम (Home)
+            <div>🏠</div> होम
         </button>
         <button class="nav-item" onclick="switchTab('orders', this)">
-            <div>📦</div> ऑर्डर्स (Orders)
+            <div>📦</div> ऑर्डर्स
         </button>
         <button class="nav-item" onclick="switchTab('profile', this)">
-            <div>👤</div> प्रोफाइल (Profile)
+            <div>👤</div> प्रोफाइल
         </button>
     </div>
 
+    <!-- ORDER FORM MODAL -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
@@ -317,7 +322,7 @@
 
             <div class="form-group">
                 <label style="color: #0d47a1;">पेमेंट UTR / Transaction ID दर्ज करें:</label>
-                <input type="text" id="custUtr" placeholder="पेमेंट का 12-अंकों का UTR No. दर्ज करें">
+                <input type="text" id="custUtr" placeholder="पेमेंट का 12-अंकों का UTR No. लिखें">
             </div>
 
             <button class="btn-submit" onclick="submitOnlineOrder()">✅ पेमेंट करके आर्डर भेजें (WhatsApp)</button>
@@ -326,15 +331,22 @@
     </div>
 
     <script>
-        // Tab Navigation Switch
+        // Page Navigation Switch Function
         function switchTab(pageName, btnEl) {
-            document.querySelectorAll('.page-content').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+            var pages = document.getElementsByClassName('page-content');
+            for (var i = 0; i < pages.length; i++) {
+                pages[i].classList.remove('active');
+            }
+            
+            var navItems = document.getElementsByClassName('nav-item');
+            for (var j = 0; j < navItems.length; j++) {
+                navItems[j].classList.remove('active');
+            }
             
             document.getElementById('page-' + pageName).classList.add('active');
             btnEl.classList.add('active');
 
-            if(pageName === 'orders') {
+            if (pageName === 'orders') {
                 renderOrders();
             }
         }
@@ -365,7 +377,7 @@
             return tableColors[index] || "Light Wooden";
         }
 
-        // Location & Order Modal Handling
+        // Live Location Setup
         var selectedProduct = "", selectedPrice = "", userLocationLink = "उपलब्ध नहीं (GPS अनुमति दें)";
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
@@ -373,6 +385,7 @@
             });
         }
 
+        // Modal Controls
         function openOrderForm(productName, price, colorName) {
             selectedProduct = colorName ? productName + " [" + colorName + "]" : productName;
             selectedPrice = price;
@@ -392,7 +405,14 @@
             document.getElementById("orderModal").style.display = "none";
         }
 
-        // Online Order Submission Logic
+        window.onclick = function(event) {
+            var modal = document.getElementById("orderModal");
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Submit Order Function
         function submitOnlineOrder() {
             var name = document.getElementById("custName").value.trim();
             var phone = document.getElementById("custPhone").value.trim();
@@ -405,7 +425,7 @@
             }
 
             if (utr === "") {
-                alert("कृपया पेमेंट करने के बाद UTR / Transaction ID भरें!");
+                alert("कृपया पेमेंट का UTR / Transaction ID भरें!");
                 return;
             }
 
@@ -433,5 +453,59 @@
                           "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)%0A" + 
                           "📍 *लाइव लोकेशन:* " + userLocationLink;
 
-            window.open("https://wa.me/" + phoneNumber + "?text="
-                    
+            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+            closeOrderForm();
+        }
+
+        function buyNow(productName, price, colorName) {
+            var finalProduct = colorName ? productName + " [" + colorName + "]" : productName;
+            var phoneNumber = "919264137710";
+            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
+                          "📦 सामान: " + finalProduct + "%0A" + 
+                          "💰 कीमत: ₹" + price + "%0A" + 
+                          "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
+                          "कृपया डिलीवरी की जानकारी भेजें।";
+            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+        }
+
+        function buyTableNow() {
+            let chosenColor = getSelectedTableColor();
+            var finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
+            var phoneNumber = "919264137710";
+            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
+                          "📦 सामान: " + finalProduct + "%0A" + 
+                          "💰 कीमत: ₹550%0A%0A" + 
+                          "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
+                          "कृपया डिलीवरी की जानकारी भेजें।";
+            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+        }
+
+        // Render My Orders
+        function renderOrders() {
+            var container = document.getElementById('orders-list');
+            var orders = JSON.parse(localStorage.getItem('myOrders') || "[]");
+
+            if (orders.length === 0) {
+                container.innerHTML = "<p style='text-align:center; color:#777; margin-top: 20px;'>अभी कोई ऑर्डर नहीं है।</p>";
+                return;
+            }
+
+            var html = "";
+            orders.forEach(function(ord) {
+                var isPending = ord.status === "Pending Verification";
+                var badgeClass = isPending ? "badge-pending" : "badge-success";
+                
+                html += '<div class="order-card">' +
+                            '<h4>' + ord.product + '</h4>' +
+                            '<div><b>कीमत:</b> ₹' + ord.price + '</div>' +
+                            '<div><b>नाम:</b> ' + ord.name + '</div>' +
+                            '<div><b>UTR No.:</b> ' + (ord.utr || "N/A") + '</div>' +
+                            '<div><b>ऑर्डर ID:</b> ' + ord.id + '</div>' +
+                            '<span class="badge ' + badgeClass + '">' + ord.status + '</span>' +
+                        '</div>';
+            });
+            container.innerHTML = html;
+        }
+    </script>
+</body>
+</html>
