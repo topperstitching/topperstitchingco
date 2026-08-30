@@ -267,18 +267,39 @@
         </div>
     </div>
 
-    <!-- 3. PROFILE PAGE -->
+    <!-- 3. PROFILE PAGE (WITH WORKING OTP AUTH) -->
     <div id="page-profile" class="page-content">
         <div class="page-padding" style="text-align: center; margin-top: 30px;">
             <h2 style="color: #1a237e;">👤 यूजर प्रोफाइल / साइन-अप</h2>
-            <p style="color: #666; margin-top: 8px; font-size: 13px;">अपना मोबाइल नंबर दर्ज करके अकाउंट बनाएं</p>
+            <p style="color: #666; margin-top: 8px; font-size: 13px;">मोबाइल नंबर द्वारा OTP से लॉगिन करें</p>
             
             <div style="background: white; padding: 20px; border-radius: 10px; margin-top: 20px; border: 1px solid #ddd; text-align: left;">
-                <div class="form-group">
-                    <label>मोबाइल नंबर:</label>
-                    <input type="tel" id="profPhone" placeholder="10-अंकों का नंबर दर्ज करें">
+                
+                <!-- Phone Step -->
+                <div id="phoneStep">
+                    <div class="form-group">
+                        <label>मोबाइल नंबर:</label>
+                        <input type="tel" id="profPhone" placeholder="10-अंकों का नंबर दर्ज करें (उदा. 9876543210)">
+                    </div>
+                    <div id="recaptcha-container"></div>
+                    <button class="btn-submit" id="btnSendOtp" onclick="sendOTP()">OTP भेजें (Sign Up)</button>
                 </div>
-                <button class="btn-submit" onclick="alert('साइन-अप सिस्टम जल्द शुरू होगा!')">OTP भेजें (Sign Up)</button>
+
+                <!-- OTP Step (Initially Hidden) -->
+                <div id="otpStep" style="display: none;">
+                    <div class="form-group">
+                        <label>दर्ज किए गए मोबाइल पर आया 6-अंकों का OTP दर्ज करें:</label>
+                        <input type="number" id="otpCode" placeholder="6-अंकों का OTP कोड">
+                    </div>
+                    <button class="btn-submit" style="background: #2e7d32;" onclick="verifyOTP()">OTP वेरीफाई करें (Verify & Login)</button>
+                </div>
+
+                <!-- Logged In View -->
+                <div id="loggedInStep" style="display: none; text-align: center;">
+                    <p style="color: #2e7d32; font-weight: bold; font-size: 16px;">✅ सफलतापूर्वक लॉगिन हो गए हैं!</p>
+                    <p id="userPhoneDisplay" style="margin-top: 8px; font-weight: 500; color: #333;"></p>
+                </div>
+
             </div>
         </div>
     </div>
@@ -331,7 +352,7 @@
         </div>
     </div>
 
-    <!-- Firebase SDK Setup -->
+    <!-- Firebase SDK & Live OTP Handling Script -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
@@ -348,6 +369,56 @@
 
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
+
+      // Setup Invisible Recaptcha
+      window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        'size': 'invisible'
+      });
+
+      // Send OTP Function
+      window.sendOTP = function() {
+        var phoneNumber = document.getElementById("profPhone").value.trim();
+        if (phoneNumber.length < 10) {
+            alert("कृपया सही 10-अंकों का मोबाइल नंबर दर्ज करें!");
+            return;
+        }
+
+        if (!phoneNumber.startsWith("+")) {
+            phoneNumber = "+91" + phoneNumber;
+        }
+
+        const appVerifier = window.recaptchaVerifier;
+        document.getElementById("btnSendOtp").innerText = "OTP भेजा जा रहा है...";
+
+        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+            .then((confirmationResult) => {
+                window.confirmationResult = confirmationResult;
+                alert("आपके मोबाइल नंबर पर OTP भेज दिया गया है!");
+                document.getElementById("phoneStep").style.display = "none";
+                document.getElementById("otpStep").style.display = "block";
+            }).catch((error) => {
+                alert("OTP भेजने में समस्या आई: " + error.message);
+                document.getElementById("btnSendOtp").innerText = "OTP भेजें (Sign Up)";
+            });
+      };
+
+      // Verify OTP Function
+      window.verifyOTP = function() {
+        var code = document.getElementById("otpCode").value.trim();
+        if (code.length < 6) {
+            alert("कृपया 6-अंकों का OTP कोड दर्ज करें!");
+            return;
+        }
+
+        window.confirmationResult.confirm(code).then((result) => {
+            const user = result.user;
+            document.getElementById("otpStep").style.display = "none";
+            document.getElementById("loggedInStep").style.display = "block";
+            document.getElementById("userPhoneDisplay").innerText = "मोबाइल: " + user.phoneNumber;
+        }).catch((error) => {
+            alert("गलत OTP कोड दर्ज किया गया है! दोबारा प्रयास करें।");
+        });
+      };
     </script>
 
     <script>
@@ -544,4 +615,5 @@
         }
     </script>
 </body>
-</html>
+                </html>
+                
