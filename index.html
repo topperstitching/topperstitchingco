@@ -267,7 +267,7 @@
         </div>
     </div>
 
-    <!-- 3. PROFILE PAGE (WITH WORKING VISIBLE RECAPTCHA & OTP AUTH) -->
+    <!-- 3. PROFILE PAGE -->
     <div id="page-profile" class="page-content">
         <div class="page-padding" style="text-align: center; margin-top: 30px;">
             <h2 style="color: #1a237e;">👤 यूजर प्रोफाइल / साइन-अप</h2>
@@ -355,12 +355,11 @@
         </div>
     </div>
 
-    <!-- Firebase SDK & Live OTP Handling Script -->
+    <!-- Firebase SDK & Live OTP Handling Script (FIXED RECAPTCHA) -->
     <script type="module">
       import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
       import { getAuth, RecaptchaVerifier, signInWithPhoneNumber } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
 
-      // आपकी बिल्कुल सही Firebase Config
       const firebaseConfig = {
         apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
         authDomain: "toppersewingmachine.firebaseapp.com",
@@ -374,8 +373,9 @@
       const app = initializeApp(firebaseConfig);
       const auth = getAuth(app);
 
-      // Setup Visible Recaptcha (Fixes hanging issues)
-      window.onload = function() {
+      // Recaptcha Initalizer Function
+      function initRecaptcha() {
+        if (!window.recaptchaVerifier) {
           window.recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
             'size': 'normal',
             'callback': (response) => {
@@ -383,7 +383,13 @@
             }
           });
           window.recaptchaVerifier.render();
-      };
+        }
+      }
+
+      // Page load par recaptcha ready karo
+      window.addEventListener('load', () => {
+        initRecaptcha();
+      });
 
       // Send OTP Function
       window.sendOTP = function() {
@@ -397,7 +403,10 @@
             phoneNumber = "+91" + phoneNumber;
         }
 
+        // Safe reCAPTCHA Initialization
+        initRecaptcha();
         const appVerifier = window.recaptchaVerifier;
+
         document.getElementById("btnSendOtp").innerText = "OTP भेजा जा रहा है...";
 
         signInWithPhoneNumber(auth, phoneNumber, appVerifier)
@@ -411,9 +420,9 @@
                 alert("OTP भेजने में समस्या आई: " + error.message);
                 document.getElementById("btnSendOtp").innerText = "OTP भेजें (Sign Up)";
                 if(window.recaptchaVerifier) {
-                    window.recaptchaVerifier.render().then(widgetId => {
-                        grecaptcha.reset(widgetId);
-                    });
+                    window.recaptchaVerifier.clear();
+                    window.recaptchaVerifier = null;
+                    initRecaptcha();
                 }
             });
       };
@@ -631,5 +640,5 @@
         }
     </script>
 </body>
-    </html>
-    
+                        </html>
+                        
