@@ -87,7 +87,7 @@
 
     <!-- Top Navigation Header with Language Selector -->
     <header>
-        <h1>Topper Sewing Machine</h1>
+        <h1 id="headerTitle">Topper Sewing Machine</h1>
         <div class="top-settings">
             <select id="languageSelect" onchange="changeLanguage(this.value)">
                 <option value="hi">हिंदी (Hindi)</option>
@@ -103,7 +103,7 @@
         </div>
     </header>
 
-    <!-- 1. HOME PAGE (All Products Included with Warranty & Guarantee) -->
+    <!-- 1. HOME PAGE -->
     <div id="homePage" class="page-content active">
         <div class="banner">
             <h2 id="bannerTitle">सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
@@ -116,21 +116,21 @@
                 <div>
                     <div class="img-container"><img src="IMG_20260829_174914.png" alt="Topper SV Tailor"></div>
                     <div class="card-details">
-                        <h3>Topper SV Tailor</h3>
+                        <h3 id="p1Title">Topper SV Tailor</h3>
                         <div class="price">₹4,500</div>
                         <div class="specs">
-                            <div><span>ब्रांड:</span> Topper Stitching</div>
-                            <div><span>मॉडल:</span> SV tailor</div>
-                            <div><span>कलर:</span> Light Wooden</div>
-                            <div><span>वारंटी:</span> 5 Years</div>
-                            <div><span>गारंटी:</span> 0 Days</div>
-                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                            <div><span id="lblBrand1">ब्रांड:</span> Topper Stitching</div>
+                            <div><span id="lblModel1">मॉडल:</span> SV tailor</div>
+                            <div><span id="lblColor1">कलर:</span> Light Wooden</div>
+                            <div><span id="lblWarranty1">वारंटी:</span> 5 Years</div>
+                            <div><span id="lblGuarantee1">गारंटी:</span> 0 Days</div>
+                            <div><span id="lblBox1">टूलबॉक्स:</span> Accessories Box Included</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', 'Light Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', 'Light Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', 'Light Wooden')"><span id="btnOnline1">💳 ऑनलाइन पेमेंट करें</span></button>
+                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', 'Light Wooden')"><span id="btnWhatsapp1">📲 व्हाट्सएप पर खरीदें</span></button>
                 </div>
             </div>
             
@@ -138,21 +138,21 @@
                 <div>
                     <div class="img-container"><img src="IMG_20260829_175005.png" alt="Topper SV Tailor Deluxe"></div>
                     <div class="card-details">
-                        <h3>Topper SV Tailor Deluxe</h3>
+                        <h3 id="p2Title">Topper SV Tailor Deluxe</h3>
                         <div class="price">₹4,500</div>
                         <div class="specs">
-                            <div><span>ब्रांड:</span> Topper Stitching</div>
-                            <div><span>मॉडल:</span> SV tailor delox</div>
-                            <div><span>कलर:</span> Grey Wooden</div>
-                            <div><span>वारंटी:</span> 5 Years</div>
-                            <div><span>गारंटी:</span> 0 Days</div>
-                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                            <div><span id="lblBrand2">ब्रांड:</span> Topper Stitching</div>
+                            <div><span id="lblModel2">मॉडल:</span> SV tailor delox</div>
+                            <div><span id="lblColor2">कलर:</span> Grey Wooden</div>
+                            <div><span id="lblWarranty2">वारंटी:</span> 5 Years</div>
+                            <div><span id="lblGuarantee2">गारंटी:</span> 0 Days</div>
+                            <div><span id="lblBox2">टूलबॉक्स:</span> Accessories Box Included</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')"><span id="btnOnline2">💳 ऑनलाइन पेमेंट करें</span></button>
+                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')"><span id="btnWhatsapp2">📲 व्हाट्सएप पर खरीदें</span></button>
                 </div>
             </div>
 
@@ -160,21 +160,21 @@
                 <div>
                     <div class="img-container"><img src="IMG_20260829_174949.png" alt="Bag Closer Single Needle"></div>
                     <div class="card-details">
-                        <h3>Bag Closer Single Needle</h3>
+                        <h3 id="p3Title">Bag Closer Single Needle</h3>
                         <div class="price">₹5,800</div>
                         <div class="specs">
-                            <div><span>ब्रांड:</span> Topper Stitching</div>
-                            <div><span>मॉडल:</span> single nidile</div>
-                            <div><span>कलर:</span> Light Dark Wooden</div>
-                            <div><span>वारंटी:</span> 2 Times Service</div>
-                            <div><span>गारंटी:</span> 0 Days</div>
-                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                            <div><span id="lblBrand3">ब्रांड:</span> Topper Stitching</div>
+                            <div><span id="lblModel3">मॉडल:</span> single nidile</div>
+                            <div><span id="lblColor3">कलर:</span> Light Dark Wooden</div>
+                            <div><span id="lblWarranty3">वारंटी:</span> 2 Times Service</div>
+                            <div><span id="lblGuarantee3">गारंटी:</span> 0 Days</div>
+                            <div><span id="lblBox3">टूलबॉक्स:</span> Accessories Box Included</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')"><span id="btnOnline3">💳 ऑनलाइन पेमेंट करें</span></button>
+                    <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')"><span id="btnWhatsapp3">📲 व्हाट्सएप पर खरीदें</span></button>
                 </div>
             </div>
 
@@ -182,21 +182,21 @@
                 <div>
                     <div class="img-container"><img src="file_00000000a1f88211baaa2ea57e9f39f9.png" alt="Topper TA1"></div>
                     <div class="card-details">
-                        <h3>Topper TA1 Model</h3>
+                        <h3 id="p4Title">Topper TA1 Model</h3>
                         <div class="price">₹6,000</div>
                         <div class="specs">
-                            <div><span>ब्रांड:</span> Topper Stitching</div>
-                            <div><span>मॉडल:</span> umbrella</div>
-                            <div><span>कलर:</span> Dark Wooden</div>
-                            <div><span>वारंटी:</span> 5 Years</div>
-                            <div><span>गारंटी:</span> 0 Days</div>
-                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                            <div><span id="lblBrand4">ब्रांड:</span> Topper Stitching</div>
+                            <div><span id="lblModel4">मॉडल:</span> umbrella</div>
+                            <div><span id="lblColor4">कलर:</span> Dark Wooden</div>
+                            <div><span id="lblWarranty4">वारंटी:</span> 5 Years</div>
+                            <div><span id="lblGuarantee4">गारंटी:</span> 0 Days</div>
+                            <div><span id="lblBox4">टूलबॉक्स:</span> Accessories Box Included</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', 'Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', 'Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', 'Dark Wooden')"><span id="btnOnline4">💳 ऑनलाइन पेमेंट करें</span></button>
+                    <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', 'Dark Wooden')"><span id="btnWhatsapp4">📲 व्हाट्सएप पर खरीदें</span></button>
                 </div>
             </div>
 
@@ -214,18 +214,18 @@
                     </div>
 
                     <div class="card-details">
-                        <h3>Sewing Machine Top Table</h3>
+                        <h3 id="p5Title">Sewing Machine Top Table</h3>
                         <div class="price">₹550</div>
                         <div class="specs">
-                            <div><span>मॉडल:</span> SV / TA1</div>
-                            <div><span>कलर:</span> <span id="selectedTableColorText">Light Wooden</span></div>
-                            <div><span>वारंटी / गारंटी:</span> None</div>
+                            <div><span id="lblModel5">मॉडल:</span> SV / TA1</div>
+                            <div><span id="lblColor5">कलर:</span> <span id="selectedTableColorText">Light Wooden</span></div>
+                            <div><span id="lblWarranty5">वारंटी / गारंटी:</span> None</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openTableOrderForm()">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openTableOrderForm()"><span id="btnOnline5">💳 ऑनलाइन पेमेंट करें</span></button>
+                    <button class="btn-buy" onclick="buyTableNow()"><span id="btnWhatsapp5">📲 व्हाट्सएप पर खरीदें</span></button>
                 </div>
             </div>
 
@@ -233,23 +233,23 @@
                 <div>
                     <div class="img-container"><img src="IMG_20260829_174934.png" alt="Anis Scissors Size 10"></div>
                     <div class="card-details">
-                        <h3>Anis Scissors (Size 10)</h3>
+                        <h3 id="p6Title">Anis Scissors (Size 10)</h3>
                         <div class="price">₹300</div>
                         <div class="specs">
-                            <div><span>ब्रांड:</span> Anis Scissors</div>
-                            <div><span>साइज:</span> Size 10</div>
-                            <div><span>वारंटी / गारंटी:</span> None</div>
+                            <div><span id="lblBrand6">ब्रांड:</span> Anis Scissors</div>
+                            <div><span id="lblSize6">साइज:</span> Size 10</div>
+                            <div><span id="lblWarranty6">वारंटी / गारंटी:</span> None</div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <button class="btn-online" onclick="openOrderForm('Anis Scissors (Size 10)', '300', 'Stainless Steel')">💳 ऑनलाइन पेमेंट करें</button>
-                    <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300', 'Stainless Steel')">📲 व्हाट्सएप पर खरीदें</button>
+                    <button class="btn-online" onclick="openOrderForm('Anis Scissors (Size 10)', '300', 'Stainless Steel')"><span id="btnOnline6">💳 ऑनलाइन पेमेंट करें</span></button>
+                    <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300', 'Stainless Steel')"><span id="btnWhatsapp6">📲 व्हाट्सएप पर खरीदें</span></button>
                 </div>
             </div>
         </div>
 
-        <div class="footer-address">
+        <div class="footer-address" id="footerAddressBox">
             <strong>📍 मुख्य स्टोर का पता:</strong>
             सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
         </div>
@@ -258,76 +258,74 @@
     <!-- 2. ORDERS PAGE -->
     <div id="ordersPage" class="page-content">
         <div class="container-box">
-            <h3 style="color: #1a237e; margin-bottom: 12px; text-align: center;">📦 मेरे ऑर्डर्स (My Orders)</h3>
+            <h3 id="ordersTitle" style="color: #1a237e; margin-bottom: 12px; text-align: center;">📦 मेरे ऑर्डर्स (My Orders)</h3>
             <div id="ordersList">
-                <p style="text-align: center; color: #666; font-size: 13px;">अभी तक कोई आर्डर नहीं किया गया है।</p>
+                <p id="noOrdersText" style="text-align: center; color: #666; font-size: 13px;">अभी तक कोई आर्डर नहीं किया गया है।</p>
             </div>
         </div>
     </div>
 
-    <!-- 3. PROFILE PAGE (Real Firebase Google & Facebook Authentication) -->
+    <!-- 3. PROFILE PAGE -->
     <div id="profilePage" class="page-content">
         <div class="container-box" style="text-align: center;">
-            <h3 style="color: #1a237e; margin-bottom: 15px;">👤 यूजर प्रोफाइल और वेरिफिकेशन</h3>
+            <h3 id="profileTitle" style="color: #1a237e; margin-bottom: 15px;">👤 यूजर प्रोफाइल और वेरिफिकेशन</h3>
             <div id="profileInfo" style="margin-bottom: 15px; font-size: 14px; color: #333;">
-                <p>अपने असली Google या Facebook खाते से लॉगिन करें:</p>
+                <p id="profileDesc">अपने असली Google या Facebook खाते से लॉगिन करें:</p>
             </div>
-            <button class="profile-btn google-btn" onclick="loginWithGoogle()">🔵 Google से रियल वेरीफाई करें</button>
-            <button class="profile-btn facebook-btn" onclick="loginWithFacebook()">🔵 Facebook से रियल वेरीफाई करें</button>
+            <button class="profile-btn google-btn" onclick="loginWithGoogle()"><span id="googleBtnText">🔵 Google से रियल वेरीफाई करें</span></button>
+            <button class="profile-btn facebook-btn" onclick="loginWithFacebook()"><span id="facebookBtnText">🔵 Facebook से रियल वेरीफाई करें</span></button>
         </div>
     </div>
 
     <!-- Bottom Navigation Bar -->
     <div class="bottom-nav">
         <div class="nav-item active" onclick="switchTab('homePage', this)">
-            <span>🏠</span>होम (Home)
+            <span id="navHome">🏠</span><span id="navHomeText">होम (Home)</span>
         </div>
         <div class="nav-item" onclick="switchTab('ordersPage', this)">
-            <span>📦</span>ऑर्डर (Orders)
+            <span id="navOrders">📦</span><span id="navOrdersText">ऑर्डर (Orders)</span>
         </div>
         <div class="nav-item" onclick="switchTab('profilePage', this)">
-            <span>👤</span>प्रोफाइल (Profile)
+            <span id="navProfile">👤</span><span id="navProfileText">प्रोफाइल (Profile)</span>
         </div>
     </div>
 
     <!-- Online Payment & UTR Verification Modal -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
-            <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
-            <div class="delivery-badge">🚚 गोपालगंज, बिहार होम डिलीवरी</div>
+            <h3 id="modalMainTitle">🛒 ऑनलाइन आर्डर और पेमेंट</h3>
+            <div class="delivery-badge" id="modalDeliveryBadge">Delivery only for District:- Gopalganj (Area) (in Bihar)</div>
             <p id="modalProductInfo" style="font-size: 13px; color: #555; margin-bottom: 10px; text-align: center; font-weight: bold;"></p>
             
             <div class="form-group">
-                <label>आपका पूरा नाम:</label>
+                <label id="lblCustName">आपका पूरा नाम:</label>
                 <input type="text" id="custName" placeholder="अपना नाम लिखें">
             </div>
             <div class="form-group">
-                <label>मोबाइल नंबर:</label>
+                <label id="lblCustPhone">मोबाइल नंबर:</label>
                 <input type="tel" id="custPhone" placeholder="मोबाइल नंबर लिखें">
             </div>
             <div class="form-group">
-                <label>पूरा पता (गोपालगंज, बिहार):</label>
+                <label id="lblCustAddress">पूरा पता (गोपालगंज, बिहार):</label>
                 <textarea id="custAddress" rows="2" placeholder="गाँव/मोहल्ला, वार्ड नंबर, गोपालगंज"></textarea>
             </div>
 
             <div class="qr-box">
                 <img id="qrImage" src="UPI_QR.png" alt="UPI QR Code">
-                <p>QR स्कैन करके पेमेंट करें और असली UTR / Transaction ID दर्ज करें</p>
+                <p id="qrInstruction">QR स्कैन करके पेमेंट करें और असली UTR / Transaction ID दर्ज करें</p>
             </div>
 
             <div class="form-group">
-                <label>UTR / Transaction ID (12 अंक):</label>
+                <label id="lblUtr">UTR / Transaction ID (12 अंक):</label>
                 <input type="text" id="custUtr" placeholder="बैंक UTR नंबर दर्ज करें">
             </div>
 
-            <button class="btn-submit" onclick="verifyAndSubmitOrder()">✅ पेमेंट सर्वर चेक करके आर्डर भेजें</button>
-            <button class="btn-close" onclick="closeOrderForm()">रद्द करें</button>
+            <button class="btn-submit" onclick="verifyAndSubmitOrder()"><span id="btnSubmitText">✅ पेमेंट सर्वर चेक करके आर्डर भेजें</span></button>
+            <button class="btn-close" onclick="closeOrderForm()"><span id="btnCloseText">रद्द करें</span></button>
         </div>
     </div>
 
     <script>
-        // --- FIREBASE CONFIGURATION (असली गूगल और फेसबुक लॉगिन के लिए) ---
-        // नोट: Firebase Console पर जाकर अपनी App की डिटेल्स यहाँ भरनी होंगी
         const firebaseConfig = {
             apiKey: "YOUR_FIREBASE_API_KEY",
             authDomain: "your-app.firebaseapp.com",
@@ -365,7 +363,6 @@
             });
         }
 
-        // Tab Navigation Logic
         function switchTab(pageId, element) {
             document.querySelectorAll('.page-content').forEach(p => p.classList.remove('active'));
             document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
@@ -373,24 +370,209 @@
             element.classList.add('active');
         }
 
-        // Language Dictionary
+        // Complete Translations Dictionary
         const translations = {
-            hi: { bannerTitle: "सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान", bannerSub: "बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस" },
-            en: { bannerTitle: "Most Trusted Shop for Sewing Machines & Parts", bannerSub: "Best Quality, Fair Price and Excellent Service" },
-            bn: { bannerTitle: "সেলাই মেশিন এবং যন্ত্রাংশের সবচেয়ে বিশ্বস্ত দোকান", bannerSub: "সেরা মানের, ন্যায্যমূল্য এবং চমৎকার পরিষেবা" },
-            te: { bannerTitle: "కుట్టు యంత్రాలు మరియు విడిభాగాల కోసం అత్యంత విశ్వసనీయ దుకాణం", bannerSub: "ఉత్తమ నాణ్యత, సరసమైన ధర మరియు అద్భుతమైన సేవ" },
-            mr: { bannerTitle: "शिवणयंत्र आणि स्पेयर पार्ट्ससाठी सर्वात विश्वासार्ह दुकान", bannerSub: "उत्कृष्ट गुणवत्ता, योग्य किंमत आणि उत्तम सेवा" },
-            ta: { bannerTitle: "தையல் இயந்திரங்கள் மற்றும் உதிரிபாகங்களுக்கான நம்பகமான கடை", bannerSub: "சிறந்த தரம், நியாயமான விலை மற்றும் சிறந்த சேவை" },
-            gu: { bannerTitle: "સિવવાની મશીન અને સ્પેરપાર્ટ્સ માટે સૌથી વિશ્વાસપાત્ર દુકાન", bannerSub: "શ્રેષ્ઠ ગુણવત્તા, યોગ્ય કિંમત અને ઉત્તમ સેવા" },
-            ur: { bannerTitle: "سلائی مشین اور پرزوں کی سب سے قابل بھروسہ دکان", bannerSub: "بہترین معیار، مناسب قیمت اور شاندار سروس" },
-            pa: { bannerTitle: "ਸਿਲाई ਮਸ਼ੀਨ ਅਤੇ ਪਾਰਟਸ ਲਈ ਸਭ ਤੋਂ ਭਰोਸੇਮੰਦ ਦੁکان", bannerSub: "ਵਧੀਆ ਕੁਆਲਿਟੀ, ਵਾਜਬ ਕੀमत और ਸ਼ਾਨਦਾਰ ਸੇਵਾ" }
+            hi: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान",
+                bannerSub: "बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस",
+                brand: "ब्रांड:", model: "मॉडल:", color: "कलर:", size: "साइज:", warranty: "वारंटी:", guarantee: "गारंटी:", box: "टूलबॉक्स:",
+                btnOnline: "💳 ऑनलाइन पेमेंट करें", btnWhatsapp: "📲 व्हाट्सएप पर खरीदें",
+                footerAddr: "<strong>📍 मुख्य स्टोर का पता:</strong> सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710",
+                ordersTitle: "📦 मेरे ऑर्डर्स (My Orders)", noOrders: "अभी तक कोई आर्डर नहीं किया गया है।",
+                profileTitle: "👤 यूजर प्रोफाइल और वेरिफिकेशन", profileDesc: "अपने असली Google या Facebook खाते से लॉगिन करें:",
+                googleBtn: "🔵 Google से रियल वेरीफाई करें", facebookBtn: "🔵 Facebook से रियल वेरीफाई करें",
+                navHome: "होम (Home)", navOrders: "ऑर्डर (Orders)", navProfile: "प्रोफाइल (Profile)",
+                modalTitle: "🛒 ऑनलाइन आर्डर और पेमेंट", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "आपका पूरा नाम:", phoneLbl: "मोबाइल नंबर:", addressLbl: "पूरा पता (गोपालगंज, बिहार):",
+                qrText: "QR स्कैन करके पेमेंट करें और असली UTR / Transaction ID दर्ज करें",
+                utrLbl: "UTR / Transaction ID (12 अंक):", submitBtn: "✅ पेमेंट सर्वर चेक करके आर्डर भेजें", closeBtn: "रद्द करें"
+            },
+            en: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "Most Trusted Shop for Sewing Machines & Parts",
+                bannerSub: "Best Quality, Fair Price and Excellent Service",
+                brand: "Brand:", model: "Model:", color: "Color:", size: "Size:", warranty: "Warranty:", guarantee: "Guarantee:", box: "Toolbox:",
+                btnOnline: "💳 Pay Online", btnWhatsapp: "📲 Buy on WhatsApp",
+                footerAddr: "<strong>📍 Main Store Address:</strong> Sasamusa, Gopalganj, Bihar | Contact: +91 9264137710",
+                ordersTitle: "📦 My Orders", noOrders: "No orders placed yet.",
+                profileTitle: "👤 User Profile & Verification", profileDesc: "Login with your real Google or Facebook account:",
+                googleBtn: "🔵 Real Verify with Google", facebookBtn: "🔵 Real Verify with Facebook",
+                navHome: "Home", navOrders: "Orders", navProfile: "Profile",
+                modalTitle: "🛒 Online Order & Payment", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "Full Name:", phoneLbl: "Mobile Number:", addressLbl: "Full Address (Gopalganj, Bihar):",
+                qrText: "Scan QR to pay and enter valid UTR / Transaction ID",
+                utrLbl: "UTR / Transaction ID (12 digits):", submitBtn: "✅ Check Server & Send Order", closeBtn: "Cancel"
+            },
+            bn: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "সেলাই মেশিন এবং যন্ত্রাংশের সবচেয়ে বিশ্বস্ত দোকান",
+                bannerSub: "সেরা মানের, ন্যায্যমূল্য এবং চমৎকার পরিষেবা",
+                brand: "ব্র্যান্ড:", model: "মডেল:", color: "রঙ:", size: "সাইজ:", warranty: "ওয়ারেন্টি:", guarantee: "গ্যারান্টি:", box: "টুলবক্স:",
+                btnOnline: "💳 অনলাইন পেমেন্ট করুন", btnWhatsapp: "📲 হোয়াটসঅ্যাপে কিনুন",
+                footerAddr: "<strong>📍 মূল স্টোরের ঠিকানা:</strong> সাসামুসা, গোপালগঞ্জ, বিহার | যোগাযোগ: +91 9264137710",
+                ordersTitle: "📦 আমার অর্ডার", noOrders: "এখনও কোন অর্ডার করা হয়নি।",
+                profileTitle: "👤 ব্যবহারকারী প্রোফাইল এবং যাচাইকরণ", profileDesc: "আপনার আসল Google বা Facebook অ্যাকাউন্ট দিয়ে লগইন করুন:",
+                googleBtn: "🔵 Google দিয়ে যাচাই করুন", facebookBtn: "🔵 Facebook দিয়ে যাচাই করুন",
+                navHome: "হোম", navOrders: "অর্ডার", navProfile: "প্রোফাইল",
+                modalTitle: "🛒 অনলাইন অর্ডার এবং পেমেন্ট", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "আপনার পুরো নাম:", phoneLbl: "মোবাইল নম্বর:", addressLbl: "সম্পূর্ণ ঠিকানা (গোপালগঞ্জ, বিহার):",
+                qrText: "QR স্ক্যান করে পেমেন্ট করুন এবং আসল UTR লিখুন",
+                utrLbl: "UTR / Transaction ID (১২ অঙ্ক):", submitBtn: "✅ পেমেন্ট সার্ভার চেক করে অর্ডার পাঠান", closeBtn: "বাতিল করুন"
+            },
+            te: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "కుట్టు యంత్రాలు మరియు విడిభాగాల కోసం అత్యంత విశ్వసనీయ దుకాణం",
+                bannerSub: "ఉత్తమ నాణ్యత, సరసమైన ధర మరియు అద్భుతమైన సేవ",
+                brand: "బ్రాండ్:", model: "మోడల్:", color: "రంగు:", size: "సైజు:", warranty: "వారంటీ:", guarantee: "గ్యారెంటీ:", box: "టూల్‌బాక్స్:",
+                btnOnline: "💳 ఆన్‌లైన్ చెల్లింపు చేయండి", btnWhatsapp: "📲 వాట్సాప్‌లో కొనండి",
+                footerAddr: "<strong>📍 ప్రధాన స్టోర్ చిరునామా:</strong> సాసముస, గోపాల్‌గంజ్, బీహార్ | సంప్రదించండి: +91 9264137710",
+                ordersTitle: "📦 నా ఆర్డర్‌లు", noOrders: ఇంకా ఎలాంటి ఆర్డర్‌లు చేయలేదు.",
+                profileTitle: "👤 యూజర్ ప్రొఫైల్ & ధృవీకరణ", profileDesc: "మీ అసలు Google లేదా Facebook ఖాతాతో లాగిన్ చేయండి:",
+                googleBtn: "🔵 Google తో ధృవీకరించండి", facebookBtn: "🔵 Facebook తో ధృవీకరించండి",
+                navHome: "హోమ్", navOrders: "ఆర్డర్‌లు", navProfile: "ప్రొఫైల్",
+                modalTitle: "🛒 ఆన్‌లైన్ ఆర్డర్ & చెల్లింపు", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "మీ పూర్తి పేరు:", phoneLbl: "మొబైల్ నంబర్:", addressLbl: "పూర్తి చిరునామా (గోపాల్‌గంజ్, బీహార్):",
+                qrText: "QR స్కాన్ చేసి చెల్లించండి మరియు UTR నంబర్‌ను నమోదు చేయండి",
+                utrLbl: "UTR / Transaction ID (12 అంకెలు):", submitBtn: "✅ సర్వర్ చెక్ చేసి ఆర్డర్ పంపు", closeBtn: "రద్దు చేయి"
+            },
+            mr: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "शिवणयंत्र आणि स्पेयर पार्ट्ससाठी सर्वात विश्वासार्ह दुकान",
+                bannerSub: "उत्कृष्ट गुणवत्ता, योग्य किंमत आणि उत्तम सेवा",
+                brand: "ब्रँड:", model: "मॉडेल:", color: "रंग:", size: "आकार:", warranty: "वारंटी:", guarantee: "गॅरंटी:", box: "टूलबॉक्स:",
+                btnOnline: "💳 ऑनलाइन पेमेंट करा", btnWhatsapp: "📲 व्हाट्सएपवर खरेदी करा",
+                footerAddr: "<strong>📍 मुख्य स्टोअर पत्ता:</strong> सासामुसा, गोपालगंज, बिहार | संपर्क: +91 9264137710",
+                ordersTitle: "📦 माझे ऑर्डर्स", noOrders: "अद्याप कोणतीही ऑर्डर दिलेली नाही.",
+                profileTitle: "👤 युजर प्रोफाइल आणि पडताळणी", profileDesc: "तुमच्या खऱ्या Google किंवा Facebook खात्यासह लॉगिन करा:",
+                googleBtn: "🔵 Google सह वेरीफाय करा", facebookBtn: "🔵 Facebook सह वेरीफाय करा",
+                navHome: "होम", navOrders: "ऑर्डर्स", navProfile: "प्रोफाइल",
+                modalTitle: "🛒 ऑनलाइन ऑर्डर आणि पेमेंट", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "तुमचे पूर्ण नाव:", phoneLbl: "मोबाईल नंबर:", addressLbl: "पूर्ण पत्ता (गोपालगंज, बिहार):",
+                qrText: "QR स्कॅन करून पेमेंट करा आणि UTR नंबर टाка",
+                utrLbl: "UTR / Transaction ID (१२ अंक):", submitBtn: "✅ पेमेंट सर्व्हर तपासून ऑर्डर पाठवा", closeBtn: "रद्द करा"
+            },
+            ta: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "தையல் இயந்திரங்கள் மற்றும் உதிரிபாகங்களுக்கான நம்பகமான கடை",
+                bannerSub: "சிறந்த தரம், நியாயமான விலை மற்றும் சிறந்த சேவை",
+                brand: "பிராண்ட்:", model: "மாடல்:", color: "நிறம்:", size: "அளவு:", warranty: "உத்தரவாதம்:", guarantee: "கேரண்டி:", box: "டூல்பாக்ஸ்:",
+                btnOnline: "💳 ஆன்லைன் கட்டணம் செலுத்தவும்", btnWhatsapp: "📲 வாட்ஸ்அப்பில் வாங்கவும்",
+                footerAddr: "<strong>📍 பிரதான கடை முகவரி:</strong> சசாமுசா, கோபால்கஞ்ச், பீகார் | தொடர்பு: +91 9264137710",
+                ordersTitle: "📦 எனது ஆர்டர்கள்", noOrders: "இதுவரை எந்த ஆர்டரும் செய்யப்படவில்லை.",
+                profileTitle: "👤 பயனர் சுயவிவரம் மற்றும் சரிபார்ப்பு", profileDesc: "உங்கள் உண்மையான Google அல்லது Facebook கணக்கில் உள்நுழையவும்:",
+                googleBtn: "🔵 Google மூலம் சரிபார்க்கவும்", facebookBtn: "🔵 Facebook மூலம் சரிபார்க்கவும்",
+                navHome: "முகப்பு", navOrders: "ஆர்டர்கள்", navProfile: "சுயவிவரம்",
+                modalTitle: "🛒 ஆன்லைன் ஆர்டர் & கட்டணம்", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "உங்கள் முழு பெயர்:", phoneLbl: "மொபைல் எண்:", addressLbl: "முழு முகவரி (கோபால்கஞ்ச், பீகார்):",
+                qrText: "QR ஸ்கேன் செய்து பணம் செலுத்தி UTR ஐ உள்ளிடவும்",
+                utrLbl: "UTR / Transaction ID (12 இலக்கங்கள்):", submitBtn: "✅ சர்வர் சரிபார்த்து ஆர்டரை அனுப்பவும்", closeBtn: "ரத்துசெய்"
+            },
+            gu: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "સિવવાની મશીન અને સ્પેરપાર્ટ્સ માટે સૌથી વિશ્વાસપાત્ર દુકાન",
+                bannerSub: "શ્રેષ્ઠ ગુણવત્તા, યોગ્ય કિંમત અને ઉત્તમ સેવા",
+                brand: "બ્રાન્ડ:", model: "મોડેલ:", color: "રંગ:", size: "કદ:", warranty: "વારંટી:", guarantee: "ગેરંટી:", box: "ટૂલબોક્સ:",
+                btnOnline: "💳 ઓનલાઈન ચુકવણી કરો", btnWhatsapp: "📲 વોટ્સએપ પર ખરીદો",
+                footerAddr: "<strong>📍 મુખ્ય સ્ટોર સરનામું:</strong> સાસામુસા, ગોપાલગંજ, બિહાર | સંપર્ક: +91 9264137710",
+                ordersTitle: "📦 મારા ઓર્ડર", noOrders: "હજી સુધી કોઈ ઓર્ડર આપ્યો નથી.",
+                profileTitle: "👤 યુઝર પ્રોફાઇલ અને ચકાસણી", profileDesc: "તમારા અસલી Google અથવા Facebook એકાઉન્ટ સાથે લોગ ઇન કરો:",
+                googleBtn: "🔵 Google સાથે ચકાસો", facebookBtn: "🔵 Facebook સાથે ચકાસો",
+                navHome: "હોમ", navOrders: "ઓર્ડર", navProfile: "પ્રોફાઇલ",
+                modalTitle: "🛒 ઓનલાઈન ઓર્ડર અને ચુકવણી", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "તમારું પૂરું નામ:", phoneLbl: "મોબાઈલ નંબર:", addressLbl: "પૂરું સરનામું (ગોપાલગંજ, બિહાર):",
+                qrText: "QR સ્કેન કરીને ચૂકવણી કરો અને UTR દાખલ કરો",
+                utrLbl: "UTR / Transaction ID (12 અંક):", submitBtn: "✅ સર્વર ચકાસીને ઓર્ડર મોકલો", closeBtn: "રદ કરો"
+            },
+            ur: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "سلائی مشین اور پرزوں کی سب سے قابل بھروسہ دکان",
+                bannerSub: "بہترین معیار، مناسب قیمت اور شاندار سروس",
+                brand: "برانڈ:", model: "ماڈل:", color: "رنگ:", size: "سائز:", warranty: "وارنٹی:", guarantee: "گارنٹی:", box: "ٹول باکس:",
+                btnOnline: "💳 آن لائن ادائیگی کریں", btnWhatsapp: "📲 واٹس ایپ پر خریدیں",
+                footerAddr: "<strong>📍 مرکزی اسٹور کا پتہ:</strong> ساساموسا، گোপাল گنج، بہار | رابطہ: +91 9264137710",
+                ordersTitle: "📦 میرے آرڈرز", noOrders: "ابھی تک کوئی آرڈر نہیں دیا گیا ہے۔",
+                profileTitle: "👤 یوزر پروفائل اور تصدیق", profileDesc: "اپنے اصل Google یا Facebook اکاؤنٹ سے لاگ ان کریں:",
+                googleBtn: "🔵 Google سے تصدیق کریں", facebookBtn: "🔵 Facebook سے تصدیق کریں",
+                navHome: "ہوم", navOrders: "آرڈرز", navProfile: "پروفائل",
+                modalTitle: "🛒 آن لائن آرڈر اور ادائیگی", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "آپ کا پورا نام:", phoneLbl: "موبائل نمبر:", addressLbl: "پورا پتہ (گوپال گنج، بہار):",
+                qrText: "QR اسکین کرکے ادائیگی کریں اور UTR درج کریں",
+                utrLbl: "UTR / Transaction ID (12 ہندسے):", submitBtn: "✅ سرور چیک کرکے آرڈر بھیجیں", closeBtn: "منسوخ کریں"
+            },
+            pa: {
+                headerTitle: "Topper Sewing Machine",
+                bannerTitle: "ਸਿਲाई ਮਸ਼ੀਨ और ਪਾਰਟਸ ਲਈ ਸਭ ਤੋਂ ਭਰੋਸੇਮੰਦ ਦੁکان",
+                bannerSub: "ਵਧੀਆ ਕੁਆਲਿਟੀ, ਵਾਜਬ ਕੀਮਤ और ਸ਼ਾਨਦਾਰ ਸੇਵਾ",
+                brand: "ਬ੍ਰਾਂਡ:", model: "ਮਾਡਲ:", color: "ਰੰਗ:", size: "ਸਾਈਜ਼:", warranty: "ਵਾਰੰਟੀ:", guarantee: "ਗਾਰੰਟੀ:", box: "ਟੂਲਬਾਕਸ:",
+                btnOnline: "💳 ਆਨਲਾਈਨ ਭੁਗਤਾਨ ਕਰੋ", btnWhatsapp: "📲 ਵਟਸਐਪ 'ਤੇ ਖਰੀਦੋ",
+                footerAddr: "<strong>📍 ਮੁੱਖ ਸਟੋਰ ਦਾ ਪਤਾ:</strong> ਸਾਸਾਮੂਸਾ, ਗੋਪਾਲਗੰਜ, ਬਿਹਾਰ | ਸੰਪਰਕ: +91 9264137710",
+                ordersTitle: "📦 ਮੇਰੇ ਆਰਡਰ", noOrders: "अभी तक कोई आर्डर नहीं किया गया है।",
+                profileTitle: "👤 ਯੂਜ਼ਰ ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਤਸਦੀਕ", profileDesc: "अपने असली Google या Facebook खाते से लॉगिन करें:",
+                googleBtn: "🔵 Google ਨਾਲ ਤਸਦੀਕ ਕਰੋ", facebookBtn: "🔵 Facebook ਨਾਲ ਤਸਦੀਕ ਕਰੋ",
+                navHome: "ਹੋਮ", navOrders: "ਆਰਡਰ", navProfile: "ਪ੍ਰੋਫਾਈਲ",
+                modalTitle: "🛒 ਆਨਲਾਈਨ ਆਰਡਰ ਅਤੇ ਭੁਗਤਾਨ", modalDelivery: "Delivery only for District:- Gopalganj (Area) (in Bihar)",
+                nameLbl: "तआपका पूरा नाम:", phoneLbl: "मोबाइल नंबर:", addressLbl: "ਪੂਰਾ ਪਤਾ (ਗੋਪਾਲਗੰਜ, ਬਿਹਾਰ):",
+                qrText: "QR स्कैन करके पेमेंट करें और असली UTR दर्ज करें",
+                utrLbl: "UTR / Transaction ID (12 ਅੰਕ):", submitBtn: "✅ ਸਰਵਰ ਚੈੱਕ ਕਰਕੇ ਆਰਡਰ ਭੇਜੋ", closeBtn: "रद्द करो"
+            }
         };
 
         function changeLanguage(lang) {
-            if(translations[lang]) {
-                document.getElementById('bannerTitle').innerText = translations[lang].bannerTitle;
-                document.getElementById('bannerSub').innerText = translations[lang].bannerSub;
+            let t = translations[lang];
+            if (!t) return;
+
+            document.getElementById('headerTitle').innerText = t.headerTitle;
+            document.getElementById('bannerTitle').innerText = t.bannerTitle;
+            document.getElementById('bannerSub').innerText = t.bannerSub;
+            
+            // Update labels across cards
+            for(let i=1; i<=4; i++) {
+                document.getElementById(`lblBrand${i}`).innerText = t.brand;
+                document.getElementById(`lblModel${i}`).innerText = t.model;
+                document.getElementById(`lblColor${i}`).innerText = t.color;
+                document.getElementById(`lblWarranty${i}`).innerText = t.warranty;
+                document.getElementById(`lblGuarantee${i}`).innerText = t.guarantee;
+                document.getElementById(`lblBox${i}`).innerText = t.box;
+                document.getElementById(`btnOnline${i}`).innerText = t.btnOnline;
+                document.getElementById(`btnWhatsapp${i}`).innerText = t.btnWhatsapp;
             }
+
+            // Product 5 (Table)
+            document.getElementById(`lblModel5`).innerText = t.model;
+            document.getElementById(`lblColor5`).innerText = t.color;
+            document.getElementById(`lblWarranty5`).innerText = t.warranty;
+            document.getElementById(`btnOnline5`).innerText = t.btnOnline;
+            document.getElementById(`btnWhatsapp5`).innerText = t.btnWhatsapp;
+
+            // Product 6 (Scissors)
+            document.getElementById(`lblBrand6`).innerText = t.brand;
+            document.getElementById(`lblSize6`).innerText = t.size;
+            document.getElementById(`lblWarranty6`).innerText = t.warranty;
+            document.getElementById(`btnOnline6`).innerText = t.btnOnline;
+            document.getElementById(`btnWhatsapp6`).innerText = t.btnWhatsapp;
+
+            document.getElementById('footerAddressBox').innerHTML = t.footerAddr;
+            document.getElementById('ordersTitle').innerText = t.ordersTitle;
+            document.getElementById('noOrdersText').innerText = t.noOrders;
+            document.getElementById('profileTitle').innerText = t.profileTitle;
+            document.getElementById('profileDesc').innerText = t.profileDesc;
+            document.getElementById('googleBtnText').innerText = t.googleBtn;
+            document.getElementById('facebookBtnText').innerText = t.facebookBtn;
+            document.getElementById('navHomeText').innerText = t.navHome;
+            document.getElementById('navOrdersText').innerText = t.navOrders;
+            document.getElementById('navProfileText').innerText = t.navProfile;
+
+            // Modal text
+            document.getElementById('modalMainTitle').innerText = t.modalTitle;
+            document.getElementById('modalDeliveryBadge').innerText = t.modalDelivery;
+            document.getElementById('lblCustName').innerText = t.nameLbl;
+            document.getElementById('lblCustPhone').innerText = t.phoneLbl;
+            document.getElementById('lblCustAddress').innerText = t.addressLbl;
+            document.getElementById('qrInstruction').innerText = t.qrText;
+            document.getElementById('lblUtr').innerText = t.utrLbl;
+            document.getElementById('btnSubmitText').innerText = t.submitBtn;
+            document.getElementById('btnCloseText').innerText = t.closeBtn;
         }
 
         // Table Slider Logic
@@ -451,7 +633,6 @@
             document.getElementById("orderModal").style.display = "none";
         }
 
-        // --- REAL SERVER UTR CHECK SIMULATION ---
         function verifyAndSubmitOrder() {
             var name = document.getElementById("custName").value.trim();
             var phone = document.getElementById("custPhone").value.trim();
@@ -463,25 +644,21 @@
                 return;
             }
 
-            // बैंक सर्वर UTR वैलिडेशन नियम: UTR कम से कम 12 अंकों का होना चाहिए और फर्जी नहीं होना चाहिए
             let paymentStatus = "";
             let statusColor = "";
             
-            // यहाँ सर्वर API चेक (जैसे Razorpay/Bank API) का वास्तविक लॉजिक काम करेगा
             if (utr.length === 12 && !utr.startsWith("0000")) {
                 paymentStatus = "Success ✅ (बैंक सर्वर द्वारा राशि सत्यापित)";
                 statusColor = "color: green;";
             } else {
-                paymentStatus = "Failed ❌ (अमान्य UTR या बैंक खाते में राशि प्राप्त नहीं हुई)";
-                alert("⚠️ पेमेंट वेरीफिकेशन फेल हो गया! कृपया सही 12-अंकों का UTR नंबर दर्ज करें जो आपके खाते में प्राप्त हुआ हो।");
-                return; // गलत UTR होने पर आर्डर आगे नहीं बढ़ेगा
+                alert("⚠️ पेमेंट वेरीफिकेशन फेल हो गया! कृपया सही 12-अंकों का UTR नंबर दर्ज करें।");
+                return;
             }
 
             let orderNo = "TOP-" + Math.floor(100000 + Math.random() * 900000);
             let now = new Date();
             let orderDate = now.toLocaleDateString('hi-IN') + " " + now.toLocaleTimeString('hi-IN');
             
-            // 10 दिन आगे की डिलीवरी डेट
             let deliveryDateObj = new Date();
             deliveryDateObj.setDate(now.getDate() + 10);
             let deliveryDate = deliveryDateObj.toLocaleDateString('hi-IN');
@@ -491,7 +668,7 @@
                     <b>आर्डर नंबर:</b> ${orderNo}<br>
                     <b>सामान:</b> ${selectedProduct} (₹${selectedPrice})<br>
                     <b>ग्राहक:</b> ${name} (${phone})<br>
-                    <b>पता:</b> ${address}, गोपालगंज<br>
+                    <b>पता:</b> ${address}, Gopalganj<br>
                     <b>UTR ID:</b> ${utr}<br>
                     <b>पेमेंट स्थिति:</b> <span style="${statusColor} font-weight:bold;">${paymentStatus}</span><br>
                     <b>आर्डर का समय:</b> ${orderDate}<br>
@@ -500,7 +677,7 @@
             `;
 
             let ordersListContainer = document.getElementById("ordersList");
-            if (ordersListContainer.innerHTML.includes("अभी तक कोई आर्डर नहीं")) {
+            if (ordersListContainer.innerHTML.includes("अभी तक कोई आर्डर नहीं") || ordersListContainer.innerHTML.includes("No orders placed yet")) {
                 ordersListContainer.innerHTML = orderHTML;
             } else {
                 ordersListContainer.innerHTML += orderHTML;
@@ -551,4 +728,5 @@
         }
     </script>
 </body>
-</html>
+                        </html>
+                
