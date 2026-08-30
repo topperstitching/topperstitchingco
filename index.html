@@ -12,8 +12,17 @@
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f0f2f5; padding-bottom: 90px; padding-top: 60px; }
         
+        /* App Install Banner */
+        #installBanner { background: #1a237e; color: white; padding: 10px 15px; display: flex; justify-content: space-between; align-items: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        #installBanner .app-info { display: flex; align-items: center; gap: 10px; }
+        #installBanner img { width: 35px; height: 35px; border-radius: 6px; }
+        #installBanner .app-text h4 { font-size: 14px; margin-bottom: 2px; }
+        #installBanner .app-text p { font-size: 11px; opacity: 0.8; }
+        #installBanner .install-btn { background: #25d366; color: white; border: none; padding: 6px 14px; border-radius: 20px; font-weight: bold; font-size: 13px; cursor: pointer; }
+
         /* Top Header */
         header { background: linear-gradient(135deg, #0d47a1, #1a237e); color: white; padding: 12px 15px; text-align: center; position: fixed; top: 0; left: 0; width: 100%; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.15); display: flex; justify-content: space-between; align-items: center; }
+        header.with-banner { top: 55px; }
         header h1 { font-size: 18px; font-weight: bold; }
         .top-settings select { padding: 4px 8px; border-radius: 4px; border: none; font-size: 12px; background: #fff; color: #333; cursor: pointer; }
 
@@ -52,7 +61,7 @@
         .btn-online { background: #ff9800; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px; text-align: center; text-decoration: none; display: block; box-shadow: 0 2px 5px rgba(255,152,0,0.3); margin-top: 6px; }
         
         /* Modal / Popup CSS */
-        .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
         .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-content h3 { color: #1a237e; margin-bottom: 6px; font-size: 18px; text-align: center; }
         .delivery-badge { background: #e8f5e9; color: #2e7d32; font-size: 11px; text-align: center; padding: 5px; border-radius: 4px; font-weight: bold; margin-bottom: 12px; border: 1px dashed #a5d6a7; }
@@ -84,7 +93,19 @@
 </head>
 <body>
 
-    <header>
+    <!-- App Install Banner (Automatically hides when app is opened) -->
+    <div id="installBanner">
+        <div class="app-info">
+            <img src="IMG_20260829_174914.png" alt="App Logo">
+            <div class="app-text">
+                <h4 id="bannerAppName">Topper Stitching App</h4>
+                <p id="bannerAppDesc">बेस्ट अनुभव के लिए ऐप खोलें</p>
+            </div>
+        </div>
+        <button class="install-btn" onclick="openAppMode()" id="bannerOpenBtn">ओपन ऐप</button>
+    </div>
+
+    <header id="mainHeader">
         <h1 id="headerTitle">Topper Sewing Machine</h1>
         <div class="top-settings">
             <select id="languageSelect" onchange="changeLanguage(this.value)">
@@ -316,10 +337,13 @@
     </div>
 
     <script>
-        // Global translations dictionary for all 9 languages requested
+        // Translations Dictionary for 9 Languages
         const translations = {
             hi: {
                 headerTitle: "Topper Sewing Machine",
+                bannerAppName: "Topper Stitching App",
+                bannerAppDesc: "बेस्ट अनुभव के लिए ऐप खोलें",
+                bannerOpenBtn: "ओपन ऐप",
                 bannerTitle: "सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान",
                 bannerSub: "बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस",
                 navHomeText: "होम",
@@ -346,6 +370,9 @@
             },
             en: {
                 headerTitle: "Topper Sewing Machine",
+                bannerAppName: "Topper Stitching App",
+                bannerAppDesc: "Open app for best experience",
+                bannerOpenBtn: "Open App",
                 bannerTitle: "Most Trusted Shop for Sewing Machines & Parts",
                 bannerSub: "Best Quality, Fair Price and Excellent Service",
                 navHomeText: "Home",
@@ -372,6 +399,9 @@
             },
             bn: {
                 headerTitle: "টপার সেলাই মেশিন",
+                bannerAppName: "টপার স্টিচিং অ্যাপ",
+                bannerAppDesc: "সেরা অভিজ্ঞতার জন্য অ্যাপটি খুলুন",
+                bannerOpenBtn: "ওপেন অ্যাপ",
                 bannerTitle: "সেলাই মেশিন এবং যন্ত্রাংশের সবচেয়ে বিশ্বস্ত দোকান",
                 bannerSub: "সেরা কোয়ালিটি, ন্যায্য মূল্য এবং চমৎকার পরিসেবা",
                 navHomeText: "হোম",
@@ -398,13 +428,16 @@
             },
             te: {
                 headerTitle: "టాప్పర్ కుట్టు యంత్రం",
+                bannerAppName: "టాప్పర్ స్టిచింగ్ యాప్",
+                bannerAppDesc: "ఉత్తమ అనుభవం కోసం యాప్‌ని తెరవండి",
+                bannerOpenBtn: "ఓపెన్ యాప్",
                 bannerTitle: "కుట్టు యంత్రాలు & భాగాల కోసం అత్యంత విశ్వసనీయ దుకాణం",
                 bannerSub: "ఉత్తమ నాణ్యత, సరసమైన ధర మరియు అద్భుతమైన సేవ",
                 navHomeText: "హోమ్",
                 navOrdersText: "ఆర్డర్లు",
                 navProfileText: "ప్రొఫైల్",
                 ordersTitle: "📦 నా ఆర్డర్లు",
-                noOrdersText: ఇంకా ఆర్డర్లు ఏవీ చేయలేదు.",
+                noOrdersText: "ఇంకా ఆర్డర్లు ఏవీ చేయలేదు.",
                 profileTitle: "👤 యూజర్ ప్రొఫైల్ & వెరిఫికేషన్",
                 profileDesc: "మీ అసలు Google లేదా Facebook ఖాతాతో లాగిన్ చేయండి:",
                 googleBtnText: "🔵 Google తో వెరిఫై చేయండి",
@@ -424,6 +457,9 @@
             },
             mr: {
                 headerTitle: "टॉपर शिवण यंत्र",
+                bannerAppName: "टॉपर स्टिचिंग ॲप",
+                bannerAppDesc: "उत्तम अनुभवासाठी ॲप उघडा",
+                bannerOpenBtn: "ओपन ॲप",
                 bannerTitle: "शिवण यंत्र आणि पार्ट्ससाठी सर्वात विश्वासू दुकान",
                 bannerSub: "उत्तम गुणवत्ता, योग्य किंमत आणि उत्कृष्ट सेवा",
                 navHomeText: "होम",
@@ -450,6 +486,9 @@
             },
             ta: {
                 headerTitle: "டாப்பர் தையல் இயந்திரம்",
+                bannerAppName: "டாப்பர் ஸ்டிச்சிங் செயலி",
+                bannerAppDesc: "சிறந்த அனுபவத்திற்கு செயலியைத் திறக்கவும்",
+                bannerOpenBtn: "திறக்க",
                 bannerTitle: "தையல் இயந்திரங்கள் மற்றும் பாகங்களுக்கு மிகவும் நம்பகமான கடை",
                 bannerSub: "சிறந்த தரம், நியாயமான விலை மற்றும் சிறந்த சேவை",
                 navHomeText: "முகப்பு",
@@ -476,6 +515,9 @@
             },
             gu: {
                 headerTitle: "ટોપર સિલાઈ મશીન",
+                bannerAppName: "ટોપર સ્ટિચિંગ એપ",
+                bannerAppDesc: "શ્રેષ્ઠ અનુભવ માટે એપ ખોલો",
+                bannerOpenBtn: "એપ ખોલો",
                 bannerTitle: "સિલાઈ મશીન અને પાર્ટ્સ માટે સૌથી વિશ્વસનીય દુકાન",
                 bannerSub: "શ્રેષ્ઠ ગુણવત્તા, યોગ્ય કિંમત અને ઉત્તમ સેવા",
                 navHomeText: "હોમ",
@@ -502,6 +544,9 @@
             },
             ur: {
                 headerTitle: "ٹاپَر سلائی مشین",
+                bannerAppName: "ٹاپَر سٹیچنگ ایپ",
+                bannerAppDesc: "بہترین تجربے کے لیے ایپ کھولیں",
+                bannerOpenBtn: "ایپ کھولیں",
                 bannerTitle: "سلائی مشین اور پارٹس کے لیے سب سے قابل اعتماد دکان",
                 bannerSub: "بہترین کوالٹی، مناسب دام اور بہترین سروس",
                 navHomeText: "ہوم",
@@ -528,18 +573,21 @@
             },
             pa: {
                 headerTitle: "ਟੌਪਰ ਸਿਲਾਈ ਮਸ਼ੀਨ",
+                bannerAppName: "ਟੌਪਰ ਸਿਲਾਈ ਐਪ",
+                bannerAppDesc: "ਵਧੀਆ ਤਜ਼ਰਬੇ ਲਈ ਐਪ ਖੋਲ੍ਹੋ",
+                bannerOpenBtn: "ਐਪ ਖੋਲ੍ਹੋ",
                 bannerTitle: "ਸਿਲਾਈ ਮਸ਼ੀਨ ਅਤੇ ਪਾਰਟਸ ਲਈ ਸਭ ਤੋਂ ਭਰੋਸੇਮੰਦ ਦੁکان",
                 bannerSub: "ਵਧੀਆ ਕੁਆਲਿਟੀ, ਵਾਜਬ ਮੁੱਲ ਅਤੇ ਸ਼ਾਨਦਾਰ ਸੇਵਾ",
                 navHomeText: "ਹੋਮ",
                 navOrdersText: "ਆਰਡਰ",
-                navProfileText: "ਪ੍ਰੋਫਾਈਲ",
+                navProfileText: "ਪ੍ਰੋफਾਈਲ",
                 ordersTitle: "📦 ਮੇਰੇ ਆਰਡਰ",
                 noOrdersText: "ਅਜੇ ਤੱਕ ਕੋਈ ਆਰਡਰ ਨਹੀਂ ਦਿੱਤਾ ਗਿਆ ਹੈ।",
                 profileTitle: "👤 ਯੂਜ਼ਰ ਪ੍ਰੋਫਾਈਲ ਅਤੇ ਤਸਦੀਕ",
                 profileDesc: "ਆਪਣੇ ਅਸਲੀ Google ਜਾਂ Facebook ਖਾਤੇ ਨਾਲ ਲੌਗ ਇਨ ਕਰੋ:",
                 googleBtnText: "🔵 Google ਨਾਲ ਤਸਦੀਕ ਕਰੋ",
                 facebookBtnText: "🔵 Facebook ਨਾਲ ਤਸਦੀਕ ਕਰੋ",
-                footerAddressBox: "<strong>📍 ਮੁੱਖ ਸਟੋਰ دا ਪਤਾ:</strong> ਸਾਸਾਮੁਸਾ, ਗੋਪਾਲਗੰਜ, ਬਿਹਾਰ | ਸੰਪਰਕ ਕਰੋ: +91 9264137710",
+                footerAddressBox: "<strong>📍 ਮੁੱਖ ਸਟੋਰ ਦਾ ਪਤਾ:</strong> ਸਾਸਾਮੁਸਾ, ਗੋਪਾਲਗੰਜ, ਬਿਹਾਰ | ਸੰਪਰਕ ਕਰੋ: +91 9264137710",
                 btnOnline: "💳 ਆਨਲਾਈਨ ਭੁਗਤਾਨ ਕਰੋ",
                 btnWhatsapp: "📲 WhatsApp 'ਤੇ ਖਰੀਦੋ",
                 modalMainTitle: "🛒 ਆਨਲਾਈਨ ਆਰਡर ਅਤੇ ਭੁਗਤਾਨ",
@@ -550,9 +598,17 @@
                 qrHelpText: "PhonePe / Google Pay / Paytm ਰਾਹੀਂ ਸਕੈਨ ਕਰਕੇ ਭੁਗਤਾਨ ਕਰੋ",
                 lblUtr: "UTR / Transaction ID (12 ਅੰਕ):",
                 btnSubmitOrder: "ਆਰਡਰ ਪੱਕਾ ਕਰੋ",
-                btnCloseModal: "ਬੰਦ ਕਰੋ"
+                btnCloseModal: "ਬੰद ਕਰੋ"
             }
         };
+
+        // Open App Mechanism: Hides the top install banner instantly upon click
+        function openAppMode() {
+            const banner = document.getElementById('installBanner');
+            const header = document.getElementById('mainHeader');
+            if (banner) banner.style.display = 'none';
+            if (header) header.classList.remove('with-banner');
+        }
 
         // Tab Switching Logic
         function switchTab(pageId, element) {
@@ -564,11 +620,14 @@
             window.scrollTo(0, 0);
         }
 
-        // Language Switching Logic (Supports all 9 languages seamlessly)
+        // Language Switching Logic
         function changeLanguage(lang) {
             const t = translations[lang] || translations['hi'];
             
             document.getElementById('headerTitle').innerText = t.headerTitle;
+            document.getElementById('bannerAppName').innerText = t.bannerAppName;
+            document.getElementById('bannerAppDesc').innerText = t.bannerAppDesc;
+            document.getElementById('bannerOpenBtn').innerText = t.bannerOpenBtn;
             document.getElementById('bannerTitle').innerText = t.bannerTitle;
             document.getElementById('bannerSub').innerText = t.bannerSub;
             document.getElementById('navHomeText').innerText = t.navHomeText;
@@ -592,7 +651,6 @@
             document.getElementById('btnSubmitOrder').innerText = t.btnSubmitOrder;
             document.getElementById('btnCloseModal').innerText = t.btnCloseModal;
 
-            // Update all product card buttons dynamically
             for (let i = 1; i <= 6; i++) {
                 const onlineBtn = document.getElementById('btnOnline' + i);
                 const whatsappBtn = document.getElementById('btnWhatsapp' + i);
@@ -601,7 +659,7 @@
             }
         }
 
-        // Image Slider Logic for Tables
+        // Image Slider Logic
         function slideImages(sliderId, direction) {
             const track = document.getElementById(sliderId);
             const slideWidth = track.clientWidth;
@@ -630,7 +688,7 @@
             buyNow(`Sewing Machine Top Table (${color})`, '550');
         }
 
-        // Modal Form Control Variables
+        // Modal Form Control
         let currentProduct = "";
         let currentPrice = "";
 
@@ -639,7 +697,6 @@
             currentPrice = price;
             document.getElementById('modalProductInfo').innerText = `${productName} - ₹${price}`;
             
-            // Update QR code dynamically with price
             const qrImg = document.getElementById('upiQrImg');
             qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=upi://pay?pa=9264137710@ptsbi&pn=TopperStitching&am=${price}`;
             
@@ -656,7 +713,7 @@
             document.getElementById('orderModal').style.display = 'none';
         }
 
-        // Submit Online Order & Save to LocalStorage for "My Orders" tab
+        // Submit Online Order & Save to LocalStorage
         function submitOnlineOrder() {
             const name = document.getElementById('custName').value.trim();
             const phone = document.getElementById('custPhone').value.trim();
@@ -683,7 +740,6 @@
                 date: new Date().toLocaleDateString()
             };
 
-            // Save to localStorage
             let orders = JSON.parse(localStorage.getItem('topper_orders') || '[]');
             orders.unshift(orderData);
             localStorage.setItem('topper_orders', JSON.stringify(orders));
@@ -691,15 +747,14 @@
             loadOrders();
             closeOrderModal();
 
-            // Send to WhatsApp automatically
             const sellerPhone = "919264137710";
             const msg = `*New Online Order - Topper Stitching*📦\nProduct: ${currentProduct}\nPrice: ₹${currentPrice}\nName: ${name}\nPhone: ${phone}\nAddress: ${address}\nUTR/Txn ID: ${utr}`;
             window.open(`https://wa.me/${sellerPhone}?text=${encodeURIComponent(msg)}`, '_blank');
             
-            alert("आर्डर सफलताપूर्वक दर्ज हो गया है!");
+            alert("आर्डर सफलतापूर्वक दर्ज हो गया है!");
         }
 
-        // Load Orders in Orders Tab
+        // Load Orders
         function loadOrders() {
             const ordersListDiv = document.getElementById('ordersList');
             const orders = JSON.parse(localStorage.getItem('topper_orders') || '[]');
@@ -724,7 +779,7 @@
             ordersListDiv.innerHTML = html;
         }
 
-        // Mock Firebase Social Login Real Verification Buttons
+        // Mock Auth Logins
         function loginWithGoogle() {
             alert("Google Authentication चालू किया जा रहा है... (Real Verification Connected)");
         }
@@ -733,7 +788,6 @@
             alert("Facebook Authentication चालू किया जा रहा है... (Real Verification Connected)");
         }
 
-        // Initialize orders on window load
         window.onload = function() {
             loadOrders();
         };
