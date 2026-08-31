@@ -4,15 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Topper Sewing Machine Shopping</title>
+    
+    <!-- Firebase SDK Scripts -->
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
+
     <style>
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
-        body { background-color: #f0f2f5; padding-bottom: 80px; }
-        header { background: linear-gradient(135deg, #0d47a1, #1a237e); color: white; padding: 18px 10px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        header h1 { font-size: 22px; font-weight: bold; letter-spacing: 0.5px; }
-        header p { font-size: 13px; color: #e0e0e0; margin-top: 4px; }
+        body { background-color: #f0f2f5; padding-bottom: 90px; }
+        
+        /* Updated Premium Top Header */
+        header { background: linear-gradient(135deg, #1a237e, #0d47a1); color: white; padding: 15px 12px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: center; }
+        header .brand-title { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: #ffab00; text-transform: uppercase; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: left; }
+        header .brand-subtitle { font-size: 11px; color: #e0e0e0; margin-top: 2px; font-weight: normal; }
+        .auth-header-btn { background: #ffffff; color: #1a237e; border: none; padding: 6px 12px; border-radius: 20px; font-weight: bold; font-size: 12px; cursor: pointer; display: flex; align-items: center; gap: 5px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); }
+        .user-pic { width: 25px; height: 25px; border-radius: 50%; object-fit: cover; }
+
         .banner { background: #283593; color: white; padding: 12px; text-align: center; border-bottom: 3px solid #ffab00; }
         .banner h2 { font-size: 16px; font-weight: 600; }
         .banner p { font-size: 12px; opacity: 0.9; }
+
+        /* Views management */
+        .view-section { display: none; }
+        .active-view { display: block; }
+
         .products { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 16px; padding: 16px; max-width: 1200px; margin: auto; }
         .card { background: white; border-radius: 12px; padding: 15px; text-align: left; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e0e0e0; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s; }
         .card:hover { transform: translateY(-3px); }
@@ -57,12 +73,29 @@
 
         .footer-address { background: #ffffff; padding: 16px; margin: 20px 16px; border-radius: 10px; text-align: center; border: 1px solid #ddd; font-size: 13px; color: #555; max-width: 1200px; margin-left: auto; margin-right: auto; }
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
-        .cart-bar { position: fixed; bottom: 0; width: 100%; background: #ffffff; border-top: 1px solid #ccc; padding: 12px; text-align: center; font-size: 13px; font-weight: bold; color: #333; box-shadow: 0 -2px 10px rgba(0,0,0,0.05); z-index: 100; }
+        
+        /* Bottom Navigation Bar */
+        .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 100; }
+        .nav-item { border: none; background: none; flex: 1; text-align: center; color: #666; font-size: 11px; font-weight: bold; cursor: pointer; }
+        .nav-item .icon { font-size: 20px; display: block; margin-bottom: 2px; }
+        .nav-item.active { color: #0d47a1; }
+
+        /* Order Card Styling */
+        .order-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 13px; }
+        .order-header { display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 8px; }
+        .status-badge { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
+        .status-pending { background: #fff3e0; color: #e65100; }
+        .status-success { background: #e8f5e9; color: #2e7d32; }
+        .status-failed { background: #ffebee; color: #c62828; }
+
+        /* Profile Page Styling */
+        .profile-container { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px auto; border: 1px solid #e0e0e0; }
+        .profile-img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; border: 2px solid #0d47a1; }
     </style>
 </head>
 <body>
 
-    <div id="download-box" style="position: fixed; top: 12px; right: 12px; z-index: 9999;">
+    <div id="download-box" style="position: fixed; top: 60px; right: 12px; z-index: 999;">
         <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
 
@@ -77,156 +110,193 @@
     </script>
 
     <header>
-        <h1>Topper Sewing Machine</h1>
-        <p>विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</p>
+        <div>
+            <div class="brand-title">TOPPER STITCHING</div>
+            <div class="brand-subtitle">विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</div>
+        </div>
+        <button id="authBtn" class="auth-header-btn" onclick="handleAuthAction()">
+            <span>Sign In</span>
+        </button>
     </header>
 
-    <div class="banner">
-        <h2>सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
-        <p>बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस</p>
+    <!-- SECTION 1: HOME VIEW -->
+    <div id="homeView" class="view-section active-view">
+        <div class="banner">
+            <h2>सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान</h2>
+            <p>बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस</p>
+        </div>
+
+        <div class="products">
+            <div class="card">
+                <div>
+                    <div class="img-container"><img src="IMG_20260829_174914.png" alt="Topper SV Tailor"></div>
+                    <div class="card-details">
+                        <h3>Topper SV Tailor</h3>
+                        <div class="price">₹4,500</div>
+                        <div class="specs">
+                            <div><span>ब्रांड:</span> Topper Stitching</div>
+                            <div><span>मॉडल:</span> SV tailor</div>
+                            <div><span>टाइप:</span> Sewing Machine Only Head</div>
+                            <div><span>वारंटी:</span> 5 Years</div>
+                            <div><span>गारंटी:</span> 0 Days</div>
+                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', 'Light Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', 'Light Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div>
+                    <div class="img-container"><img src="IMG_20260829_175005.png" alt="Topper SV Tailor Deluxe"></div>
+                    <div class="card-details">
+                        <h3>Topper SV Tailor Deluxe</h3>
+                        <div class="price">₹4,500</div>
+                        <div class="specs">
+                            <div><span>ब्रांड:</span> Topper Stitching</div>
+                            <div><span>मॉडल:</span> SV tailor delox</div>
+                            <div><span>टाइप:</span> Sewing Machine Only Head</div>
+                            <div><span>वारंटी:</span> 5 Years</div>
+                            <div><span>गारंटी:</span> 0 Days</div>
+                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="img-container"><img src="IMG_20260829_174949.png" alt="Bag Closer Single Needle"></div>
+                    <div class="card-details">
+                        <h3>Bag Closer Single Needle</h3>
+                        <div class="price">₹5,800</div>
+                        <div class="specs">
+                            <div><span>ब्रांड:</span> Topper Stitching</div>
+                            <div><span>मॉडल:</span> single nidile</div>
+                            <div><span>टाइप:</span> Bag Closer Machine Only (Heavy Duty)</div>
+                            <div><span>वारंटी:</span> 2 Times Service</div>
+                            <div><span>गारंटी:</span> 0 Days</div>
+                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="img-container"><img src="file_00000000a1f88211baaa2ea57e9f39f9.png" alt="Topper TA1"></div>
+                    <div class="card-details">
+                        <h3>Topper TA1 Model</h3>
+                        <div class="price">₹6,000</div>
+                        <div class="specs">
+                            <div><span>ब्रांड:</span> Topper Stitching</div>
+                            <div><span>मॉडल:</span> umbrella</div>
+                            <div><span>टाइप:</span> Sewing Machine Only Head</div>
+                            <div><span>वारंटी:</span> 5 Years</div>
+                            <div><span>गारंटी:</span> 0 Days</div>
+                            <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', 'Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', 'Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="slider-container">
+                        <button class="slider-btn slider-prev" onclick="slideImages('tableSlider', -1)">❮</button>
+                        <div class="slider-track" id="tableSlider">
+                            <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">Light Wooden</div></div>
+                            <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">Grey Wooden</div></div>
+                            <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">Light Dark Wooden</div></div>
+                            <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">Dark Wooden</div></div>
+                        </div>
+                        <button class="slider-btn slider-next" onclick="slideImages('tableSlider', 1)">❯</button>
+                    </div>
+
+                    <div class="card-details">
+                        <h3>Sewing Machine Top Table</h3>
+                        <div class="price">₹550</div>
+                        <div class="specs">
+                            <div><span>मॉडल:</span> SV / TA1</div>
+                            <div><span>कलर (Color):</span> <span id="selectedTableColorText">Light Wooden</span></div>
+                            <div><span>टाइप:</span> Top Table Only</div>
+                            <div><span>वारंटी / गारंटी:</span> None</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-online" onclick="openTableOrderForm()">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
+                </div>
+            </div>
+
+            <div class="card">
+                <div>
+                    <div class="img-container"><img src="IMG_20260829_174934.png" alt="Anis Scissors Size 10"></div>
+                    <div class="card-details">
+                        <h3>Anis Scissors (Size 10)</h3>
+                        <div class="price">₹300</div>
+                        <div class="specs">
+                            <div><span>ब्रांड:</span> Anis Scissors</div>
+                            <div><span>साइज:</span> Size 10</div>
+                            <div><span>टाइप:</span> Scissors Only</div>
+                            <div><span>वारंटी / गारंटी:</span> None</div>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn-online" onclick="openOrderForm('Anis Scissors (Size 10)', '300', 'Stainless Steel')">💳 ऑनलाइन पेमेंट करें</button>
+                    <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300', 'Stainless Steel')">📲 व्हाट्सएप पर खरीदें</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-address">
+            <strong>📍 मुख्य स्टोर का पता:</strong>
+           मेन रोड सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
+           gmail support - @ankitsingh926413@gmail.com
+        </div>
     </div>
 
-    <div class="products">
-        
-        <div class="card">
-            <div>
-                <div class="img-container"><img src="IMG_20260829_174914.png" alt="Topper SV Tailor"></div>
-                <div class="card-details">
-                    <h3>Topper SV Tailor</h3>
-                    <div class="price">₹4,500</div>
-                    <div class="specs">
-                        <div><span>ब्रांड:</span> Topper Stitching</div>
-                        <div><span>मॉडल:</span> SV tailor</div>
-                        <div><span>टाइप:</span> Sewing Machine Only Head</div>
-                        <div><span>वारंटी:</span> 5 Years</div>
-                        <div><span>गारंटी:</span> 0 Days</div>
-                        <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btn-online" onclick="openOrderForm('Topper SV Tailor', '4,500', 'Light Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNow('Topper SV Tailor', '4,500', 'Light Wooden')">📲 व्हाट्सएप पर खरीदें</button>
-            </div>
-        </div>
-        
-        <div class="card">
-            <div>
-                <div class="img-container"><img src="IMG_20260829_175005.png" alt="Topper SV Tailor Deluxe"></div>
-                <div class="card-details">
-                    <h3>Topper SV Tailor Deluxe</h3>
-                    <div class="price">₹4,500</div>
-                    <div class="specs">
-                        <div><span>ब्रांड:</span> Topper Stitching</div>
-                        <div><span>मॉडल:</span> SV tailor delox</div>
-                        <div><span>टाइप:</span> Sewing Machine Only Head</div>
-                        <div><span>वारंटी:</span> 5 Years</div>
-                        <div><span>गारंटी:</span> 0 Days</div>
-                        <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btn-online" onclick="openOrderForm('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNow('Topper SV Tailor Deluxe', '4,500', 'Grey Wooden')">📲 व्हाट्सएप पर खरीदें</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <div>
-                <div class="img-container"><img src="IMG_20260829_174949.png" alt="Bag Closer Single Needle"></div>
-                <div class="card-details">
-                    <h3>Bag Closer Single Needle</h3>
-                    <div class="price">₹5,800</div>
-                    <div class="specs">
-                        <div><span>ब्रांड:</span> Topper Stitching</div>
-                        <div><span>मॉडल:</span> single nidile</div>
-                        <div><span>टाइप:</span> Bag Closer Machine Only (Heavy Duty)</div>
-                        <div><span>वारंटी:</span> 2 Times Service</div>
-                        <div><span>गारंटी:</span> 0 Days</div>
-                        <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btn-online" onclick="openOrderForm('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNow('Bag Closer Single Needle', '5,800', 'Light Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <div>
-                <div class="img-container"><img src="file_00000000a1f88211baaa2ea57e9f39f9.png" alt="Topper TA1"></div>
-                <div class="card-details">
-                    <h3>Topper TA1 Model</h3>
-                    <div class="price">₹6,000</div>
-                    <div class="specs">
-                        <div><span>ब्रांड:</span> Topper Stitching</div>
-                        <div><span>मॉडल:</span> umbrella</div>
-                        <div><span>टाइप:</span> Sewing Machine Only Head</div>
-                        <div><span>वारंटी:</span> 5 Years</div>
-                        <div><span>गारंटी:</span> 0 Days</div>
-                        <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btn-online" onclick="openOrderForm('Topper TA1 Model', '6,000', 'Dark Wooden')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNow('Topper TA1 Model', '6,000', 'Dark Wooden')">📲 व्हाट्सएप पर खरीदें</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <div>
-                <div class="slider-container">
-                    <button class="slider-btn slider-prev" onclick="slideImages('tableSlider', -1)">❮</button>
-                    <div class="slider-track" id="tableSlider">
-                        <div class="slide"><img src="wood-1.png" alt="wood-1"><div class="slide-name">Light Wooden</div></div>
-                        <div class="slide"><img src="wood-2.png" alt="wood-2"><div class="slide-name">Grey Wooden</div></div>
-                        <div class="slide"><img src="wood-3.png" alt="wood-3"><div class="slide-name">Light Dark Wooden</div></div>
-                        <div class="slide"><img src="wood-4.png" alt="wood-4"><div class="slide-name">Dark Wooden</div></div>
-                    </div>
-                    <button class="slider-btn slider-next" onclick="slideImages('tableSlider', 1)">❯</button>
-                </div>
-
-                <div class="card-details">
-                    <h3>Sewing Machine Top Table</h3>
-                    <div class="price">₹550</div>
-                    <div class="specs">
-                        <div><span>मॉडल:</span> SV / TA1</div>
-                        <div><span>कलर (Color):</span> <span id="selectedTableColorText">Light Wooden</span></div>
-                        <div><span>टाइप:</span> Top Table Only</div>
-                        <div><span>वारंटी / गारंटी:</span> None</div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btn-online" onclick="openTableOrderForm()">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyTableNow()">📲 व्हाट्सएप पर खरीदें</button>
-            </div>
-        </div>
-
-        <div class="card">
-            <div>
-                <div class="img-container"><img src="IMG_20260829_174934.png" alt="Anis Scissors Size 10"></div>
-                <div class="card-details">
-                    <h3>Anis Scissors (Size 10)</h3>
-                    <div class="price">₹300</div>
-                    <div class="specs">
-                        <div><span>ब्रांड:</span> Anis Scissors</div>
-                        <div><span>साइज:</span> Size 10</div>
-                        <div><span>टाइप:</span> Scissors Only</div>
-                        <div><span>वारंटी / गारंटी:</span> None</div>
-                    </div>
-                </div>
-            </div>
-            <div>
-                <button class="btn-online" onclick="openOrderForm('Anis Scissors (Size 10)', '300', 'Stainless Steel')">💳 ऑनलाइन पेमेंट करें</button>
-                <button class="btn-buy" onclick="buyNow('Anis Scissors (Size 10)', '300', 'Stainless Steel')">📲 व्हाट्सएप पर खरीदें</button>
+    <!-- SECTION 2: ORDERS VIEW -->
+    <div id="ordersView" class="view-section">
+        <div style="padding: 16px; max-width: 800px; margin: auto;">
+            <h2 style="color: #1a237e; margin-bottom: 12px; font-size: 18px;">आपके ऑर्डर्स (My Orders)</h2>
+            <div id="ordersList">
+                <p style="text-align: center; color: #777; margin-top: 30px;">ऑर्डर्स लोड हो रहे हैं...</p>
             </div>
         </div>
     </div>
 
+    <!-- SECTION 3: PROFILE VIEW -->
+    <div id="profileView" class="view-section">
+        <div class="profile-container">
+            <img id="profilePageImg" src="https://via.placeholder.com/80" class="profile-img" alt="Profile">
+            <h3 id="profileName" style="color: #1a237e;">Guest User</h3>
+            <p id="profileEmail" style="color: #666; font-size: 13px; margin-top: 4px;">Google Account Not Connected</p>
+            
+            <div style="margin-top: 20px;">
+                <button id="profileAuthBtn" class="btn-submit" onclick="googleSignIn()">Google Account से लॉगिन करें</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL POPUP FOR ONLINE ORDER -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
@@ -256,30 +326,128 @@
         </div>
     </div>
 
-    <div class="footer-address">
-        <strong>📍 मुख्य स्टोर का पता:</strong>
-       मेन रोड सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
-       gmail support - @ankitsingh926413@gmail.com
-    </div>
-
-    <div class="cart-bar">
-        🛒 किसी भी सामान को खरीदने के लिए उसके नीचे दिए गए बटन का उपयोग करें
+    <!-- BOTTOM NAVIGATION BAR -->
+    <div class="bottom-nav">
+        <button class="nav-item active" onclick="switchTab('homeView', this)">
+            <span class="icon">🏠</span>
+            Home
+        </button>
+        <button class="nav-item" onclick="switchTab('ordersView', this)">
+            <span class="icon">📦</span>
+            Orders
+        </button>
+        <button class="nav-item" onclick="switchTab('profileView', this)">
+            <span class="icon">👤</span>
+            Profile
+        </button>
     </div>
 
     <script>
-        // Table Slider Color Update Logic
+        // --- 1. FIREBASE CONFIGURATION ---
+        // (Apne Firebase Console Se Credentials Copy Karke Yahan Paste Karein)
+        const firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+
+        // Initialize Firebase
+        if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+        }
+        const auth = firebase.auth();
+        const db = firebase.database();
+
+        let currentUser = null;
+
+        // Auth State Listener
+        auth.onAuthStateChanged(user => {
+            currentUser = user;
+            const authBtn = document.getElementById("authBtn");
+            const profileName = document.getElementById("profileName");
+            const profileEmail = document.getElementById("profileEmail");
+            const profilePageImg = document.getElementById("profilePageImg");
+            const profileAuthBtn = document.getElementById("profileAuthBtn");
+
+            if (user) {
+                // User is Signed In
+                authBtn.innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/25'}" class="user-pic"> Logout`;
+                profileName.innerText = user.displayName;
+                profileEmail.innerText = user.email;
+                profilePageImg.src = user.photoURL || 'https://via.placeholder.com/80';
+                profileAuthBtn.innerText = "Logout";
+                profileAuthBtn.onclick = googleSignOut;
+
+                // Load User Orders
+                loadUserOrders(user.uid);
+            } else {
+                // User is Signed Out
+                authBtn.innerHTML = `Sign In`;
+                profileName.innerText = "Guest User";
+                profileEmail.innerText = "Google Account Not Connected";
+                profilePageImg.src = 'https://via.placeholder.com/80';
+                profileAuthBtn.innerText = "Google Account से लॉगिन करें";
+                profileAuthBtn.onclick = googleSignIn;
+
+                document.getElementById("ordersList").innerHTML = `<p style="text-align: center; color: #777; margin-top: 30px;">ऑर्डर्स देखने के लिए Google से Sign-In करें।</p>`;
+            }
+        });
+
+        function handleAuthAction() {
+            if (currentUser) {
+                googleSignOut();
+            } else {
+                googleSignIn();
+            }
+        }
+
+        function googleSignIn() {
+            if (window.median && window.median.google) {
+                // Median Native Bridge Call
+                median.google.login().then(function(res) {
+                    const credential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
+                    auth.signInWithCredential(credential);
+                });
+            } else {
+                // Web Fallback
+                const provider = new firebase.auth.GoogleAuthProvider();
+                auth.signInWithPopup(provider).catch(error => {
+                    alert("Sign In Error: " + error.message);
+                });
+            }
+        }
+
+        function googleSignOut() {
+            auth.signOut().then(() => {
+                alert("Log Out हो गया!");
+            });
+        }
+
+        // --- 2. TAB SWITCHING LOGIC ---
+        function switchTab(viewId, btnEl) {
+            document.querySelectorAll('.view-section').forEach(view => {
+                view.classList.remove('active-view');
+            });
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.classList.remove('active');
+            });
+
+            document.getElementById(viewId).classList.add('active-view');
+            btnEl.classList.add('active');
+        }
+
+        // --- 3. SLIDER & LOCATION LOGIC ---
         const tableSliderTrack = document.getElementById('tableSlider');
         if (tableSliderTrack) {
             tableSliderTrack.addEventListener('scroll', function() {
                 const scrollLeft = tableSliderTrack.scrollLeft;
                 const slideWidth = tableSliderTrack.clientWidth;
                 let index = Math.round(scrollLeft / slideWidth);
-                const tableColors = [
-                    "Light Wooden", 
-                    "Grey Wooden", 
-                    "Light Dark Wooden", 
-                    "Dark Wooden"
-                ];
+                const tableColors = ["Light Wooden", "Grey Wooden", "Light Dark Wooden", "Dark Wooden"];
                 const colorEl = document.getElementById('selectedTableColorText');
                 if (colorEl && tableColors[index]) {
                     colorEl.innerText = tableColors[index];
@@ -299,12 +467,7 @@
             const scrollLeft = track.scrollLeft;
             const slideWidth = track.clientWidth;
             let index = Math.round(scrollLeft / slideWidth);
-            const tableColors = [
-                "Light Wooden", 
-                "Grey Wooden", 
-                "Light Dark Wooden", 
-                "Dark Wooden"
-            ];
+            const tableColors = ["Light Wooden", "Grey Wooden", "Light Dark Wooden", "Dark Wooden"];
             return tableColors[index] || "Light Wooden";
         }
 
@@ -312,18 +475,22 @@
         var selectedPrice = "";
         var userLocationLink = "उपलब्ध नहीं (GPS अनुमति दें)";
 
-        // Request Live Location immediately when page loads
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(function(position) {
                 var lat = position.coords.latitude;
                 var lng = position.coords.longitude;
                 userLocationLink = "https://www.google.com/maps?q=" + lat + "," + lng;
             }, function(error) {
-                console.log("GPS permission denied or failed.");
+                console.log("GPS permission denied.");
             }, { enableHighAccuracy: true });
         }
 
         function openOrderForm(productName, price, colorName) {
+            if (!currentUser) {
+                alert("ऑर्डर करने के लिए पहले Google Account से Sign-In करें!");
+                switchTab('profileView', document.querySelectorAll('.nav-item')[2]);
+                return;
+            }
             selectedProduct = productName + " [" + colorName + "]";
             selectedPrice = price;
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
@@ -331,6 +498,11 @@
         }
 
         function openTableOrderForm() {
+            if (!currentUser) {
+                alert("ऑर्डर करने के लिए पहले Google Account से Sign-In करें!");
+                switchTab('profileView', document.querySelectorAll('.nav-item')[2]);
+                return;
+            }
             let chosenColor = getSelectedTableColor();
             selectedProduct = "Sewing Machine Top Table [" + chosenColor + "]";
             selectedPrice = "550";
@@ -342,6 +514,7 @@
             document.getElementById("orderModal").style.display = "none";
         }
 
+        // --- 4. ORDER SAVE TO DATABASE & WHATSAPP ---
         function submitOnlineOrder() {
             var name = document.getElementById("custName").value.trim();
             var phone = document.getElementById("custPhone").value.trim();
@@ -352,27 +525,78 @@
                 return;
             }
 
-            var phoneNumber = "919264137710";
-            var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
-                          "📦 सामान (कलर सहित): " + selectedProduct + "%0A" + 
-                          "💰 कीमत: ₹" + selectedPrice + "%0A%0A" + 
-                          "👤 ग्राहक का नाम: " + name + "%0A" + 
-                          "📞 फोन नंबर: " + phone + "%0A" + 
-                          "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)%0A" + 
-                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
-                          "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
+            var orderData = {
+                userId: currentUser.uid,
+                userEmail: currentUser.email,
+                product: selectedProduct,
+                price: selectedPrice,
+                customerName: name,
+                customerPhone: phone,
+                address: address,
+                location: userLocationLink,
+                status: "Pending",
+                timestamp: new Date().toLocaleString()
+            };
 
-            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
-            closeOrderForm();
+            // Firebase Database me Order Save Karein
+            db.ref("orders/" + currentUser.uid).push(orderData).then(() => {
+                var phoneNumber = "919264137710";
+                var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
+                              "📦 सामान: " + selectedProduct + "%0A" + 
+                              "💰 कीमत: ₹" + selectedPrice + "%0A%0A" + 
+                              "👤 ग्राहक का नाम: " + name + "%0A" + 
+                              "📞 फोन नंबर: " + phone + "%0A" + 
+                              "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)%0A" + 
+                              "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
+                              "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
+
+                window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+                closeOrderForm();
+            }).catch(error => {
+                alert("Order Save Failed: " + error.message);
+            });
+        }
+
+        // --- 5. LOAD ORDERS REALTIME ---
+        function loadUserOrders(userId) {
+            db.ref("orders/" + userId).on("value", snapshot => {
+                const ordersList = document.getElementById("ordersList");
+                ordersList.innerHTML = "";
+                
+                if (!snapshot.exists()) {
+                    ordersList.innerHTML = `<p style="text-align: center; color: #777; margin-top: 30px;">कोई ऑर्डर्स नहीं मिले।</p>`;
+                    return;
+                }
+
+                snapshot.forEach(childSnap => {
+                    const order = childSnap.val();
+                    let statusClass = "status-pending";
+                    if (order.status === "Payment Successful") statusClass = "status-success";
+                    if (order.status === "Failed") statusClass = "status-failed";
+
+                    const html = `
+                        <div class="order-card">
+                            <div class="order-header">
+                                <b>${order.product}</b>
+                                <span class="status-badge ${statusClass}">${order.status}</span>
+                            </div>
+                            <div><b>कीमत:</b> ₹${order.price}</div>
+                            <div><b>आर्डर तारीख:</b> ${order.timestamp}</div>
+                            <div><b>पता:</b> ${order.address}</div>
+                        </div>
+                    `;
+                    ordersList.innerHTML = html + ordersList.innerHTML;
+                });
+            });
         }
 
         function buyNow(productName, price, colorName) {
             var finalProduct = productName + " [" + colorName + "]";
             var phoneNumber = "919264137710";
             var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
+                          "📦 सामान: " + finalProduct + "%0A" + 
                           "💰 कीमत: ₹" + price + "%0A" + 
-                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
+                          "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
                           "कृपया डिलीवरी की जानकारी भेजें।";
             window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
@@ -382,9 +606,9 @@
             var finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
             var phoneNumber = "919264137710";
             var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
+                          "📦 सामान: " + finalProduct + "%0A" + 
                           "💰 कीमत: ₹550%0A%0A" + 
-                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
+                          "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
                           "कृपया डिलीवरी की जानकारी भेजें।";
             window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
