@@ -264,7 +264,7 @@
 
     <div class="footer-address">
         <strong>📍 मुख्य स्टोर का पता:</strong>
-       मेन रोड सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
+        मेन रोड सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710<br>
         contact support- @ankitsingh926413@gmail.com
     </div>
 
@@ -318,18 +318,34 @@
         var selectedPrice = "";
         var userLocationLink = "उपलब्ध नहीं (GPS अनुमति दें)";
 
-        // Request Live Location immediately when page loads
-        if (navigator.geolocation) {
-            navigator.geolocation.getCurrentPosition(function(position) {
-                var lat = position.coords.latitude;
-                var lng = position.coords.longitude;
-                userLocationLink = "https://www.google.com/maps?q=" + lat + "," + lng;
-            }, function(error) {
-                console.log("GPS permission denied or failed.");
-            }, { enableHighAccuracy: true });
+        // Request Live Location with fallback for Median.co WebView App
+        function requestUserLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        var lat = position.coords.latitude;
+                        var lng = position.coords.longitude;
+                        userLocationLink = "https://www.google.com/maps?q=" + lat + "," + lng;
+                    }, 
+                    function(error) {
+                        console.log("GPS Permission Error / Denied: " + error.message);
+                    }, 
+                    { 
+                        enableHighAccuracy: true,
+                        timeout: 10000,
+                        maximumAge: 0
+                    }
+                );
+            }
         }
 
+        // Trigger Location Request immediately on load
+        window.addEventListener('DOMContentLoaded', function() {
+            requestUserLocation();
+        });
+
         function openOrderForm(productName, price, colorName) {
+            requestUserLocation(); // Re-trigger location request when opening form
             selectedProduct = productName + " [" + colorName + "]";
             selectedPrice = price;
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
@@ -337,6 +353,7 @@
         }
 
         function openTableOrderForm() {
+            requestUserLocation();
             let chosenColor = getSelectedTableColor();
             selectedProduct = "Sewing Machine Top Table [" + chosenColor + "]";
             selectedPrice = "550";
@@ -396,5 +413,4 @@
         }
     </script>
 </body>
-                    </html>
-
+</html>
