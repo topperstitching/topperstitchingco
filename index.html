@@ -343,7 +343,7 @@
     </div>
 
     <script>
-        // --- 1. FIREBASE CONFIGURATION (UPDATED) ---
+        // --- 1. FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
             authDomain: "toppersewingmachine.firebaseapp.com",
@@ -355,7 +355,6 @@
             measurementId: "G-GRP6EXGE3L"
         };
 
-        // Initialize Firebase
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
@@ -363,6 +362,15 @@
         const db = firebase.database();
 
         let currentUser = null;
+
+        // Redirect Result Handle Karein (WebView/App Login Ke Liye)
+        auth.getRedirectResult().then((result) => {
+            if (result.user) {
+                console.log("Logged in via Redirect:", result.user);
+            }
+        }).catch((error) => {
+            console.error("Redirect Error:", error);
+        });
 
         // Auth State Listener
         auth.onAuthStateChanged(user => {
@@ -374,7 +382,6 @@
             const profileAuthBtn = document.getElementById("profileAuthBtn");
 
             if (user) {
-                // User is Signed In
                 authBtn.innerHTML = `<img src="${user.photoURL || 'https://via.placeholder.com/25'}" class="user-pic"> Logout`;
                 profileName.innerText = user.displayName;
                 profileEmail.innerText = user.email;
@@ -382,10 +389,8 @@
                 profileAuthBtn.innerText = "Logout";
                 profileAuthBtn.onclick = googleSignOut;
 
-                // Load User Orders
                 loadUserOrders(user.uid);
             } else {
-                // User is Signed Out
                 authBtn.innerHTML = `Sign In`;
                 profileName.innerText = "Guest User";
                 profileEmail.innerText = "Google Account Not Connected";
@@ -405,18 +410,19 @@
             }
         }
 
+        // --- WEB vs APP GOOGLE SIGN-IN FIX ---
         function googleSignIn() {
-            if (window.median && window.median.google) {
-                // Median Native Bridge Call
-                median.google.login().then(function(res) {
-                    const credential = firebase.auth.GoogleAuthProvider.credential(res.idToken);
-                    auth.signInWithCredential(credential);
-                });
+            const provider = new firebase.auth.GoogleAuthProvider();
+            const isWebView = window.navigator.userAgent.includes("wv") || window.location.hash === "#app";
+            
+            if (isWebView) {
+                // App (WebView) ke andar direct redirect karo taaki stuck na ho
+                auth.signInWithRedirect(provider);
             } else {
-                // Web Fallback
-                const provider = new firebase.auth.GoogleAuthProvider();
+                // Web Browser me Popup
                 auth.signInWithPopup(provider).catch(error => {
-                    alert("Sign In Error: " + error.message);
+                    console.log("Fallback to Redirect due to popup error");
+                    auth.signInWithRedirect(provider);
                 });
             }
         }
@@ -425,6 +431,15 @@
             auth.signOut().then(() => {
                 alert("Log Out हो गया!");
             });
+        }
+
+        // --- WHATSAPP REDIRECT FIX FOR ANDROID APP ---
+        function openWhatsApp(message) {
+            var phoneNumber = "919264137710";
+            var webUrl = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + message;
+            
+            // Direct Link Execution for both Web and WebView
+            window.location.href = webUrl;
         }
 
         // --- 2. TAB SWITCHING LOGIC ---
@@ -540,17 +555,16 @@
 
             // Firebase Database me Order Save Karein
             db.ref("orders/" + currentUser.uid).push(orderData).then(() => {
-                var phoneNumber = "919264137710";
-                var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
-                              "📦 सामान: " + selectedProduct + "%0A" + 
-                              "💰 कीमत: ₹" + selectedPrice + "%0A%0A" + 
-                              "👤 ग्राहक का नाम: " + name + "%0A" + 
-                              "📞 फोन नंबर: " + phone + "%0A" + 
-                              "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)%0A" + 
-                              "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
-                              "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
+                var message = encodeURIComponent("🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟\n\n" + 
+                              "📦 सामान: " + selectedProduct + "\n" + 
+                              "💰 कीमत: ₹" + selectedPrice + "\n\n" + 
+                              "👤 ग्राहक का नाम: " + name + "\n" + 
+                              "📞 फोन नंबर: " + phone + "\n" + 
+                              "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)\n" + 
+                              "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" + 
+                              "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*");
 
-                window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+                openWhatsApp(message);
                 closeOrderForm();
             }).catch(error => {
                 alert("Order Save Failed: " + error.message);
@@ -592,27 +606,25 @@
 
         function buyNow(productName, price, colorName) {
             var finalProduct = productName + " [" + colorName + "]";
-            var phoneNumber = "919264137710";
-            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान: " + finalProduct + "%0A" + 
-                          "💰 कीमत: ₹" + price + "%0A" + 
-                          "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
-                          "कृपया डिलीवरी की जानकारी भेजें।";
-            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+            var message = encodeURIComponent("नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" + 
+                          "📦 सामान: " + finalProduct + "\n" + 
+                          "💰 कीमत: ₹" + price + "\n" + 
+                          "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" + 
+                          "कृपया डिलीवरी की जानकारी भेजें।");
+            openWhatsApp(message);
         }
 
         function buyTableNow() {
             let chosenColor = getSelectedTableColor();
             var finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
-            var phoneNumber = "919264137710";
-            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                          "📦 सामान: " + finalProduct + "%0A" + 
-                          "💰 कीमत: ₹550%0A%0A" + 
-                          "📍 *लाइव लोकेशन:* " + userLocationLink + "%0A%0A" + 
-                          "कृपया डिलीवरी की जानकारी भेजें।";
-            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+            var message = encodeURIComponent("नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" + 
+                          "📦 सामान: " + finalProduct + "\n" + 
+                          "💰 कीमत: ₹550\n\n" + 
+                          "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" + 
+                          "कृपया डिलीवरी की जानकारी भेजें।");
+            openWhatsApp(message);
         }
     </script>
 </body>
     </html>
-    
+                
