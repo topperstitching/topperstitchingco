@@ -67,13 +67,31 @@
     </div>
 
     <script>
-        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-            document.getElementById('download-box').style.display = 'none';
+        function checkAppEnvironment() {
+            var downloadBox = document.getElementById('download-box');
+            if (!downloadBox) return;
+
+            // 1. Standalone / PWA Mode Check
+            var isStandalone = window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+            
+            // 2. URL Parameters & Hash Check (?app=true or #app)
+            var urlParams = new URLSearchParams(window.location.search);
+            var isAppParam = urlParams.get('app') === 'true' || window.location.hash === "#app";
+
+            // 3. User-Agent / Android WebView Check
+            var userAgent = navigator.userAgent || navigator.vendor || window.opera;
+            var isWebView = /wv|Android.*Version\/[0-9]\.[0-9]/i.test(userAgent);
+
+            // Agar app/webview context me hai to download box hide kar do
+            if (isStandalone || isAppParam || isWebView) {
+                downloadBox.style.setProperty('display', 'none', 'important');
+            } else {
+                downloadBox.style.display = 'block';
+            }
         }
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('app') === 'true' || window.navigator.userAgent.includes("wv") || window.location.hash === "#app") {
-            document.getElementById('download-box').style.display = 'none';
-        }
+
+        window.addEventListener('DOMContentLoaded', checkAppEnvironment);
+        window.addEventListener('load', checkAppEnvironment);
     </script>
 
     <header>
