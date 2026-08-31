@@ -67,24 +67,13 @@
     </div>
 
     <script>
-        // App Webview Detection - Hides Download button if opened inside Median App
-        function checkEnvironment() {
-            var ua = navigator.userAgent || navigator.vendor || window.opera;
-            var isApp = window.matchMedia('(display-mode: standalone)').matches || 
-                        window.navigator.standalone === true || 
-                        ua.indexOf('wv') > -1 || 
-                        ua.indexOf('gonative') > -1 || 
-                        ua.indexOf('median') > -1 || 
-                        window.location.search.includes('app=true') || 
-                        window.location.hash === "#app";
-
-            if (isApp) {
-                var btn = document.getElementById('download-box');
-                if (btn) btn.style.display = 'none';
-            }
+        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
+            document.getElementById('download-box').style.display = 'none';
         }
-        document.addEventListener("DOMContentLoaded", checkEnvironment);
-        checkEnvironment();
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('app') === 'true' || window.navigator.userAgent.includes("wv") || window.location.hash === "#app") {
+            document.getElementById('download-box').style.display = 'none';
+        }
     </script>
 
     <header>
@@ -275,7 +264,7 @@
 
     <div class="footer-address">
         <strong>📍 मुख्य स्टोर का पता:</strong>
-        मेन रोड सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710<br>
+       मेन रोड सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
         contact support- @ankitsingh926413@gmail.com
     </div>
 
@@ -284,21 +273,19 @@
     </div>
 
     <script>
-        // Median.co Geolocation Callback Function
-        function median_geolocation_ready() {
-            if (window.median && window.median.geolocation) {
-                window.median.geolocation.prompt();
-            }
-        }
-
-        // Table Slider Logic
+        // Table Slider Color Update Logic
         const tableSliderTrack = document.getElementById('tableSlider');
         if (tableSliderTrack) {
             tableSliderTrack.addEventListener('scroll', function() {
                 const scrollLeft = tableSliderTrack.scrollLeft;
                 const slideWidth = tableSliderTrack.clientWidth;
                 let index = Math.round(scrollLeft / slideWidth);
-                const tableColors = ["Light Wooden", "Grey Wooden", "Light Dark Wooden", "Dark Wooden"];
+                const tableColors = [
+                    "Light Wooden", 
+                    "Grey Wooden", 
+                    "Light Dark Wooden", 
+                    "Dark Wooden"
+                ];
                 const colorEl = document.getElementById('selectedTableColorText');
                 if (colorEl && tableColors[index]) {
                     colorEl.innerText = tableColors[index];
@@ -318,7 +305,12 @@
             const scrollLeft = track.scrollLeft;
             const slideWidth = track.clientWidth;
             let index = Math.round(scrollLeft / slideWidth);
-            const tableColors = ["Light Wooden", "Grey Wooden", "Light Dark Wooden", "Dark Wooden"];
+            const tableColors = [
+                "Light Wooden", 
+                "Grey Wooden", 
+                "Light Dark Wooden", 
+                "Dark Wooden"
+            ];
             return tableColors[index] || "Light Wooden";
         }
 
@@ -326,37 +318,18 @@
         var selectedPrice = "";
         var userLocationLink = "उपलब्ध नहीं (GPS अनुमति दें)";
 
-        // Location Fetch Engine
-        function requestUserLocation(callback) {
-            if (window.median && window.median.geolocation) {
-                try { window.median.geolocation.prompt(); } catch(e){}
-            }
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        var lat = position.coords.latitude;
-                        var lng = position.coords.longitude;
-                        userLocationLink = "https://www.google.com/maps?q=" + lat + "," + lng;
-                        if(callback) callback(userLocationLink);
-                    }, 
-                    function(error) {
-                        console.log("GPS Permission Error: " + error.message);
-                        if(callback) callback(userLocationLink);
-                    }, 
-                    { enableHighAccuracy: true, timeout: 7000, maximumAge: 0 }
-                );
-            } else {
-                if(callback) callback(userLocationLink);
-            }
+        // Request Live Location immediately when page loads
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(function(position) {
+                var lat = position.coords.latitude;
+                var lng = position.coords.longitude;
+                userLocationLink = "https://www.google.com/maps?q=" + lat + "," + lng;
+            }, function(error) {
+                console.log("GPS permission denied or failed.");
+            }, { enableHighAccuracy: true });
         }
 
-        // Auto Trigger location request when page loads
-        window.addEventListener('load', function() {
-            requestUserLocation();
-        });
-
         function openOrderForm(productName, price, colorName) {
-            requestUserLocation();
             selectedProduct = productName + " [" + colorName + "]";
             selectedPrice = price;
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
@@ -364,7 +337,6 @@
         }
 
         function openTableOrderForm() {
-            requestUserLocation();
             let chosenColor = getSelectedTableColor();
             selectedProduct = "Sewing Machine Top Table [" + chosenColor + "]";
             selectedPrice = "550";
@@ -386,47 +358,41 @@
                 return;
             }
 
-            requestUserLocation(function(locLink) {
-                var phoneNumber = "919264137710";
-                var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
-                              "📦 सामान (कलर सहित): " + selectedProduct + "%0A" + 
-                              "💰 कीमत: ₹" + selectedPrice + "%0A%0A" + 
-                              "👤 ग्राहक का नाम: " + name + "%0A" + 
-                              "📞 फोन नंबर: " + phone + "%0A" + 
-                              "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)%0A" + 
-                              "📍 *लाइव लोकेशन (Live Location):* " + locLink + "%0A%0A" + 
-                              "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
+            var phoneNumber = "919264137710";
+            var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟%0A%0A" + 
+                          "📦 सामान (कलर सहित): " + selectedProduct + "%0A" + 
+                          "💰 कीमत: ₹" + selectedPrice + "%0A%0A" + 
+                          "👤 ग्राहक का नाम: " + name + "%0A" + 
+                          "📞 फोन नंबर: " + phone + "%0A" + 
+                          "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)%0A" + 
+                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
+                          "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
 
-                window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
-                closeOrderForm();
-            });
+            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
+            closeOrderForm();
         }
 
         function buyNow(productName, price, colorName) {
             var finalProduct = productName + " [" + colorName + "]";
-            requestUserLocation(function(locLink) {
-                var phoneNumber = "919264137710";
-                var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                              "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
-                              "💰 कीमत: ₹" + price + "%0A" + 
-                              "📍 *लाइव लोकेशन (Live Location):* " + locLink + "%0A%0A" + 
-                              "कृपया डिलीवरी की जानकारी भेजें।";
-                window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
-            });
+            var phoneNumber = "919264137710";
+            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
+                          "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
+                          "💰 कीमत: ₹" + price + "%0A" + 
+                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
+                          "कृपया डिलीवरी की जानकारी भेजें।";
+            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
 
         function buyTableNow() {
             let chosenColor = getSelectedTableColor();
             var finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
-            requestUserLocation(function(locLink) {
-                var phoneNumber = "919264137710";
-                var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
-                              "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
-                              "💰 कीमत: ₹550%0A%0A" + 
-                              "📍 *लाइव लोकेशन (Live Location):* " + locLink + "%0A%0A" + 
-                              "कृपया डिलीवरी की जानकारी भेजें।";
-                window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
-            });
+            var phoneNumber = "919264137710";
+            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:%0A%0A" + 
+                          "📦 सामान (कलर सहित): " + finalProduct + "%0A" + 
+                          "💰 कीमत: ₹550%0A%0A" + 
+                          "📍 *लाइव लोकेशन (Live Location):* " + userLocationLink + "%0A%0A" + 
+                          "कृपया डिलीवरी की जानकारी भेजें।";
+            window.open("https://wa.me/" + phoneNumber + "?text=" + message, '_blank');
         }
     </script>
 </body>
