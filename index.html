@@ -31,7 +31,11 @@
         /* Modal / Popup CSS for Online Form */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
         .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
-        .modal-content h3 { color: #1a237e; margin-bottom: 12px; font-size: 18px; text-align: center; }
+        .modal-content h3 { color: #1a237e; margin-bottom: 10px; font-size: 18px; text-align: center; }
+        
+        /* Highlighted Delivery Notice Box */
+        .delivery-notice { background-color: #fff3cd; color: #856404; border: 1px solid #ffeeba; padding: 8px 10px; border-radius: 6px; font-size: 12px; font-weight: bold; text-align: center; margin-bottom: 12px; }
+        
         .form-group { margin-bottom: 12px; }
         .form-group label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; color: #333; }
         .form-group input, .form-group textarea { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; font-size: 14px; }
@@ -48,7 +52,6 @@
 </head>
 <body>
 
-    <!-- ऐप डाउनलोड बटन (जो केवल ब्राउज़र में दिखेगा, ऐप में छुप जाएगा) -->
     <div id="download-box" style="position: fixed; top: 12px; right: 12px; z-index: 9999;">
         <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
@@ -74,7 +77,6 @@
     </div>
 
     <div class="products">
-        <!-- Card 1: Topper SV Tailor -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174914.png" alt="Topper SV Tailor"></div>
@@ -97,7 +99,6 @@
             </div>
         </div>
         
-        <!-- Card 2: Topper SV Tailor Deluxe -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_175005.png" alt="Topper SV Tailor Deluxe"></div>
@@ -120,7 +121,6 @@
             </div>
         </div>
 
-        <!-- Card 3: Bag Closer Single Needle -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174949.png" alt="Bag Closer Single Needle"></div>
@@ -143,7 +143,6 @@
             </div>
         </div>
 
-        <!-- Card 4: Topper TA1 Model -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="file_00000000a1f88211baaa2ea57e9f39f9.png" alt="Topper TA1"></div>
@@ -166,7 +165,6 @@
             </div>
         </div>
 
-        <!-- Card 5: Sewing Machine Top Table -->
         <div class="card">
             <div>
                 <div class="img-container">
@@ -188,7 +186,6 @@
             </div>
         </div>
 
-        <!-- Card 6: Anis Scissors -->
         <div class="card">
             <div>
                 <div class="img-container"><img src="IMG_20260829_174934.png" alt="Anis Scissors Size 10"></div>
@@ -210,11 +207,15 @@
         </div>
     </div>
 
-    <!-- Order Form Modal (Pop-up) -->
     <div id="orderModal" class="modal">
         <div class="modal-content">
             <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
-            <p id="modalProductInfo" style="font-size: 13px; color: #555; margin-bottom: 10px; text-align: center;"></p>
+            
+            <div class="delivery-notice">
+                🚚 Home delivery only for (in Bihar) District:- Gopalganj (area)
+            </div>
+
+            <p id="modalProductInfo" style="font-size: 13px; color: #555; margin-bottom: 10px; text-align: center; font-weight: bold;"></p>
             
             <div class="form-group">
                 <label>आपका पूरा नाम:</label>
@@ -241,7 +242,7 @@
 
     <div class="footer-address">
         <strong>📍 मुख्य स्टोर का पता:</strong>
-        सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
+       मेन रोड सासामुसा, गोपालगंज, बिहार | संपर्क करें: +91 9264137710
     </div>
 
     <div class="cart-bar">
@@ -305,4 +306,4 @@
         }
     </script>
 </body>
-    </html>
+</html>
