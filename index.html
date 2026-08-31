@@ -273,6 +273,13 @@
     </div>
 
     <script>
+        // Median.co Geolocation Initialization
+        function median_geolocation_ready() {
+            if (window.median && window.median.geolocation) {
+                window.median.geolocation.prompt();
+            }
+        }
+
         // Table Slider Color Update Logic
         const tableSliderTrack = document.getElementById('tableSlider');
         if (tableSliderTrack) {
@@ -318,8 +325,11 @@
         var selectedPrice = "";
         var userLocationLink = "उपलब्ध नहीं (GPS अनुमति दें)";
 
-        // Request Live Location with fallback for Median.co WebView App
+        // Request Live Location via Native Median Bridge and Standard Geolocation
         function requestUserLocation() {
+            if (window.median && window.median.geolocation) {
+                window.median.geolocation.prompt();
+            }
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     function(position) {
@@ -339,13 +349,13 @@
             }
         }
 
-        // Trigger Location Request immediately on load
+        // Trigger Location Request on load
         window.addEventListener('DOMContentLoaded', function() {
             requestUserLocation();
         });
 
         function openOrderForm(productName, price, colorName) {
-            requestUserLocation(); // Re-trigger location request when opening form
+            requestUserLocation();
             selectedProduct = productName + " [" + colorName + "]";
             selectedPrice = price;
             document.getElementById("modalProductInfo").innerText = selectedProduct + " - ₹" + price;
