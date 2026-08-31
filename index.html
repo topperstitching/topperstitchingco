@@ -14,7 +14,6 @@
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f0f2f5; padding-bottom: 90px; }
         
-        /* Top Header Branding */
         header { background: linear-gradient(135deg, #1a237e, #0d47a1); color: white; padding: 15px 12px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: center; }
         header .brand-title { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: #ffab00; text-transform: uppercase; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: left; }
         header .brand-subtitle { font-size: 11px; color: #e0e0e0; margin-top: 2px; font-weight: normal; }
@@ -25,7 +24,6 @@
         .banner h2 { font-size: 16px; font-weight: 600; }
         .banner p { font-size: 12px; opacity: 0.9; }
 
-        /* Views management */
         .view-section { display: none; }
         .active-view { display: block; }
 
@@ -36,7 +34,6 @@
         .img-container { position: relative; width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        /* Slider CSS for Table */
         .slider-container { position: relative; width: 100%; height: 200px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
         .slider-track { display: flex; width: 100%; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .slider-track::-webkit-scrollbar { display: none; }
@@ -57,7 +54,6 @@
         .btn-online { background: #ff9800; color: white; border: none; padding: 10px; border-radius: 6px; cursor: pointer; font-weight: bold; width: 100%; font-size: 14px; text-align: center; text-decoration: none; display: block; box-shadow: 0 2px 5px rgba(255,152,0,0.3); margin-top: 6px; }
         .btn-online:hover { background: #e68a00; }
         
-        /* Modal / Popup CSS */
         .modal { display: none; position: fixed; z-index: 1000; left: 0; top: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.5); overflow-y: auto; }
         .modal-content { background-color: white; margin: 10% auto; padding: 20px; border-radius: 10px; width: 90%; max-width: 400px; box-shadow: 0 4px 15px rgba(0,0,0,0.2); }
         .modal-content h3 { color: #1a237e; margin-bottom: 6px; font-size: 18px; text-align: center; }
@@ -74,13 +70,11 @@
         .footer-address { background: #ffffff; padding: 16px; margin: 20px 16px; border-radius: 10px; text-align: center; border: 1px solid #ddd; font-size: 13px; color: #555; max-width: 1200px; margin-left: auto; margin-right: auto; }
         .footer-address strong { color: #1a237e; font-size: 15px; display: block; margin-bottom: 4px; }
         
-        /* Bottom Navigation Bar */
         .bottom-nav { position: fixed; bottom: 0; left: 0; width: 100%; background: #ffffff; border-top: 1px solid #ddd; display: flex; justify-content: space-around; padding: 8px 0; box-shadow: 0 -2px 10px rgba(0,0,0,0.08); z-index: 100; }
         .nav-item { border: none; background: none; flex: 1; text-align: center; color: #666; font-size: 11px; font-weight: bold; cursor: pointer; }
         .nav-item .icon { font-size: 20px; display: block; margin-bottom: 2px; }
         .nav-item.active { color: #0d47a1; }
 
-        /* Order Card Styling */
         .order-card { background: white; border: 1px solid #e0e0e0; border-radius: 8px; padding: 12px; margin-bottom: 12px; font-size: 13px; }
         .order-header { display: flex; justify-content: space-between; border-bottom: 1px solid #f0f0f0; padding-bottom: 6px; margin-bottom: 8px; }
         .status-badge { padding: 3px 8px; border-radius: 12px; font-size: 11px; font-weight: bold; }
@@ -88,25 +82,28 @@
         .status-success { background: #e8f5e9; color: #2e7d32; }
         .status-failed { background: #ffebee; color: #c62828; }
 
-        /* Profile Page Styling */
         .profile-container { background: white; padding: 20px; border-radius: 10px; text-align: center; max-width: 500px; margin: 20px auto; border: 1px solid #e0e0e0; }
         .profile-img { width: 80px; height: 80px; border-radius: 50%; margin-bottom: 10px; border: 2px solid #0d47a1; }
     </style>
 </head>
 <body>
 
-    <div id="download-box" style="position: fixed; top: 60px; right: 12px; z-index: 999;">
+    <!-- APP DOWNLOAD BUTTON (WEB EXCLUSIVE) -->
+    <div id="download-box" style="position: fixed; top: 60px; right: 12px; z-index: 999; display: block;">
         <a href="https://raw.githubusercontent.com/topperstitching/topperstitchingco/main/Topper-sewing-machine-shopping.apk" style="background-color: #004080; color: white; padding: 7px 12px; border-radius: 5px; text-decoration: none; font-size: 12px; font-weight: bold; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">Download App</a>
     </div>
 
     <script>
-        if (window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true) {
-            document.getElementById('download-box').style.display = 'none';
+        // --- PROBLEM 3 FIX: App Download Option Detection ---
+        function checkAppMode() {
+            var ua = navigator.userAgent || navigator.vendor || window.opera;
+            var isApp = ua.includes("TopperApp") || ua.includes("wv") || window.location.search.includes("mode=app") || window.matchMedia('(display-mode: standalone)').matches;
+            
+            if (isApp) {
+                document.getElementById('download-box').style.display = 'none';
+            }
         }
-        const urlParams = new URLSearchParams(window.location.search);
-        if (urlParams.get('app') === 'true' || window.navigator.userAgent.includes("wv") || window.location.hash === "#app") {
-            document.getElementById('download-box').style.display = 'none';
-        }
+        window.addEventListener('DOMContentLoaded', checkAppMode);
     </script>
 
     <header>
@@ -343,7 +340,6 @@
     </div>
 
     <script>
-        // --- 1. FIREBASE CONFIGURATION ---
         const firebaseConfig = {
             apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
             authDomain: "toppersewingmachine.firebaseapp.com",
@@ -363,16 +359,14 @@
 
         let currentUser = null;
 
-        // Redirect Result Handle Karein (WebView/App Login Ke Liye)
         auth.getRedirectResult().then((result) => {
             if (result.user) {
-                console.log("Logged in via Redirect:", result.user);
+                console.log("Logged in:", result.user);
             }
         }).catch((error) => {
-            console.error("Redirect Error:", error);
+            console.error("Auth Error:", error);
         });
 
-        // Auth State Listener
         auth.onAuthStateChanged(user => {
             currentUser = user;
             const authBtn = document.getElementById("authBtn");
@@ -410,21 +404,13 @@
             }
         }
 
-        // --- WEB vs APP GOOGLE SIGN-IN FIX ---
+        // --- PROBLEM 1 FIX: App and Web Login Isolation ---
         function googleSignIn() {
             const provider = new firebase.auth.GoogleAuthProvider();
-            const isWebView = window.navigator.userAgent.includes("wv") || window.location.hash === "#app";
-            
-            if (isWebView) {
-                // App (WebView) ke andar direct redirect karo taaki stuck na ho
+            // Google Sign-In Popup for browser, fallback to redirect
+            auth.signInWithPopup(provider).catch(function(error) {
                 auth.signInWithRedirect(provider);
-            } else {
-                // Web Browser me Popup
-                auth.signInWithPopup(provider).catch(error => {
-                    console.log("Fallback to Redirect due to popup error");
-                    auth.signInWithRedirect(provider);
-                });
-            }
+            });
         }
 
         function googleSignOut() {
@@ -433,16 +419,25 @@
             });
         }
 
-        // --- WHATSAPP REDIRECT FIX FOR ANDROID APP ---
+        // --- PROBLEM 2 FIX: Native Universal WhatsApp Intent ---
         function openWhatsApp(message) {
             var phoneNumber = "919264137710";
-            var webUrl = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + message;
+            var text = encodeURIComponent(message);
             
-            // Direct Link Execution for both Web and WebView
-            window.location.href = webUrl;
+            // Universal Intent link for Android App WebView + Web Fallback
+            var whatsappIntent = "intent://send?phone=" + phoneNumber + "&text=" + text + "#Intent;scheme=whatsapp;package=com.whatsapp;end";
+            var whatsappWeb = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + text;
+
+            try {
+                window.location.href = whatsappIntent;
+                setTimeout(function() {
+                    window.location.href = whatsappWeb;
+                }, 500);
+            } catch(e) {
+                window.location.href = whatsappWeb;
+            }
         }
 
-        // --- 2. TAB SWITCHING LOGIC ---
         function switchTab(viewId, btnEl) {
             document.querySelectorAll('.view-section').forEach(view => {
                 view.classList.remove('active-view');
@@ -455,7 +450,6 @@
             btnEl.classList.add('active');
         }
 
-        // --- 3. SLIDER & LOCATION LOGIC ---
         const tableSliderTrack = document.getElementById('tableSlider');
         if (tableSliderTrack) {
             tableSliderTrack.addEventListener('scroll', function() {
@@ -529,7 +523,6 @@
             document.getElementById("orderModal").style.display = "none";
         }
 
-        // --- 4. ORDER SAVE TO DATABASE & WHATSAPP ---
         function submitOnlineOrder() {
             var name = document.getElementById("custName").value.trim();
             var phone = document.getElementById("custPhone").value.trim();
@@ -553,16 +546,15 @@
                 timestamp: new Date().toLocaleString()
             };
 
-            // Firebase Database me Order Save Karein
             db.ref("orders/" + currentUser.uid).push(orderData).then(() => {
-                var message = encodeURIComponent("🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟\n\n" + 
+                var message = "🌟 *नया ऑनलाइन पेमेंट आर्डर (गोपालगंज, बिहार)* 🌟\n\n" + 
                               "📦 सामान: " + selectedProduct + "\n" + 
                               "💰 कीमत: ₹" + selectedPrice + "\n\n" + 
                               "👤 ग्राहक का नाम: " + name + "\n" + 
                               "📞 फोन नंबर: " + phone + "\n" + 
                               "🏠 पूरा पता: " + address + " (Gopalganj, Bihar)\n" + 
                               "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" + 
-                              "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*");
+                              "*(मैंने पेमेंट कर दिया है, कृपया स्क्रीनशॉट देखें)*";
 
                 openWhatsApp(message);
                 closeOrderForm();
@@ -571,7 +563,6 @@
             });
         }
 
-        // --- 5. LOAD ORDERS REALTIME ---
         function loadUserOrders(userId) {
             db.ref("orders/" + userId).on("value", snapshot => {
                 const ordersList = document.getElementById("ordersList");
@@ -606,25 +597,24 @@
 
         function buyNow(productName, price, colorName) {
             var finalProduct = productName + " [" + colorName + "]";
-            var message = encodeURIComponent("नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" + 
+            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" + 
                           "📦 सामान: " + finalProduct + "\n" + 
                           "💰 कीमत: ₹" + price + "\n" + 
                           "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" + 
-                          "कृपया डिलीवरी की जानकारी भेजें।");
+                          "कृपया डिलीवरी की जानकारी भेजें।";
             openWhatsApp(message);
         }
 
         function buyTableNow() {
             let chosenColor = getSelectedTableColor();
             var finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
-            var message = encodeURIComponent("नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" + 
+            var message = "नमस्ते Topper Stitching! मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" + 
                           "📦 सामान: " + finalProduct + "\n" + 
                           "💰 कीमत: ₹550\n\n" + 
                           "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" + 
-                          "कृपया डिलीवरी की जानकारी भेजें।");
+                          "कृपया डिलीवरी की जानकारी भेजें।";
             openWhatsApp(message);
         }
     </script>
 </body>
-    </html>
-                
+</html>
