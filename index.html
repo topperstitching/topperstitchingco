@@ -14,7 +14,7 @@
         * { box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; }
         body { background-color: #f0f2f5; padding-bottom: 90px; }
         
-        /* Updated Premium Top Header */
+        /* Top Header Branding */
         header { background: linear-gradient(135deg, #1a237e, #0d47a1); color: white; padding: 15px 12px; text-align: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 4px 10px rgba(0,0,0,0.2); display: flex; justify-content: space-between; align-items: center; }
         header .brand-title { font-size: 20px; font-weight: 900; letter-spacing: 1px; color: #ffab00; text-transform: uppercase; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); text-align: left; }
         header .brand-subtitle { font-size: 11px; color: #e0e0e0; margin-top: 2px; font-weight: normal; }
@@ -36,7 +36,7 @@
         .img-container { position: relative; width: 100%; height: 200px; background: #000; border-radius: 8px; overflow: hidden; display: flex; align-items: center; justify-content: center; }
         .img-container img { max-width: 100%; max-height: 100%; object-fit: contain; }
 
-        /* Slider CSS sirf Table ke liye */
+        /* Slider CSS for Table */
         .slider-container { position: relative; width: 100%; height: 200px; background: #fff; border-radius: 8px; overflow: hidden; border: 1px solid #eee; }
         .slider-track { display: flex; width: 100%; height: 100%; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; }
         .slider-track::-webkit-scrollbar { display: none; }
@@ -343,16 +343,16 @@
     </div>
 
     <script>
-        // --- 1. FIREBASE CONFIGURATION ---
-        // (Apne Firebase Console Se Credentials Copy Karke Yahan Paste Karein)
+        // --- 1. FIREBASE CONFIGURATION (UPDATED) ---
         const firebaseConfig = {
-            apiKey: "YOUR_API_KEY",
-            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-            databaseURL: "https://YOUR_PROJECT_ID-default-rtdb.firebaseio.com",
-            projectId: "YOUR_PROJECT_ID",
-            storageBucket: "YOUR_PROJECT_ID.appspot.com",
-            messagingSenderId: "YOUR_SENDER_ID",
-            appId: "YOUR_APP_ID"
+            apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
+            authDomain: "toppersewingmachine.firebaseapp.com",
+            databaseURL: "https://toppersewingmachine-default-rtdb.firebaseio.com",
+            projectId: "toppersewingmachine",
+            storageBucket: "toppersewingmachine.firebasestorage.app",
+            messagingSenderId: "281176461879",
+            appId: "1:281176461879:web:97648170de01d8c975e5b2",
+            measurementId: "G-GRP6EXGE3L"
         };
 
         // Initialize Firebase
@@ -614,4 +614,5 @@
         }
     </script>
 </body>
-</html>
+    </html>
+    
