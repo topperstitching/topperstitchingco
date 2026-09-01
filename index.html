@@ -2,1541 +2,801 @@
 <html lang="hi">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>Topper Sewing Machine Shopping</title>
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
-    <!-- Firebase -->
+    <title>Topper Stitching - Admin Panel</title>
+
+    <!-- =====================================================
+         FIREBASE
+    ====================================================== -->
+
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-auth-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.22.1/firebase-database-compat.js"></script>
 
+
     <style>
+
         * {
             box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
             padding: 0;
+            font-family:
+                Arial,
+                "Segoe UI",
+                sans-serif;
         }
+
 
         body {
-            background-color: #f0f2f5;
-            padding-bottom: 90px;
+            background: #f1f3f6;
+            color: #222;
+            padding-bottom: 30px;
         }
+
+
+        /* =====================================================
+           HEADER
+        ====================================================== */
 
         header {
-            background: linear-gradient(135deg, #1a237e, #0d47a1);
+            background:
+                linear-gradient(
+                    135deg,
+                    #1a237e,
+                    #0d47a1
+                );
+
             color: white;
-            padding: 15px 12px;
-            text-align: center;
+
+            padding: 16px;
+
             position: sticky;
             top: 0;
+
             z-index: 100;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+
+            box-shadow:
+                0 3px 10px
+                rgba(0,0,0,0.2);
         }
 
-        .brand-title {
-            font-size: 20px;
+
+        .header-row {
+            max-width: 1100px;
+
+            margin: auto;
+
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items: center;
+
+            gap: 10px;
+        }
+
+
+        .title {
+            font-size: 21px;
             font-weight: 900;
-            letter-spacing: 1px;
-            color: #ffab00;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
-            text-align: left;
         }
 
-        .brand-subtitle {
-            font-size: 11px;
-            color: #e0e0e0;
-            margin-top: 2px;
-            font-weight: normal;
-            text-align: left;
-        }
 
-        .auth-header-btn {
-            background: #ffffff;
-            color: #1a237e;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 12px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-        }
-
-        .user-pic {
-            width: 25px;
-            height: 25px;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-
-        .banner {
-            background: #283593;
-            color: white;
-            padding: 12px;
-            text-align: center;
-            border-bottom: 3px solid #ffab00;
-        }
-
-        .banner h2 {
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .banner p {
+        .subtitle {
             font-size: 12px;
             opacity: 0.9;
-            margin-top: 3px;
+            margin-top: 4px;
         }
 
-        .view-section {
-            display: none;
-        }
 
-        .active-view {
-            display: block;
-        }
+        #logoutBtn {
+            border: none;
 
-        .products {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 16px;
-            padding: 16px;
-            max-width: 1200px;
-            margin: auto;
-        }
-
-        .card {
             background: white;
-            border-radius: 12px;
-            padding: 15px;
-            text-align: left;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
-            border: 1px solid #e0e0e0;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
 
-        .img-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            background: #000;
-            border-radius: 8px;
-            overflow: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .img-container img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .slider-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            background: #fff;
-            border-radius: 8px;
-            overflow: hidden;
-            border: 1px solid #eee;
-        }
-
-        .slider-track {
-            display: flex;
-            width: 100%;
-            height: 100%;
-            overflow-x: auto;
-            scroll-snap-type: x mandatory;
-            scrollbar-width: none;
-            scroll-behavior: smooth;
-        }
-
-        .slider-track::-webkit-scrollbar {
-            display: none;
-        }
-
-        .slide {
-            flex: 0 0 100%;
-            width: 100%;
-            height: 100%;
-            scroll-snap-align: start;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: #fff;
-            position: relative;
-        }
-
-        .slide img {
-            max-width: 100%;
-            max-height: 100%;
-            object-fit: contain;
-        }
-
-        .slide-name {
-            position: absolute;
-            bottom: 8px;
-            background: rgba(0,0,0,0.6);
-            color: white;
-            padding: 3px 8px;
-            font-size: 11px;
-            border-radius: 4px;
-        }
-
-        .slider-btn {
-            position: absolute;
-            top: 50%;
-            transform: translateY(-50%);
-            background: rgba(0,0,0,0.55);
-            color: white;
-            border: none;
-            cursor: pointer;
-            padding: 8px 10px;
-            z-index: 10;
-            font-size: 14px;
-            border-radius: 50%;
-        }
-
-        .slider-prev {
-            left: 5px;
-        }
-
-        .slider-next {
-            right: 5px;
-        }
-
-        .card-details {
-            margin-top: 12px;
-        }
-
-        .card h3 {
-            font-size: 17px;
             color: #1a237e;
-            margin-bottom: 6px;
-        }
 
-        .price {
-            color: #2e7d32;
+            padding:
+                8px 13px;
+
+            border-radius: 20px;
+
             font-weight: bold;
-            font-size: 20px;
-            margin-bottom: 8px;
-        }
 
-        .specs {
-            font-size: 12px;
-            color: #555;
-            line-height: 1.6;
-            margin-bottom: 12px;
-            background: #f9f9f9;
-            padding: 8px 10px;
-            border-radius: 6px;
-        }
-
-        .specs span {
-            font-weight: bold;
-            color: #333;
-        }
-
-        .btn-buy {
-            background: #25d366;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
             cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            font-size: 14px;
-            text-align: center;
-            display: block;
-            margin-top: 6px;
         }
 
-        .btn-buy:hover {
-            background: #20ba5a;
-        }
 
-        .btn-online {
-            background: #ff9800;
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-weight: bold;
-            width: 100%;
-            font-size: 14px;
-            text-align: center;
-            display: block;
-            margin-top: 6px;
-        }
+        /* =====================================================
+           LOGIN SCREEN
+        ====================================================== */
 
-        .btn-online:hover {
-            background: #e68a00;
-        }
+        #loginScreen {
+            min-height: 85vh;
 
-        .btn-online:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+            display: flex;
 
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.55);
-            overflow-y: auto;
-        }
+            align-items: center;
 
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
+            justify-content: center;
+
             padding: 20px;
-            border-radius: 15px;
-            width: 92%;
-            max-width: 600px;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
         }
 
-        .modal-content h3 {
+
+        .login-box {
+            width: 100%;
+            max-width: 420px;
+
+            background: white;
+
+            padding: 30px 20px;
+
+            border-radius: 15px;
+
+            text-align: center;
+
+            box-shadow:
+                0 5px 20px
+                rgba(0,0,0,0.1);
+        }
+
+
+        .login-box h2 {
             color: #1a237e;
             margin-bottom: 10px;
-            font-size: 24px;
-            text-align: center;
         }
 
-        .delivery-badge {
-            background: #e8f5e9;
-            color: #2e7d32;
+
+        .login-box p {
+            color: #666;
             font-size: 14px;
-            text-align: center;
-            padding: 8px;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            border: 1px dashed #a5d6a7;
+            line-height: 1.5;
+            margin-bottom: 20px;
         }
 
-        #modalProductInfo {
-            font-size: 17px;
-            color: #555;
-            margin-bottom: 15px;
-            text-align: center;
-            font-weight: bold;
-        }
 
-        .form-group {
-            margin-bottom: 13px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 15px;
-            font-weight: bold;
-            margin-bottom: 5px;
-            color: #333;
-        }
-
-        .form-group input,
-        .form-group textarea {
+        #loginBtn {
             width: 100%;
-            padding: 11px;
-            border: 1px solid #ccc;
+
+            border: none;
+
+            background: #4285f4;
+
+            color: white;
+
+            padding: 13px;
+
             border-radius: 7px;
+
             font-size: 16px;
-            background: #fff;
-            outline: none;
+
+            font-weight: bold;
+
+            cursor: pointer;
         }
 
-        .form-group input:focus,
-        .form-group textarea:focus {
+
+        /* =====================================================
+           ADMIN APP
+        ====================================================== */
+
+        #adminApp {
+            display: none;
+
+            max-width: 1100px;
+
+            margin: auto;
+
+            padding: 16px;
+        }
+
+
+        .welcome-box {
+            background: white;
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+            margin-bottom: 15px;
+
+            border: 1px solid #ddd;
+        }
+
+
+        .welcome-box strong {
+            color: #1a237e;
+        }
+
+
+        /* =====================================================
+           STATS
+        ====================================================== */
+
+        .stats {
+            display: grid;
+
+            grid-template-columns:
+                repeat(
+                    auto-fit,
+                    minmax(130px, 1fr)
+                );
+
+            gap: 10px;
+
+            margin-bottom: 18px;
+        }
+
+
+        .stat {
+            background: white;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            padding: 15px;
+
+            text-align: center;
+        }
+
+
+        .stat-number {
+            font-size: 25px;
+
+            font-weight: 900;
+
+            color: #1a237e;
+        }
+
+
+        .stat-label {
+            font-size: 12px;
+
+            color: #666;
+
+            margin-top: 4px;
+        }
+
+
+        /* =====================================================
+           FILTER
+        ====================================================== */
+
+        .toolbar {
+            background: white;
+
+            border: 1px solid #ddd;
+
+            border-radius: 10px;
+
+            padding: 12px;
+
+            margin-bottom: 15px;
+
+            display: flex;
+
+            flex-wrap: wrap;
+
+            gap: 8px;
+        }
+
+
+        .filter-btn {
+            border: 1px solid #bbb;
+
+            background: white;
+
+            padding: 8px 12px;
+
+            border-radius: 20px;
+
+            cursor: pointer;
+
+            font-weight: bold;
+
+            font-size: 12px;
+        }
+
+
+        .filter-btn.active {
+            background: #0d47a1;
+            color: white;
             border-color: #0d47a1;
         }
 
-        .qr-box {
-            text-align: center;
-            margin: 15px 0;
-            background: #f9f9f9;
-            padding: 12px;
-            border-radius: 8px;
-            border: 1px dashed #bbb;
-        }
 
-        .qr-box img {
-            width: 220px;
-            height: 220px;
-            object-fit: contain;
-        }
-
-        .qr-box p {
-            font-size: 13px;
-            color: #666;
-            margin-top: 8px;
-        }
-
-        .btn-submit {
-            background: #0d47a1;
-            color: white;
-            border: none;
-            padding: 12px;
-            width: 100%;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-
-        .btn-submit:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
-
-        .btn-close {
-            background: #d32f2f;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 14px;
-            margin-top: 8px;
-        }
-
-        .footer-address {
-            background: #ffffff;
-            padding: 16px;
-            margin: 20px 16px;
-            border-radius: 10px;
-            text-align: center;
-            border: 1px solid #ddd;
-            font-size: 13px;
-            color: #555;
-            max-width: 1200px;
+        #refreshBtn {
             margin-left: auto;
-            margin-right: auto;
-        }
 
-        .footer-address strong {
-            color: #1a237e;
-            font-size: 15px;
-            display: block;
-            margin-bottom: 4px;
-        }
-
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            background: #ffffff;
-            border-top: 1px solid #ddd;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0;
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.08);
-            z-index: 100;
-        }
-
-        .nav-item {
             border: none;
-            background: none;
-            flex: 1;
-            text-align: center;
-            color: #666;
-            font-size: 11px;
-            font-weight: bold;
+
+            background: #2e7d32;
+
+            color: white;
+
+            padding: 8px 14px;
+
+            border-radius: 20px;
+
             cursor: pointer;
+
+            font-weight: bold;
         }
 
-        .nav-item .icon {
-            font-size: 20px;
-            display: block;
-            margin-bottom: 2px;
+
+        /* =====================================================
+           ORDERS
+        ====================================================== */
+
+        #ordersContainer {
+            display: grid;
+
+            gap: 14px;
         }
 
-        .nav-item.active {
-            color: #0d47a1;
-        }
-
-        .orders-container {
-            padding: 16px;
-            max-width: 800px;
-            margin: auto;
-        }
-
-        .orders-title {
-            color: #1a237e;
-            margin-bottom: 15px;
-            font-size: 22px;
-        }
 
         .order-card {
             background: white;
-            border: 1px solid #e0e0e0;
-            border-radius: 8px;
-            padding: 12px;
-            margin-bottom: 12px;
-            font-size: 13px;
-        }
 
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            border-bottom: 1px solid #f0f0f0;
-            padding-bottom: 7px;
-            margin-bottom: 8px;
-        }
-
-        .order-header b {
-            color: #1a237e;
-        }
-
-        .status-badge {
-            padding: 3px 8px;
             border-radius: 12px;
+
+            border: 1px solid #ddd;
+
+            padding: 15px;
+
+            box-shadow:
+                0 3px 10px
+                rgba(0,0,0,0.05);
+        }
+
+
+        .order-top {
+            display: flex;
+
+            justify-content:
+                space-between;
+
+            align-items:
+                flex-start;
+
+            gap: 10px;
+
+            border-bottom:
+                1px solid #eee;
+
+            padding-bottom: 10px;
+
+            margin-bottom: 10px;
+        }
+
+
+        .product-name {
+            color: #1a237e;
+
+            font-size: 17px;
+
+            font-weight: 900;
+        }
+
+
+        .order-id {
+            color: #888;
+
+            font-size: 10px;
+
+            margin-top: 4px;
+
+            word-break: break-all;
+        }
+
+
+        .status {
+            padding: 5px 10px;
+
+            border-radius: 20px;
+
             font-size: 11px;
+
             font-weight: bold;
+
             white-space: nowrap;
         }
 
-        .status-pending {
+
+        .pending {
             background: #fff3e0;
             color: #e65100;
         }
 
-        .status-success {
+
+        .success {
             background: #e8f5e9;
             color: #2e7d32;
         }
 
-        .status-failed {
+
+        .failed {
             background: #ffebee;
             color: #c62828;
         }
 
-        .profile-container {
+
+        .details {
+            display: grid;
+
+            gap: 6px;
+
+            font-size: 13px;
+
+            color: #444;
+        }
+
+
+        .details b {
+            color: #222;
+        }
+
+
+        .address {
+            background: #f7f7f7;
+
+            padding: 9px;
+
+            border-radius: 7px;
+
+            margin-top: 5px;
+        }
+
+
+        /* =====================================================
+           ACTION BUTTONS
+        ====================================================== */
+
+        .actions {
+            display: flex;
+
+            gap: 8px;
+
+            margin-top: 14px;
+        }
+
+
+        .action-btn {
+            flex: 1;
+
+            border: none;
+
+            padding: 11px;
+
+            border-radius: 7px;
+
+            color: white;
+
+            font-weight: bold;
+
+            cursor: pointer;
+        }
+
+
+        .success-btn {
+            background: #2e7d32;
+        }
+
+
+        .failed-btn {
+            background: #c62828;
+        }
+
+
+        .action-btn:disabled {
+            opacity: 0.6;
+
+            cursor: not-allowed;
+        }
+
+
+        /* =====================================================
+           LOADING / EMPTY
+        ====================================================== */
+
+        .message-box {
             background: white;
-            padding: 20px;
+
+            border: 1px solid #ddd;
+
             border-radius: 10px;
+
+            padding: 30px 15px;
+
             text-align: center;
-            max-width: 500px;
-            margin: 20px auto;
-            border: 1px solid #e0e0e0;
+
+            color: #777;
         }
 
-        .profile-img {
-            width: 80px;
-            height: 80px;
-            border-radius: 50%;
-            margin-bottom: 10px;
-            border: 2px solid #0d47a1;
-            object-fit: cover;
+
+        .error-box {
+            color: #c62828;
         }
 
-        @media (max-width: 500px) {
-            .brand-title {
+
+        /* =====================================================
+           MOBILE
+        ====================================================== */
+
+        @media (max-width: 600px) {
+
+            .title {
                 font-size: 18px;
             }
 
-            .brand-subtitle {
-                font-size: 10px;
+            .header-row {
+                align-items: flex-start;
             }
 
-            .auth-header-btn {
-                padding: 6px 9px;
+            .order-top {
+                flex-direction: column;
             }
 
-            .modal-content {
-                margin: 3% auto;
-                padding: 15px;
+            .status {
+                align-self: flex-start;
             }
 
-            .modal-content h3 {
-                font-size: 22px;
+            #refreshBtn {
+                margin-left: 0;
             }
 
-            .qr-box img {
-                width: 200px;
-                height: 200px;
-            }
         }
+
     </style>
 </head>
 
+
 <body>
 
-<header>
-    <div>
-        <div class="brand-title">TOPPER STITCHING</div>
 
-        <div class="brand-subtitle">
-            विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें
+<!-- =========================================================
+     HEADER
+========================================================= -->
+
+<header>
+
+    <div class="header-row">
+
+        <div>
+
+            <div class="title">
+                TOPPER STITCHING
+            </div>
+
+            <div class="subtitle">
+                Admin Order Panel
+            </div>
+
         </div>
+
+
+        <button
+            id="logoutBtn"
+            onclick="logout()"
+            style="display:none;"
+        >
+            Logout
+        </button>
+
     </div>
 
-    <button
-        id="authBtn"
-        class="auth-header-btn"
-        onclick="handleAuthAction()">
-
-        Sign In
-
-    </button>
 </header>
 
 
-<div id="homeView" class="view-section active-view">
 
-    <div class="banner">
+<!-- =========================================================
+     LOGIN SCREEN
+========================================================= -->
+
+<div id="loginScreen">
+
+    <div class="login-box">
 
         <h2>
-            सिलाई मशीन और पार्ट्स के लिए सबसे भरोसेमंद दुकान
+            🔐 Admin Panel
         </h2>
 
         <p>
-            बेस्ट क्वालिटी, उचित दाम और बेहतरीन सर्विस
+            केवल Admin Google Account से
+            Login करके Orders देख सकते हैं।
         </p>
 
-    </div>
 
-
-    <div class="products">
-
-
-        <!-- PRODUCT 1 -->
-
-        <div class="card">
-
-            <div>
-
-                <div class="img-container">
-
-                    <img
-                        src="IMG_20260829_174914.png"
-                        alt="Topper SV Tailor"
-                        onerror="this.style.display='none'">
-
-                </div>
-
-
-                <div class="card-details">
-
-                    <h3>
-                        Topper SV Tailor
-                    </h3>
-
-                    <div class="price">
-                        ₹4,500
-                    </div>
-
-
-                    <div class="specs">
-
-                        <div>
-                            <span>ब्रांड:</span>
-                            Topper Stitching
-                        </div>
-
-                        <div>
-                            <span>मॉडल:</span>
-                            SV tailor
-                        </div>
-
-                        <div>
-                            <span>टाइप:</span>
-                            Sewing Machine Only Head
-                        </div>
-
-                        <div>
-                            <span>वारंटी:</span>
-                            5 Years
-                        </div>
-
-                        <div>
-                            <span>गारंटी:</span>
-                            0 Days
-                        </div>
-
-                        <div>
-                            <span>टूलबॉक्स:</span>
-                            Accessories Box Included
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <button
-                    class="btn-online"
-                    onclick="openOrderForm(
-                        'Topper SV Tailor',
-                        '4,500'
-                    )">
-
-                    💳 ऑनलाइन पेमेंट करें
-
-                </button>
-
-
-                <button
-                    class="btn-buy"
-                    onclick="buyNow(
-                        'Topper SV Tailor',
-                        '4,500'
-                    )">
-
-                    📲 व्हाट्सएप पर खरीदें
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 2 -->
-
-        <div class="card">
-
-            <div>
-
-                <div class="img-container">
-
-                    <img
-                        src="IMG_20260829_175005.png"
-                        alt="Topper SV Tailor Deluxe"
-                        onerror="this.style.display='none'">
-
-                </div>
-
-
-                <div class="card-details">
-
-                    <h3>
-                        Topper SV Tailor Deluxe
-                    </h3>
-
-                    <div class="price">
-                        ₹4,500
-                    </div>
-
-
-                    <div class="specs">
-
-                        <div>
-                            <span>ब्रांड:</span>
-                            Topper Stitching
-                        </div>
-
-                        <div>
-                            <span>मॉडल:</span>
-                            SV tailor delox
-                        </div>
-
-                        <div>
-                            <span>टाइप:</span>
-                            Sewing Machine Only Head
-                        </div>
-
-                        <div>
-                            <span>वारंटी:</span>
-                            5 Years
-                        </div>
-
-                        <div>
-                            <span>गारंटी:</span>
-                            0 Days
-                        </div>
-
-                        <div>
-                            <span>टूलबॉक्स:</span>
-                            Accessories Box Included
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <button
-                    class="btn-online"
-                    onclick="openOrderForm(
-                        'Topper SV Tailor Deluxe',
-                        '4,500'
-                    )">
-
-                    💳 ऑनलाइन पेमेंट करें
-
-                </button>
-
-
-                <button
-                    class="btn-buy"
-                    onclick="buyNow(
-                        'Topper SV Tailor Deluxe',
-                        '4,500'
-                    )">
-
-                    📲 व्हाट्सएप पर खरीदें
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 3 -->
-
-        <div class="card">
-
-            <div>
-
-                <div class="img-container">
-
-                    <img
-                        src="IMG_20260829_174949.png"
-                        alt="Bag Closer Single Needle"
-                        onerror="this.style.display='none'">
-
-                </div>
-
-
-                <div class="card-details">
-
-                    <h3>
-                        Bag Closer Single Needle
-                    </h3>
-
-                    <div class="price">
-                        ₹5,800
-                    </div>
-
-
-                    <div class="specs">
-
-                        <div>
-                            <span>ब्रांड:</span>
-                            Topper Stitching
-                        </div>
-
-                        <div>
-                            <span>मॉडल:</span>
-                            single nidile
-                        </div>
-
-                        <div>
-                            <span>टाइप:</span>
-                            Bag Closer Machine Only (Heavy Duty)
-                        </div>
-
-                        <div>
-                            <span>वारंटी:</span>
-                            2 Times Service
-                        </div>
-
-                        <div>
-                            <span>गारंटी:</span>
-                            0 Days
-                        </div>
-
-                        <div>
-                            <span>टूलबॉक्स:</span>
-                            Accessories Box Included
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <button
-                    class="btn-online"
-                    onclick="openOrderForm(
-                        'Bag Closer Single Needle',
-                        '5,800'
-                    )">
-
-                    💳 ऑनलाइन पेमेंट करें
-
-                </button>
-
-
-                <button
-                    class="btn-buy"
-                    onclick="buyNow(
-                        'Bag Closer Single Needle',
-                        '5,800'
-                    )">
-
-                    📲 व्हाट्सएप पर खरीदें
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- PRODUCT 4 -->
-
-        <div class="card">
-
-            <div>
-
-                <div class="img-container">
-
-                    <img
-                        src="file_00000000a1f88211baaa2ea57e9f39f9.png"
-                        alt="Topper TA1"
-                        onerror="this.style.display='none'">
-
-                </div>
-
-
-                <div class="card-details">
-
-                    <h3>
-                        Topper TA1 Model
-                    </h3>
-
-                    <div class="price">
-                        ₹6,000
-                    </div>
-
-
-                    <div class="specs">
-
-                        <div>
-                            <span>ब्रांड:</span>
-                            Topper Stitching
-                        </div>
-
-                        <div>
-                            <span>मॉडल:</span>
-                            umbrella
-                        </div>
-
-                        <div>
-                            <span>टाइप:</span>
-                            Sewing Machine Only Head
-                        </div>
-
-                        <div>
-                            <span>वारंटी:</span>
-                            5 Years
-                        </div>
-
-                        <div>
-                            <span>गारंटी:</span>
-                            0 Days
-                        </div>
-
-                        <div>
-                            <span>टूलबॉक्स:</span>
-                            Accessories Box Included
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <button
-                    class="btn-online"
-                    onclick="openOrderForm(
-                        'Topper TA1 Model',
-                        '6,000'
-                    )">
-
-                    💳 ऑनलाइन पेमेंट करें
-
-                </button>
-
-
-                <button
-                    class="btn-buy"
-                    onclick="buyNow(
-                        'Topper TA1 Model',
-                        '6,000'
-                    )">
-
-                    📲 व्हाट्सएप पर खरीदें
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- TABLE TOP -->
-
-        <div class="card">
-
-            <div>
-
-                <div class="slider-container">
-
-                    <button
-                        class="slider-btn slider-prev"
-                        onclick="slideImages(
-                            'tableSlider',
-                            -1
-                        )">
-
-                        ❮
-
-                    </button>
-
-
-                    <div
-                        class="slider-track"
-                        id="tableSlider">
-
-
-                        <div class="slide">
-
-                            <img
-                                src="wood-1.png"
-                                alt="Light Wooden"
-                                onerror="this.style.display='none'">
-
-                            <div class="slide-name">
-                                Light Wooden
-                            </div>
-
-                        </div>
-
-
-                        <div class="slide">
-
-                            <img
-                                src="wood-2.png"
-                                alt="Grey Wooden"
-                                onerror="this.style.display='none'">
-
-                            <div class="slide-name">
-                                Grey Wooden
-                            </div>
-
-                        </div>
-
-
-                        <div class="slide">
-
-                            <img
-                                src="wood-3.png"
-                                alt="Light Dark Wooden"
-                                onerror="this.style.display='none'">
-
-                            <div class="slide-name">
-                                Light Dark Wooden
-                            </div>
-
-                        </div>
-
-
-                        <div class="slide">
-
-                            <img
-                                src="wood-4.png"
-                                alt="Dark Wooden"
-                                onerror="this.style.display='none'">
-
-                            <div class="slide-name">
-                                Dark Wooden
-                            </div>
-
-                        </div>
-
-                    </div>
-
-
-                    <button
-                        class="slider-btn slider-next"
-                        onclick="slideImages(
-                            'tableSlider',
-                            1
-                        )">
-
-                        ❯
-
-                    </button>
-
-                </div>
-
-
-                <div class="card-details">
-
-                    <h3>
-                        Sewing Machine Top Table
-                    </h3>
-
-                    <div class="price">
-                        ₹550
-                    </div>
-
-
-                    <div class="specs">
-
-                        <div>
-                            <span>मॉडल:</span>
-                            SV / TA1
-                        </div>
-
-                        <div>
-                            <span>कलर:</span>
-
-                            <span id="selectedTableColorText">
-                                Light Wooden
-                            </span>
-
-                        </div>
-
-                        <div>
-                            <span>टाइप:</span>
-                            Top Table Only
-                        </div>
-
-                        <div>
-                            <span>वारंटी / गारंटी:</span>
-                            None
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <button
-                    class="btn-online"
-                    onclick="openTableOrderForm()">
-
-                    💳 ऑनलाइन पेमेंट करें
-
-                </button>
-
-
-                <button
-                    class="btn-buy"
-                    onclick="buyTableNow()">
-
-                    📲 व्हाट्सएप पर खरीदें
-
-                </button>
-
-            </div>
-
-        </div>
-
-
-        <!-- SCISSORS -->
-
-        <div class="card">
-
-            <div>
-
-                <div class="img-container">
-
-                    <img
-                        src="IMG_20260829_174934.png"
-                        alt="Anis Scissors"
-                        onerror="this.style.display='none'">
-
-                </div>
-
-
-                <div class="card-details">
-
-                    <h3>
-                        Anis Scissors (Size 10)
-                    </h3>
-
-                    <div class="price">
-                        ₹300
-                    </div>
-
-
-                    <div class="specs">
-
-                        <div>
-                            <span>ब्रांड:</span>
-                            Anis Scissors
-                        </div>
-
-                        <div>
-                            <span>साइज:</span>
-                            Size 10
-                        </div>
-
-                        <div>
-                            <span>टाइप:</span>
-                            Scissors Only
-                        </div>
-
-                        <div>
-                            <span>वारंटी / गारंटी:</span>
-                            None
-                        </div>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-
-            <div>
-
-                <button
-                    class="btn-online"
-                    onclick="openOrderForm(
-                        'Anis Scissors (Size 10)',
-                        '300'
-                    )">
-
-                    💳 ऑनलाइन पेमेंट करें
-
-                </button>
-
-
-                <button
-                    class="btn-buy"
-                    onclick="buyNow(
-                        'Anis Scissors (Size 10)',
-                        '300'
-                    )">
-
-                    📲 व्हाट्सएप पर खरीदें
-
-                </button>
-
-            </div>
-
-        </div>
-
-    </div>
-
-
-    <!-- ADDRESS -->
-
-    <div class="footer-address">
-
-        <strong>
-            📍 मुख्य स्टोर का पता:
-        </strong>
-
-        मेन रोड सासामुसा, गोपालगंज, बिहार
-
-        <br>
-
-        संपर्क करें:
-        <b>
-            +91 9264137710
-        </b>
-
-        <br>
-
-        Gmail:
-        <b>
-            ankitsingh926413@gmail.com
-        </b>
+        <button
+            id="loginBtn"
+            onclick="adminLogin()"
+        >
+            🔵 Google से Admin Login
+        </button>
 
     </div>
 
 </div>
 
 
-<!-- ORDERS -->
 
-<div id="ordersView" class="view-section">
+<!-- =========================================================
+     ADMIN APP
+========================================================= -->
 
-    <div class="orders-container">
+<div id="adminApp">
 
-        <h2 class="orders-title">
-            आपके ऑर्डर्स (My Orders)
-        </h2>
 
-        <div id="ordersList">
+    <div class="welcome-box">
 
-            <p
-                style="
-                    text-align:center;
-                    color:#777;
-                    margin-top:30px;
-                ">
-
-                ऑर्डर्स लोड हो रहे हैं...
-
-            </p>
-
+        <div>
+            Welcome, <strong id="adminName">
+                Admin
+            </strong>
         </div>
 
-    </div>
-
-</div>
-
-
-<!-- PROFILE -->
-
-<div id="profileView" class="view-section">
-
-    <div class="profile-container">
-
-        <img
-            id="profilePageImg"
-            src="https://via.placeholder.com/80"
-            class="profile-img"
-            alt="Profile">
-
-
-        <h3
-            id="profileName"
-            style="color:#1a237e;">
-
-            Guest User
-
-        </h3>
-
-
-        <p
-            id="profileEmail"
+        <div
+            id="adminEmail"
             style="
-                color:#666;
-                font-size:13px;
+                color:#777;
+                font-size:12px;
                 margin-top:4px;
-            ">
+            "
+        ></div>
 
-            Google Account Not Connected
-
-        </p>
+    </div>
 
 
-        <div style="margin-top:20px;">
 
-            <button
-                id="profileAuthBtn"
-                class="btn-submit"
-                onclick="googleSignIn()">
+    <!-- =====================================================
+         STATS
+    ====================================================== -->
 
-                Google Account से लॉगिन करें
+    <div class="stats">
 
-            </button>
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="totalCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Total Orders
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="pendingCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Pending
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="successCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Successful
+            </div>
+
+        </div>
+
+
+        <div class="stat">
+
+            <div
+                class="stat-number"
+                id="failedCount"
+            >
+                0
+            </div>
+
+            <div class="stat-label">
+                Failed
+            </div>
 
         </div>
 
     </div>
 
-</div>
 
 
-<!-- ONLINE ORDER MODAL -->
+    <!-- =====================================================
+         FILTER
+    ====================================================== -->
 
-<div id="orderModal" class="modal">
-
-    <div class="modal-content">
-
-        <h3>
-            🛒 ऑनलाइन आर्डर और पेमेंट
-        </h3>
-
-
-        <div class="delivery-badge">
-
-            🚚 Home Delivery Only For
-
-            <br>
-
-            <b>
-                Bihar District: Gopalganj (Area)
-            </b>
-
-        </div>
-
-
-        <p id="modalProductInfo"></p>
-
-
-        <div class="form-group">
-
-            <label>
-                आपका पूरा नाम:
-            </label>
-
-            <input
-                type="text"
-                id="custName"
-                placeholder="अपना नाम लिखें"
-                autocomplete="name">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                मोबाइल नंबर:
-            </label>
-
-            <input
-                type="tel"
-                id="custPhone"
-                placeholder="मोबाइल नंबर लिखें"
-                inputmode="numeric"
-                maxlength="10">
-
-        </div>
-
-
-        <div class="form-group">
-
-            <label>
-                पूरा पता (गोपालगंज, बिहार):
-            </label>
-
-            <textarea
-                id="custAddress"
-                rows="3"
-                placeholder="गाँव/मोहल्ला, वार्ड नंबर, गोपालगंज">
-            </textarea>
-
-        </div>
-
-
-        <div class="qr-box">
-
-            <img
-                id="qrImage"
-                src="UPI_QR.png"
-                alt="UPI QR Code">
-
-            <p>
-
-                इस QR Code को स्कैन करके पेमेंट करें।
-                पेमेंट करने के बाद नीचे वाला बटन दबाएँ।
-
-            </p>
-
-        </div>
-
+    <div class="toolbar">
 
         <button
-            id="onlineOrderBtn"
-            class="btn-submit"
-            onclick="submitOnlineOrder()">
-
-            ✅ पेमेंट करके आर्डर भेजें (WhatsApp)
-
+            class="filter-btn active"
+            data-filter="all"
+            onclick="setFilter('all', this)"
+        >
+            सभी
         </button>
 
 
         <button
-            class="btn-close"
-            onclick="closeOrderForm()">
+            class="filter-btn"
+            data-filter="Pending"
+            onclick="setFilter('Pending', this)"
+        >
+            Pending
+        </button>
 
-            रद्द करें
 
+        <button
+            class="filter-btn"
+            data-filter="Payment Successful"
+            onclick="setFilter('Payment Successful', this)"
+        >
+            Successful
+        </button>
+
+
+        <button
+            class="filter-btn"
+            data-filter="Failed"
+            onclick="setFilter('Failed', this)"
+        >
+            Failed
+        </button>
+
+
+        <button
+            id="refreshBtn"
+            onclick="loadOrders()"
+        >
+            🔄 Refresh
         </button>
 
     </div>
 
+
+
+    <!-- =====================================================
+         ORDERS
+    ====================================================== -->
+
+    <div id="ordersContainer">
+
+        <div class="message-box">
+            Orders लोड हो रहे हैं...
+        </div>
+
+    </div>
+
+
 </div>
 
-
-<!-- BOTTOM NAV -->
-
-<div class="bottom-nav">
-
-    <button
-        class="nav-item active"
-        onclick="switchTab(
-            'homeView',
-            this
-        )">
-
-        <span class="icon">
-            🏠
-        </span>
-
-        Home
-
-    </button>
-
-
-    <button
-        class="nav-item"
-        onclick="switchTab(
-            'ordersView',
-            this
-        )">
-
-        <span class="icon">
-            📦
-        </span>
-
-        Orders
-
-    </button>
-
-
-    <button
-        class="nav-item"
-        onclick="switchTab(
-            'profileView',
-            this
-        )">
-
-        <span class="icon">
-            👤
-        </span>
-
-        Profile
-
-    </button>
-
-</div>
 
 
 <script>
@@ -1575,6 +835,15 @@ const firebaseConfig = {
 
 
 /* =========================================================
+   ADMIN EMAIL
+   यही Gmail Admin होगा
+========================================================= */
+
+const ADMIN_EMAIL =
+    "ankitsingh926413@gmail.com";
+
+
+/* =========================================================
    INITIALIZE FIREBASE
 ========================================================= */
 
@@ -1595,20 +864,15 @@ const db =
     firebase.database();
 
 
+
 /* =========================================================
    GLOBAL VARIABLES
 ========================================================= */
 
-let currentUser = null;
+let allOrders = [];
 
-let selectedProduct = "";
+let currentFilter = "all";
 
-let selectedPrice = "";
-
-let userLocationLink =
-    "उपलब्ध नहीं (GPS अनुमति दें)";
-
-let ordersListenerAttached = false;
 
 
 /* =========================================================
@@ -1618,151 +882,118 @@ let ordersListenerAttached = false;
 auth.onAuthStateChanged(
     function(user) {
 
-        currentUser = user;
+        if (!user) {
 
+            showLogin();
 
-        const authBtn =
-            document.getElementById(
-                "authBtn"
-            );
-
-
-        const profileName =
-            document.getElementById(
-                "profileName"
-            );
-
-
-        const profileEmail =
-            document.getElementById(
-                "profileEmail"
-            );
-
-
-        const profilePageImg =
-            document.getElementById(
-                "profilePageImg"
-            );
-
-
-        const profileAuthBtn =
-            document.getElementById(
-                "profileAuthBtn"
-            );
-
-
-        if (user) {
-
-            authBtn.innerHTML =
-
-                '<img src="' +
-                (
-                    user.photoURL ||
-                    'https://via.placeholder.com/25'
-                ) +
-                '" class="user-pic">' +
-                ' Logout';
-
-
-            profileName.innerText =
-                user.displayName ||
-                "Google User";
-
-
-            profileEmail.innerText =
-                user.email ||
-                "";
-
-
-            profilePageImg.src =
-                user.photoURL ||
-                'https://via.placeholder.com/80';
-
-
-            profileAuthBtn.innerText =
-                "Logout";
-
-
-            profileAuthBtn.onclick =
-                googleSignOut;
-
-
-            loadUserOrders(
-                user.uid
-            );
-
-
-        } else {
-
-            authBtn.innerHTML =
-                "Sign In";
-
-
-            profileName.innerText =
-                "Guest User";
-
-
-            profileEmail.innerText =
-                "Google Account Not Connected";
-
-
-            profilePageImg.src =
-                'https://via.placeholder.com/80';
-
-
-            profileAuthBtn.innerText =
-                "Google Account से लॉगिन करें";
-
-
-            profileAuthBtn.onclick =
-                googleSignIn;
-
-
-            document.getElementById(
-                "ordersList"
-            ).innerHTML =
-
-                '<p style="' +
-                'text-align:center;' +
-                'color:#777;' +
-                'margin-top:30px;">' +
-
-                'ऑर्डर्स देखने के लिए Google से Sign-In करें।' +
-
-                '</p>';
+            return;
 
         }
+
+
+        const email =
+            (
+                user.email ||
+                ""
+            ).toLowerCase();
+
+
+        const adminEmail =
+            ADMIN_EMAIL.toLowerCase();
+
+
+        /* =================================================
+           ADMIN CHECK
+        ================================================= */
+
+        if (email !== adminEmail) {
+
+            alert(
+                "❌ यह Google Account Admin नहीं है।"
+            );
+
+
+            auth.signOut();
+
+            return;
+
+        }
+
+
+        /* =================================================
+           ADMIN LOGIN SUCCESS
+        ================================================= */
+
+        document.getElementById(
+            "loginScreen"
+        ).style.display =
+            "none";
+
+
+        document.getElementById(
+            "adminApp"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "logoutBtn"
+        ).style.display =
+            "block";
+
+
+        document.getElementById(
+            "adminName"
+        ).innerText =
+            user.displayName ||
+            "Admin";
+
+
+        document.getElementById(
+            "adminEmail"
+        ).innerText =
+            user.email || "";
+
+
+        loadOrders();
 
     }
 );
 
 
+
 /* =========================================================
-   LOGIN BUTTON
+   SHOW LOGIN
 ========================================================= */
 
-function handleAuthAction() {
+function showLogin() {
 
-    if (currentUser) {
+    document.getElementById(
+        "loginScreen"
+    ).style.display =
+        "flex";
 
-        googleSignOut();
 
-    } else {
+    document.getElementById(
+        "adminApp"
+    ).style.display =
+        "none";
 
-        googleSignIn();
 
-    }
+    document.getElementById(
+        "logoutBtn"
+    ).style.display =
+        "none";
 
 }
 
 
+
 /* =========================================================
-   GOOGLE SIGN IN
-   POPUP ONLY
-   NO REDIRECT
+   ADMIN LOGIN
 ========================================================= */
 
-function googleSignIn() {
+function adminLogin() {
 
     const provider =
         new firebase.auth.GoogleAuthProvider();
@@ -1780,30 +1011,14 @@ function googleSignIn() {
         provider
     )
 
-    .then(
-        function(result) {
-
-            console.log(
-                "Google Login Successful",
-                result.user
-            );
-
-        }
-    )
-
     .catch(
         function(error) {
 
             console.error(
-                "Google Popup Login Error:",
-                error.code,
-                error.message
+                "Admin Login Error:",
+                error
             );
 
-
-            /* =================================================
-               POPUP BLOCKED
-            ================================================= */
 
             if (
                 error.code ===
@@ -1811,72 +1026,29 @@ function googleSignIn() {
             ) {
 
                 alert(
-
-                    "Google Login Popup browser ने block कर दिया है।\n\n" +
-
-                    "Browser में popup की अनुमति दें और फिर दोबारा Sign In करें।"
-
+                    "Google popup block हो गया है। Browser में popup अनुमति दें।"
                 );
 
                 return;
 
             }
 
-
-            /* =================================================
-               POPUP CLOSED
-            ================================================= */
 
             if (
                 error.code ===
                 "auth/popup-closed-by-user"
             ) {
 
-                console.log(
-                    "Google Login Popup बंद कर दिया गया।"
-                );
-
                 return;
 
             }
 
-
-            /* =================================================
-               OPERATION NOT SUPPORTED
-            ================================================= */
-
-            if (
-                error.code ===
-                "auth/operation-not-supported-in-this-environment"
-            ) {
-
-                alert(
-
-                    "इस browser/app environment में Google Popup supported नहीं है।\n\n" +
-
-                    "कृपया Chrome जैसे normal browser में website खोलकर try करें।"
-
-                );
-
-                return;
-
-            }
-
-
-            /* =================================================
-               OTHER FIREBASE ERROR
-            ================================================= */
 
             alert(
-
-                "Google Login Error:\n\n" +
-
+                "Login Error:\n\n" +
                 error.code +
-
                 "\n\n" +
-
                 error.message
-
             );
 
         }
@@ -1885,20 +1057,19 @@ function googleSignIn() {
 }
 
 
+
 /* =========================================================
-   GOOGLE LOGOUT
+   LOGOUT
 ========================================================= */
 
-function googleSignOut() {
+function logout() {
 
     auth.signOut()
 
     .then(
         function() {
 
-            alert(
-                "Log Out हो गया!"
-            );
+            showLogin();
 
         }
     )
@@ -1917,62 +1088,234 @@ function googleSignOut() {
 }
 
 
+
 /* =========================================================
-   WHATSAPP
+   LOAD ALL ORDERS
 ========================================================= */
 
-function openWhatsApp(message) {
+function loadOrders() {
 
-    const phoneNumber =
-        "919264137710";
-
-
-    const text =
-        encodeURIComponent(
-            message
+    const container =
+        document.getElementById(
+            "ordersContainer"
         );
 
 
-    const whatsappUrl =
-        "https://wa.me/" +
-        phoneNumber +
-        "?text=" +
-        text;
+    container.innerHTML =
+        '<div class="message-box">' +
+        '⏳ Orders लोड हो रहे हैं...' +
+        '</div>';
 
 
-    window.location.href =
-        whatsappUrl;
+    db.ref("orders")
+
+    .once("value")
+
+    .then(
+        function(snapshot) {
+
+            allOrders = [];
+
+
+            if (!snapshot.exists()) {
+
+                updateStats();
+
+                renderOrders();
+
+                return;
+
+            }
+
+
+            /* =============================================
+               प्रत्येक USER
+            ============================================== */
+
+            snapshot.forEach(
+                function(userSnapshot) {
+
+                    const userId =
+                        userSnapshot.key;
+
+
+                    /* =====================================
+                       प्रत्येक ORDER
+                    ====================================== */
+
+                    userSnapshot.forEach(
+                        function(orderSnapshot) {
+
+                            const order =
+                                orderSnapshot.val() ||
+                                {};
+
+
+                            allOrders.push({
+
+                                userId:
+                                    userId,
+
+                                orderId:
+                                    orderSnapshot.key,
+
+                                ...order
+
+                            });
+
+                        }
+                    );
+
+                }
+            );
+
+
+            /* =============================================
+               नए orders पहले
+            ============================================== */
+
+            allOrders.sort(
+                function(a, b) {
+
+                    return (
+                        (b.createdAt || 0) -
+                        (a.createdAt || 0)
+                    );
+
+                }
+            );
+
+
+            updateStats();
+
+            renderOrders();
+
+        }
+    )
+
+    .catch(
+        function(error) {
+
+            console.error(
+                "Orders Error:",
+                error
+            );
+
+
+            container.innerHTML =
+
+                '<div class="message-box error-box">' +
+
+                '❌ Orders लोड नहीं हो सके।<br><br>' +
+
+                'Firebase Database Rules में Admin permission check करें।<br><br>' +
+
+                error.message +
+
+                '</div>';
+
+        }
+    );
 
 }
 
 
+
 /* =========================================================
-   TAB SWITCH
+   UPDATE STATS
 ========================================================= */
 
-function switchTab(
-    viewId,
-    btnEl
-) {
+function updateStats() {
 
-    document
-        .querySelectorAll(
-            ".view-section"
-        )
-        .forEach(
-            function(view) {
+    let pending = 0;
 
-                view.classList.remove(
-                    "active-view"
-                );
+    let success = 0;
+
+    let failed = 0;
+
+
+    allOrders.forEach(
+        function(order) {
+
+            const status =
+                order.status ||
+                "Pending";
+
+
+            if (
+                status ===
+                "Pending"
+            ) {
+
+                pending++;
 
             }
-        );
+
+            else if (
+                status ===
+                "Payment Successful"
+            ) {
+
+                success++;
+
+            }
+
+            else if (
+                status ===
+                "Failed"
+            ) {
+
+                failed++;
+
+            }
+
+        }
+    );
+
+
+    document.getElementById(
+        "totalCount"
+    ).innerText =
+        allOrders.length;
+
+
+    document.getElementById(
+        "pendingCount"
+    ).innerText =
+        pending;
+
+
+    document.getElementById(
+        "successCount"
+    ).innerText =
+        success;
+
+
+    document.getElementById(
+        "failedCount"
+    ).innerText =
+        failed;
+
+}
+
+
+
+/* =========================================================
+   FILTER
+========================================================= */
+
+function setFilter(
+    filter,
+    button
+) {
+
+    currentFilter =
+        filter;
 
 
     document
         .querySelectorAll(
-            ".nav-item"
+            ".filter-btn"
         )
         .forEach(
             function(btn) {
@@ -1985,545 +1328,533 @@ function switchTab(
         );
 
 
-    document
-        .getElementById(
-            viewId
-        )
-        .classList.add(
-            "active-view"
-        );
-
-
-    btnEl.classList.add(
+    button.classList.add(
         "active"
     );
 
+
+    renderOrders();
+
 }
 
 
+
 /* =========================================================
-   TABLE SLIDER
+   RENDER ORDERS
 ========================================================= */
 
-const tableSliderTrack =
-    document.getElementById(
-        "tableSlider"
-    );
+function renderOrders() {
+
+    const container =
+        document.getElementById(
+            "ordersContainer"
+        );
 
 
-if (tableSliderTrack) {
-
-    tableSliderTrack.addEventListener(
-        "scroll",
-        function() {
-
-            const scrollLeft =
-                tableSliderTrack.scrollLeft;
+    let filtered =
+        allOrders;
 
 
-            const slideWidth =
-                tableSliderTrack.clientWidth;
+    if (
+        currentFilter !==
+        "all"
+    ) {
+
+        filtered =
+            allOrders.filter(
+                function(order) {
+
+                    return (
+                        (
+                            order.status ||
+                            "Pending"
+                        ) ===
+                        currentFilter
+                    );
+
+                }
+            );
+
+    }
 
 
-            const index =
-                Math.round(
-                    scrollLeft /
-                    slideWidth
+    if (
+        filtered.length ===
+        0
+    ) {
+
+        container.innerHTML =
+
+            '<div class="message-box">' +
+
+            '📦 इस category में कोई order नहीं है।' +
+
+            '</div>';
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+    filtered.forEach(
+        function(order) {
+
+            const card =
+                document.createElement(
+                    "div"
                 );
 
 
-            const tableColors = [
-
-                "Light Wooden",
-
-                "Grey Wooden",
-
-                "Light Dark Wooden",
-
-                "Dark Wooden"
-
-            ];
+            card.className =
+                "order-card";
 
 
-            const colorEl =
-                document.getElementById(
-                    "selectedTableColorText"
-                );
+            const status =
+                order.status ||
+                "Pending";
+
+
+            let statusClass =
+                "pending";
 
 
             if (
-                colorEl &&
-                tableColors[index]
+                status ===
+                "Payment Successful"
             ) {
 
-                colorEl.innerText =
-                    tableColors[index];
+                statusClass =
+                    "success";
 
             }
 
-        }
-    );
 
-}
+            if (
+                status ===
+                "Failed"
+            ) {
 
+                statusClass =
+                    "failed";
 
-/* =========================================================
-   SLIDE BUTTON
-========================================================= */
-
-function slideImages(
-    sliderId,
-    direction
-) {
-
-    const track =
-        document.getElementById(
-            sliderId
-        );
+            }
 
 
-    if (!track)
-        return;
+            /* =========================================
+               ORDER TOP
+            ========================================== */
+
+            const top =
+                document.createElement(
+                    "div"
+                );
 
 
-    const slideWidth =
-        track.clientWidth;
+            top.className =
+                "order-top";
 
 
-    track.scrollBy({
-
-        left:
-            direction *
-            slideWidth,
-
-        behavior:
-            "smooth"
-
-    });
-
-}
+            const left =
+                document.createElement(
+                    "div"
+                );
 
 
-/* =========================================================
-   GET TABLE COLOR
-========================================================= */
-
-function getSelectedTableColor() {
-
-    const track =
-        document.getElementById(
-            "tableSlider"
-        );
+            const product =
+                document.createElement(
+                    "div"
+                );
 
 
-    if (!track)
-        return "Light Wooden";
+            product.className =
+                "product-name";
 
 
-    const scrollLeft =
-        track.scrollLeft;
+            product.innerText =
+                order.product ||
+                "Product";
 
 
-    const slideWidth =
-        track.clientWidth;
+            const orderId =
+                document.createElement(
+                    "div"
+                );
 
 
-    const index =
-        Math.round(
-            scrollLeft /
-            slideWidth
-        );
+            orderId.className =
+                "order-id";
 
 
-    const tableColors = [
-
-        "Light Wooden",
-
-        "Grey Wooden",
-
-        "Light Dark Wooden",
-
-        "Dark Wooden"
-
-    ];
+            orderId.innerText =
+                "Order ID: " +
+                order.orderId;
 
 
-    return (
-        tableColors[index] ||
-        "Light Wooden"
-    );
-
-}
-
-
-/* =========================================================
-   GPS
-========================================================= */
-
-if (
-    navigator.geolocation
-) {
-
-    navigator.geolocation.getCurrentPosition(
-
-        function(position) {
-
-            const lat =
-                position.coords.latitude;
-
-
-            const lng =
-                position.coords.longitude;
-
-
-            userLocationLink =
-                "https://www.google.com/maps?q=" +
-                lat +
-                "," +
-                lng;
-
-        },
-
-        function(error) {
-
-            console.log(
-                "GPS permission denied."
+            left.appendChild(
+                product
             );
 
-        },
 
-        {
+            left.appendChild(
+                orderId
+            );
 
-            enableHighAccuracy:
-                true,
 
-            timeout:
-                10000,
+            const statusBadge =
+                document.createElement(
+                    "span"
+                );
 
-            maximumAge:
-                0
+
+            statusBadge.className =
+                "status " +
+                statusClass;
+
+
+            statusBadge.innerText =
+                status;
+
+
+            top.appendChild(
+                left
+            );
+
+
+            top.appendChild(
+                statusBadge
+            );
+
+
+            card.appendChild(
+                top
+            );
+
+
+
+            /* =========================================
+               DETAILS
+            ========================================== */
+
+            const details =
+                document.createElement(
+                    "div"
+                );
+
+
+            details.className =
+                "details";
+
+
+            details.innerHTML =
+
+                "<div><b>💰 कीमत:</b> ₹" +
+                escapeHtml(
+                    order.price || ""
+                ) +
+                "</div>" +
+
+                "<div><b>👤 ग्राहक:</b> " +
+                escapeHtml(
+                    order.customerName || ""
+                ) +
+                "</div>" +
+
+                "<div><b>📞 फोन:</b> " +
+                escapeHtml(
+                    order.customerPhone || ""
+                ) +
+                "</div>" +
+
+                "<div><b>📧 Email:</b> " +
+                escapeHtml(
+                    order.userEmail || ""
+                ) +
+                "</div>" +
+
+                "<div><b>🕒 तारीख:</b> " +
+                escapeHtml(
+                    order.timestamp || ""
+                ) +
+                "</div>";
+
+
+            if (
+                order.address
+            ) {
+
+                const address =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                address.className =
+                    "address";
+
+
+                address.innerHTML =
+                    "<b>🏠 पता:</b><br>" +
+                    escapeHtml(
+                        order.address
+                    );
+
+
+                details.appendChild(
+                    address
+                );
+
+            }
+
+
+            if (
+                order.location &&
+                order.location !==
+                "उपलब्ध नहीं (GPS अनुमति दें)"
+            ) {
+
+                const location =
+                    document.createElement(
+                        "div"
+                    );
+
+
+                location.innerHTML =
+                    '<b>📍 Location:</b> ' +
+                    '<a href="' +
+                    escapeAttribute(
+                        order.location
+                    ) +
+                    '" target="_blank">' +
+                    'Google Maps खोलें' +
+                    '</a>';
+
+
+                details.appendChild(
+                    location
+                );
+
+            }
+
+
+            card.appendChild(
+                details
+            );
+
+
+
+            /* =========================================
+               ACTION BUTTONS
+            ========================================== */
+
+            const actions =
+                document.createElement(
+                    "div"
+                );
+
+
+            actions.className =
+                "actions";
+
+
+            const successBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            successBtn.className =
+                "action-btn success-btn";
+
+
+            successBtn.innerText =
+                "✅ Successful";
+
+
+            successBtn.onclick =
+                function() {
+
+                    updateOrderStatus(
+                        order,
+                        "Payment Successful"
+                    );
+
+                };
+
+
+            const failedBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            failedBtn.className =
+                "action-btn failed-btn";
+
+
+            failedBtn.innerText =
+                "❌ Failed";
+
+
+            failedBtn.onclick =
+                function() {
+
+                    updateOrderStatus(
+                        order,
+                        "Failed"
+                    );
+
+                };
+
+
+            actions.appendChild(
+                successBtn
+            );
+
+
+            actions.appendChild(
+                failedBtn
+            );
+
+
+            card.appendChild(
+                actions
+            );
+
+
+            container.appendChild(
+                card
+            );
 
         }
-
     );
 
 }
 
 
+
 /* =========================================================
-   OPEN ONLINE ORDER
+   UPDATE ORDER STATUS
 ========================================================= */
 
-function openOrderForm(
-    productName,
-    price
+function updateOrderStatus(
+    order,
+    newStatus
 ) {
 
-    if (!currentUser) {
+    if (!order.userId) {
 
         alert(
-            "ऑर्डर करने के लिए पहले Google Account से Sign-In करें!"
+            "User ID नहीं मिला।"
         );
-
-
-        switchTab(
-
-            "profileView",
-
-            document.querySelectorAll(
-                ".nav-item"
-            )[2]
-
-        );
-
 
         return;
 
     }
 
 
-    selectedProduct =
-        productName;
-
-
-    selectedPrice =
-        price;
-
-
-    document.getElementById(
-        "modalProductInfo"
-    ).innerText =
-
-        selectedProduct +
-        " - ₹" +
-        price;
-
-
-    document.getElementById(
-        "orderModal"
-    ).style.display =
-        "block";
-
-}
-
-
-/* =========================================================
-   OPEN TABLE ORDER
-========================================================= */
-
-function openTableOrderForm() {
-
-    if (!currentUser) {
+    if (!order.orderId) {
 
         alert(
-            "ऑर्डर करने के लिए पहले Google Account से Sign-In करें!"
+            "Order ID नहीं मिला।"
         );
-
-
-        switchTab(
-
-            "profileView",
-
-            document.querySelectorAll(
-                ".nav-item"
-            )[2]
-
-        );
-
 
         return;
 
     }
 
 
-    const chosenColor =
-        getSelectedTableColor();
+    const confirmText =
+        newStatus ===
+        "Payment Successful"
 
+            ? "क्या इस order को Successful करना है?"
 
-    selectedProduct =
-        "Sewing Machine Top Table [" +
-        chosenColor +
-        "]";
-
-
-    selectedPrice =
-        "550";
-
-
-    document.getElementById(
-        "modalProductInfo"
-    ).innerText =
-
-        selectedProduct +
-        " - ₹550";
-
-
-    document.getElementById(
-        "orderModal"
-    ).style.display =
-        "block";
-
-}
-
-
-/* =========================================================
-   CLOSE ORDER
-========================================================= */
-
-function closeOrderForm() {
-
-    document.getElementById(
-        "orderModal"
-    ).style.display =
-        "none";
-
-
-    const btn =
-        document.getElementById(
-            "onlineOrderBtn"
-        );
-
-
-    btn.disabled =
-        false;
-
-
-    btn.innerText =
-        "✅ पेमेंट करके आर्डर भेजें (WhatsApp)";
-
-}
-
-
-/* =========================================================
-   ONLINE PAYMENT ORDER
-========================================================= */
-
-function submitOnlineOrder() {
-
-    const name =
-        document.getElementById(
-            "custName"
-        ).value.trim();
-
-
-    const phone =
-        document.getElementById(
-            "custPhone"
-        ).value.trim();
-
-
-    const address =
-        document.getElementById(
-            "custAddress"
-        ).value.trim();
-
-
-    if (!currentUser) {
-
-        alert(
-            "कृपया पहले Google Account से Login करें!"
-        );
-
-        return;
-
-    }
+            : "क्या इस order को Failed करना है?";
 
 
     if (
-        name === "" ||
-        phone === "" ||
-        address === ""
+        !confirm(
+            confirmText
+        )
     ) {
-
-        alert(
-            "कृपया अपनी सभी जानकारी भरें!"
-        );
 
         return;
 
     }
 
 
-    if (
-        !/^[0-9]{10}$/.test(phone)
-    ) {
-
-        alert(
-            "कृपया 10 अंकों का सही मोबाइल नंबर डालें!"
-        );
-
-        return;
-
-    }
-
-
-    const btn =
-        document.getElementById(
-            "onlineOrderBtn"
-        );
-
-
-    btn.disabled =
-        true;
-
-
-    btn.innerText =
-        "⏳ Order Save हो रहा है...";
-
-
-    const orderData = {
-
-        userId:
-            currentUser.uid,
-
-        userEmail:
-            currentUser.email || "",
-
-        product:
-            selectedProduct,
-
-        price:
-            selectedPrice,
-
-        customerName:
-            name,
-
-        customerPhone:
-            phone,
-
-        address:
-            address,
-
-        location:
-            userLocationLink,
+    const updateData = {
 
         status:
-            "Pending",
+            newStatus,
 
-        timestamp:
-            new Date().toLocaleString(
-                "en-IN"
-            ),
+        statusUpdatedAt:
+            Date.now(),
 
-        createdAt:
-            Date.now()
+        statusUpdatedBy:
+            ADMIN_EMAIL
 
     };
 
 
-    const message =
-
-        "🌟 *नया ऑनलाइन पेमेंट आर्डर* 🌟\n\n" +
-
-        "📦 *सामान:* " +
-        selectedProduct +
-        "\n" +
-
-        "💰 *कीमत:* ₹" +
-        selectedPrice +
-        "\n\n" +
-
-        "👤 *ग्राहक का नाम:* " +
-        name +
-        "\n" +
-
-        "📞 *फोन नंबर:* " +
-        phone +
-        "\n" +
-
-        "🏠 *पूरा पता:* " +
-        address +
-        " (Gopalganj, Bihar)\n" +
-
-        "📍 *लाइव लोकेशन:* " +
-        userLocationLink +
-        "\n\n" +
-
-        "💳 *ऑनलाइन पेमेंट कर दिया गया है।*\n" +
-
-        "📸 *मैंने ऑनलाइन पेमेंट का स्क्रीनशॉट WhatsApp पर भेज दिया है। कृपया चेक करें।*";
-
-
     db.ref(
         "orders/" +
-        currentUser.uid
+        order.userId +
+        "/" +
+        order.orderId
     )
 
-    .push(orderData)
+    .update(
+        updateData
+    )
 
     .then(
         function() {
 
-            console.log(
-                "ORDER SAVED SUCCESSFULLY"
-            );
+            /* =========================================
+               Local data update
+            ========================================== */
+
+            const found =
+                allOrders.find(
+                    function(item) {
+
+                        return (
+                            item.userId ===
+                            order.userId &&
+                            item.orderId ===
+                            order.orderId
+                        );
+
+                    }
+                );
 
 
-            closeOrderForm();
+            if (found) {
+
+                found.status =
+                    newStatus;
+
+                found.statusUpdatedAt =
+                    updateData.statusUpdatedAt;
+
+                found.statusUpdatedBy =
+                    updateData.statusUpdatedBy;
+
+            }
 
 
-            openWhatsApp(
-                message
+            updateStats();
+
+            renderOrders();
+
+
+            alert(
+                "✅ Order status update हो गया:\n\n" +
+                newStatus
             );
 
         }
@@ -2533,26 +1864,17 @@ function submitOnlineOrder() {
         function(error) {
 
             console.error(
-                "Firebase Order Error:",
+                "Status Update Error:",
                 error
             );
 
 
-            btn.disabled =
-                false;
-
-
-            btn.innerText =
-                "✅ पेमेंट करके आर्डर भेजें (WhatsApp)";
-
-
             alert(
 
-                "❌ Order Save नहीं हो पाया!\n\n" +
+                "❌ Status update नहीं हुआ।\n\n" +
 
-                "Firebase Database Rules या Internet Connection चेक करें।\n\n" +
+                "Firebase Rules check करें।\n\n" +
 
-                "Error: " +
                 error.message
 
             );
@@ -2563,383 +1885,75 @@ function submitOnlineOrder() {
 }
 
 
+
 /* =========================================================
-   LOAD USER ORDERS
+   HTML ESCAPE
 ========================================================= */
 
-function loadUserOrders(
-    userId
+function escapeHtml(
+    value
 ) {
 
-    const ordersList =
-        document.getElementById(
-            "ordersList"
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
         );
 
-
-    if (ordersListenerAttached) {
-
-        db.ref(
-            "orders/" +
-            userId
-        ).off();
-
-    }
-
-
-    ordersListenerAttached =
-        true;
-
-
-    db.ref(
-        "orders/" +
-        userId
-    )
-
-    .on(
-        "value",
-
-        function(snapshot) {
-
-            ordersList.innerHTML =
-                "";
-
-
-            if (!snapshot.exists()) {
-
-                ordersList.innerHTML =
-
-                    '<p style="' +
-                    'text-align:center;' +
-                    'color:#777;' +
-                    'margin-top:30px;">' +
-
-                    'कोई ऑर्डर्स नहीं मिले।' +
-
-                    '</p>';
-
-                return;
-
-            }
-
-
-            snapshot.forEach(
-                function(childSnap) {
-
-                    const order =
-                        childSnap.val();
-
-
-                    let statusClass =
-                        "status-pending";
-
-
-                    if (
-                        order.status ===
-                        "Payment Successful"
-                    ) {
-
-                        statusClass =
-                            "status-success";
-
-                    }
-
-
-                    if (
-                        order.status ===
-                        "Failed"
-                    ) {
-
-                        statusClass =
-                            "status-failed";
-
-                    }
-
-
-                    const card =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    card.className =
-                        "order-card";
-
-
-                    const header =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    header.className =
-                        "order-header";
-
-
-                    const product =
-                        document.createElement(
-                            "b"
-                        );
-
-
-                    product.innerText =
-                        order.product ||
-                        "Product";
-
-
-                    const status =
-                        document.createElement(
-                            "span"
-                        );
-
-
-                    status.className =
-                        "status-badge " +
-                        statusClass;
-
-
-                    status.innerText =
-                        order.status ||
-                        "Pending";
-
-
-                    header.appendChild(
-                        product
-                    );
-
-
-                    header.appendChild(
-                        status
-                    );
-
-
-                    card.appendChild(
-                        header
-                    );
-
-
-                    const price =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    price.innerHTML =
-                        "<b>कीमत:</b> ₹" +
-                        (
-                            order.price ||
-                            ""
-                        );
-
-
-                    card.appendChild(
-                        price
-                    );
-
-
-                    const date =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    date.innerHTML =
-                        "<b>आर्डर तारीख:</b> " +
-                        (
-                            order.timestamp ||
-                            ""
-                        );
-
-
-                    card.appendChild(
-                        date
-                    );
-
-
-                    const addr =
-                        document.createElement(
-                            "div"
-                        );
-
-
-                    addr.innerHTML =
-                        "<b>पता:</b> " +
-                        (
-                            order.address ||
-                            ""
-                        );
-
-
-                    card.appendChild(
-                        addr
-                    );
-
-
-                    ordersList.prepend(
-                        card
-                    );
-
-                }
-            );
-
-        },
-
-        function(error) {
-
-            console.error(
-                "Orders Load Error:",
-                error
-            );
-
-
-            ordersList.innerHTML =
-
-                '<p style="' +
-                'text-align:center;' +
-                'color:#d32f2f;' +
-                'margin-top:30px;">' +
-
-                '❌ Orders load नहीं हो सके।<br><br>' +
-
-                'Firebase Database Rules चेक करें।' +
-
-                '</p>';
-
-        }
-
-    );
-
 }
 
 
+
 /* =========================================================
-   DIRECT WHATSAPP BUY
+   ATTRIBUTE ESCAPE
 ========================================================= */
 
-function buyNow(
-    productName,
-    price
+function escapeAttribute(
+    value
 ) {
 
-    const message =
+    return String(value)
 
-        "नमस्ते Topper Stitching! " +
-        "मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" +
+        .replace(
+            /"/g,
+            "&quot;"
+        )
 
-        "📦 सामान: " +
-        productName +
-        "\n" +
+        .replace(
+            /</g,
+            "&lt;"
+        )
 
-        "💰 कीमत: ₹" +
-        price +
-        "\n\n" +
-
-        "📍 *लाइव लोकेशन:* " +
-        userLocationLink +
-        "\n\n" +
-
-        "कृपया डिलीवरी की जानकारी भेजें।";
-
-
-    openWhatsApp(
-        message
-    );
+        .replace(
+            />/g,
+            "&gt;"
+        );
 
 }
-
-
-/* =========================================================
-   TABLE WHATSAPP BUY
-========================================================= */
-
-function buyTableNow() {
-
-    const chosenColor =
-        getSelectedTableColor();
-
-
-    const finalProduct =
-        "Sewing Machine Top Table [" +
-        chosenColor +
-        "]";
-
-
-    const message =
-
-        "नमस्ते Topper Stitching! " +
-        "मुझे गोपालगंज के लिए यह सामान ऑर्डर करना है:\n\n" +
-
-        "📦 सामान: " +
-        finalProduct +
-        "\n" +
-
-        "💰 कीमत: ₹550\n\n" +
-
-        "📍 *लाइव लोकेशन:* " +
-        userLocationLink +
-        "\n\n" +
-
-        "कृपया डिलीवरी की जानकारी भेजें।";
-
-
-    openWhatsApp(
-        message
-    );
-
-}
-
-
-/* =========================================================
-   MODAL OUTSIDE CLICK
-========================================================= */
-
-window.addEventListener(
-    "click",
-    function(event) {
-
-        const modal =
-            document.getElementById(
-                "orderModal"
-            );
-
-
-        if (
-            event.target === modal
-        ) {
-
-            closeOrderForm();
-
-        }
-
-    }
-);
-
-
-/* =========================================================
-   PHONE INPUT
-========================================================= */
-
-document.getElementById(
-    "custPhone"
-).addEventListener(
-    "input",
-    function() {
-
-        this.value =
-            this.value
-            .replace(
-                /[^0-9]/g,
-                ""
-            )
-            .slice(
-                0,
-                10
-            );
-
-    }
-);
 
 </script>
+
 
 </body>
     </html>
