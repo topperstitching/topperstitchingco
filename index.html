@@ -409,7 +409,7 @@ button:disabled{
     background:#fff;
     border-top:1px solid #ddd;
     display:flex;
-    justify-style:space-around;
+    justify-space-around:space-around;
     padding:8px 0;
     box-shadow:0 -2px 10px rgba(0,0,0,.08);
     z-index:100;
@@ -873,17 +873,30 @@ let ordersListenerAttached = false;
 
 
 /* =========================================================
-   AUTH STATE & REDIRECT RESULT HANDLING (WEBVIEW FRIENDLY)
+   HANDLE REDIRECT RESULT & AUTH LISTENER
 ========================================================= */
 
-// Catch redirect login result on page reload
+// Capture result after redirecting back from Google Sign-In
 auth.getRedirectResult().then(function(result) {
     if (result.user) {
-        console.log("Redirect login successful:", result.user);
+        console.log("Redirect sign-in successful:", result.user.displayName);
     }
 }).catch(function(error) {
-    console.error("Redirect login error:", error);
+    console.error("Redirect Auth Error:", error.message);
+    alert("Login Error: " + error.message);
+    resetAuthButtons();
 });
+
+function resetAuthButtons(){
+    const authBtn = document.getElementById("authBtn");
+    const profileAuthBtn = document.getElementById("profileAuthBtn");
+    if(!currentUser){
+        authBtn.disabled = false;
+        profileAuthBtn.disabled = false;
+        authBtn.innerText = "Sign In";
+        profileAuthBtn.innerText = "Google Account से लॉगिन करें";
+    }
+}
 
 auth.onAuthStateChanged(function(user){
 currentUser = user;
@@ -895,6 +908,9 @@ const profilePageImg = document.getElementById("profilePageImg");
 const profileAuthBtn = document.getElementById("profileAuthBtn");
 
 if(user){
+authBtn.disabled = false;
+profileAuthBtn.disabled = false;
+
 authBtn.innerHTML = '<img src="' + (user.photoURL || 'https://via.placeholder.com/25') + '" class="user-pic"> Logout';
 profileName.innerText = user.displayName || "Google User";
 profileEmail.innerText = user.email || "";
@@ -906,6 +922,9 @@ profileAuthBtn.onclick = googleSignOut;
 loadUserOrders(user.uid);
 
 }else{
+authBtn.disabled = false;
+profileAuthBtn.disabled = false;
+
 authBtn.innerHTML = "Sign In";
 profileName.innerText = "Guest User";
 profileEmail.innerText = "Google Account Not Connected";
@@ -927,7 +946,7 @@ document.getElementById("ordersList").innerHTML =
 
 
 /* =========================================================
-   LOGIN & LOGOUT (USING SIGN IN WITH REDIRECT)
+   LOGIN & LOGOUT (WITH WEB CLIENT ID ENFORCED)
 ========================================================= */
 
 function handleAuthAction(){
@@ -945,7 +964,8 @@ return;
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({
-prompt:"select_account"
+'client_id': '281176461879-m4evqumqf0kfmme5bmghs3kmov6kjbbu.apps.googleusercontent.com',
+'prompt': 'select_account'
 });
 
 const authBtn = document.getElementById("authBtn");
@@ -956,7 +976,6 @@ profileAuthBtn.disabled = true;
 authBtn.innerText = "Google खोल रहा है...";
 profileAuthBtn.innerText = "Google Login खुल रहा है...";
 
-// Using Redirect instead of Popup to fix WebView blocking
 auth.signInWithRedirect(provider);
 }
 
@@ -1228,10 +1247,12 @@ statusClass = "status-failed";
 statusText = "❌ Failed";
 }
 
-const card = document.createElement("div");
-card.className = "order-card";
+const card = document.getElementById("ordersList");
 
-card.innerHTML =
+const orderEl = document.createElement("div");
+orderEl.className = "order-card";
+
+orderEl.innerHTML =
 '<div class="order-header">' +
 '<b>' + escapeHtml(order.product || "Product") + '</b>' +
 '<span class="status-badge ' + statusClass + '">' + statusText + '</span>' +
@@ -1244,13 +1265,13 @@ card.innerHTML =
 '<div style="margin-top:6px;"><b>🕐 तारीख:</b> ' + escapeHtml(order.date || "") + '</div>';
 
 if(order.location){
-card.innerHTML +=
+orderEl.innerHTML +=
 '<div style="margin-top:8px;">' +
 '<a href="' + escapeAttribute(order.location) + '" target="_blank">📍 Delivery Location देखें</a>' +
 '</div>';
 }
 
-ordersList.appendChild(card);
+ordersList.appendChild(orderEl);
 });
 },function(error){
 console.error("Orders Load Error:",error);
