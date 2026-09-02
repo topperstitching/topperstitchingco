@@ -873,28 +873,21 @@ let ordersListenerAttached = false;
 
 
 /* =========================================================
-   HANDLE REDIRECT RESULT & AUTH LISTENER
+   AUTH STATE LISTENER
 ========================================================= */
-
-// Capture result after redirecting back from Google Sign-In
-auth.getRedirectResult().then(function(result) {
-    if (result.user) {
-        console.log("Redirect sign-in successful:", result.user.displayName);
-    }
-}).catch(function(error) {
-    console.error("Redirect Auth Error:", error.message);
-    alert("Login Error: " + error.message);
-    resetAuthButtons();
-});
 
 function resetAuthButtons(){
     const authBtn = document.getElementById("authBtn");
     const profileAuthBtn = document.getElementById("profileAuthBtn");
     if(!currentUser){
-        authBtn.disabled = false;
-        profileAuthBtn.disabled = false;
-        authBtn.innerText = "Sign In";
-        profileAuthBtn.innerText = "Google Account से लॉगिन करें";
+        if(authBtn){
+            authBtn.disabled = false;
+            authBtn.innerText = "Sign In";
+        }
+        if(profileAuthBtn){
+            profileAuthBtn.disabled = false;
+            profileAuthBtn.innerText = "Google Account से लॉगिन करें";
+        }
     }
 }
 
@@ -908,29 +901,35 @@ const profilePageImg = document.getElementById("profilePageImg");
 const profileAuthBtn = document.getElementById("profileAuthBtn");
 
 if(user){
-authBtn.disabled = false;
-profileAuthBtn.disabled = false;
-
-authBtn.innerHTML = '<img src="' + (user.photoURL || 'https://via.placeholder.com/25') + '" class="user-pic"> Logout';
-profileName.innerText = user.displayName || "Google User";
-profileEmail.innerText = user.email || "";
-profilePageImg.src = user.photoURL || 'https://via.placeholder.com/80';
-profileAuthBtn.innerText = "Logout";
-profileAuthBtn.onclick = googleSignOut;
+if(authBtn){
+    authBtn.disabled = false;
+    authBtn.innerHTML = '<img src="' + (user.photoURL || 'https://via.placeholder.com/25') + '" class="user-pic"> Logout';
+}
+if(profileName) profileName.innerText = user.displayName || "Google User";
+if(profileEmail) profileEmail.innerText = user.email || "";
+if(profilePageImg) profilePageImg.src = user.photoURL || 'https://via.placeholder.com/80';
+if(profileAuthBtn){
+    profileAuthBtn.disabled = false;
+    profileAuthBtn.innerText = "Logout";
+    profileAuthBtn.onclick = googleSignOut;
+}
 
 /* USER KE ORDERS LOAD */
 loadUserOrders(user.uid);
 
 }else{
-authBtn.disabled = false;
-profileAuthBtn.disabled = false;
-
-authBtn.innerHTML = "Sign In";
-profileName.innerText = "Guest User";
-profileEmail.innerText = "Google Account Not Connected";
-profilePageImg.src = 'https://via.placeholder.com/80';
-profileAuthBtn.innerText = "Google Account से लॉगिन करें";
-profileAuthBtn.onclick = googleSignIn;
+if(authBtn){
+    authBtn.disabled = false;
+    authBtn.innerHTML = "Sign In";
+}
+if(profileName) profileName.innerText = "Guest User";
+if(profileEmail) profileEmail.innerText = "Google Account Not Connected";
+if(profilePageImg) profilePageImg.src = 'https://via.placeholder.com/80';
+if(profileAuthBtn){
+    profileAuthBtn.disabled = false;
+    profileAuthBtn.innerText = "Google Account से लॉगिन करें";
+    profileAuthBtn.onclick = googleSignIn;
+}
 
 if(ordersListenerAttached){
 db.ref("orders").off();
@@ -946,7 +945,7 @@ document.getElementById("ordersList").innerHTML =
 
 
 /* =========================================================
-   LOGIN & LOGOUT (WITH WEB CLIENT ID ENFORCED)
+   LOGIN & LOGOUT (FIXED POPUP LOGIN)
 ========================================================= */
 
 function handleAuthAction(){
@@ -964,19 +963,29 @@ return;
 
 const provider = new firebase.auth.GoogleAuthProvider();
 provider.setCustomParameters({
-'client_id': '281176461879-m4evqumqf0kfmme5bmghs3kmov6kjbbu.apps.googleusercontent.com',
-'prompt': 'select_account'
+    prompt: 'select_account'
 });
 
 const authBtn = document.getElementById("authBtn");
 const profileAuthBtn = document.getElementById("profileAuthBtn");
 
-authBtn.disabled = true;
-profileAuthBtn.disabled = true;
-authBtn.innerText = "Google खोल रहा है...";
-profileAuthBtn.innerText = "Google Login खुल रहा है...";
+if(authBtn){
+    authBtn.disabled = true;
+    authBtn.innerText = "Google खोल रहा है...";
+}
+if(profileAuthBtn){
+    profileAuthBtn.disabled = true;
+    profileAuthBtn.innerText = "Google Login खुल रहा है...";
+}
 
-auth.signInWithRedirect(provider);
+// Popup Login (पेज रीलोड नहीं होगा और 1-क्लिक में साइन-इन होगा)
+auth.signInWithPopup(provider).then(function(result) {
+    console.log("Sign-in Success:", result.user.displayName);
+}).catch(function(error) {
+    console.error("Login Error:", error);
+    alert("Login Error: " + error.message);
+    resetAuthButtons();
+});
 }
 
 function googleSignOut(){
@@ -1246,8 +1255,6 @@ statusText = "✅ Successful";
 statusClass = "status-failed";
 statusText = "❌ Failed";
 }
-
-const card = document.getElementById("ordersList");
 
 const orderEl = document.createElement("div");
 orderEl.className = "order-card";
