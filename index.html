@@ -250,6 +250,11 @@ header{
     color:#333;
 }
 
+.delivery-text{
+    color:#d84315;
+    font-weight:bold;
+}
+
 .btn-buy,
 .btn-online,
 .btn-submit,
@@ -409,7 +414,7 @@ button:disabled{
     background:#fff;
     border-top:1px solid #ddd;
     display:flex;
-    justify-space-around:space-around;
+    justify-content:space-around;
     padding:8px 0;
     box-shadow:0 -2px 10px rgba(0,0,0,.08);
     z-index:100;
@@ -513,15 +518,6 @@ button:disabled{
     object-fit:cover;
 }
 
-.small-note{
-    background:#fff8e1;
-    color:#795548;
-    padding:10px;
-    border-radius:8px;
-    margin:10px 0;
-    font-size:12px;
-}
-
 @media(max-width:500px){
     .brand-title{
         font-size:18px;
@@ -590,6 +586,7 @@ Sign In
 <div><span>वारंटी:</span> 5 Years</div>
 <div><span>गारंटी:</span> 0 Days</div>
 <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+<div><span class="delivery-text">डिलीवरी चार्ज:</span> ₹10 प्रति किलोमीटर</div>
 </div>
 </div>
 </div>
@@ -615,6 +612,7 @@ Sign In
 <div><span>वारंटी:</span> 5 Years</div>
 <div><span>गारंटी:</span> 0 Days</div>
 <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+<div><span class="delivery-text">डिलीवरी चार्ज:</span> ₹10 प्रति किलोमीटर</div>
 </div>
 </div>
 </div>
@@ -640,6 +638,7 @@ Sign In
 <div><span>वारंटी:</span> 2 Times Service</div>
 <div><span>गारंटी:</span> 0 Days</div>
 <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+<div><span class="delivery-text">डिलीवरी चार्ज:</span> ₹10 प्रति किलोमीटर</div>
 </div>
 </div>
 </div>
@@ -665,6 +664,7 @@ Sign In
 <div><span>वारंटी:</span> 5 Years</div>
 <div><span>गारंटी:</span> 0 Days</div>
 <div><span>टूलबॉक्स:</span> Accessories Box Included</div>
+<div><span class="delivery-text">डिलीवरी चार्ज:</span> ₹10 प्रति किलोमीटर</div>
 </div>
 </div>
 </div>
@@ -708,6 +708,7 @@ Sign In
 <div><span>कलर:</span> <span id="selectedTableColorText">Light Wooden</span></div>
 <div><span>टाइप:</span> Top Table Only</div>
 <div><span>वारंटी / गारंटी:</span> None</div>
+<div><span class="delivery-text">डिलीवरी चार्ज:</span> ₹10 प्रति किलोमीटर</div>
 </div>
 </div>
 </div>
@@ -731,6 +732,7 @@ Sign In
 <div><span>साइज:</span> Size 10</div>
 <div><span>टाइप:</span> Scissors Only</div>
 <div><span>वारंटी / गारंटी:</span> None</div>
+<div><span class="delivery-text">डिलीवरी चार्ज:</span> ₹10 प्रति किलोमीटर</div>
 </div>
 </div>
 </div>
@@ -786,7 +788,8 @@ Gmail: <b>ankitsingh926413@gmail.com</b>
 <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
 <div class="delivery-badge">
 🚚 Home Delivery Only For<br>
-<b>Bihar District: Gopalganj (Area)</b>
+<b>Bihar District: Gopalganj (Area)</b><br>
+<span style="color:#d84315;">(डिलीवरी शुल्क: ₹10/किमी)</span>
 </div>
 <p id="modalProductInfo"></p>
 
@@ -807,7 +810,12 @@ Gmail: <b>ankitsingh926413@gmail.com</b>
 
 <div class="qr-box">
 <img id="qrImage" src="UPI_QR.png" alt="UPI QR Code">
-<p>इस QR Code को स्कैन करके पेमेंट करें। पेमेंट करने के बाद नीचे वाला बटन दबाएँ।</p>
+<p>इस QR Code को स्कैन करके पेमेंट करें।</p>
+</div>
+
+<div class="form-group">
+<label>पेमेंट का UTR / Transaction ID डालें:</label>
+<input type="text" id="custUtr" placeholder="12-अंकों का UTR या Ref No. लिखें" inputmode="numeric" maxlength="18">
 </div>
 
 <button id="onlineOrderBtn" class="btn-submit" onclick="submitOnlineOrder()">✅ पेमेंट करके आर्डर भेजें (WhatsApp)</button>
@@ -945,7 +953,7 @@ document.getElementById("ordersList").innerHTML =
 
 
 /* =========================================================
-   LOGIN & LOGOUT (FIXED POPUP LOGIN)
+   LOGIN & LOGOUT (POPUP LOGIN)
 ========================================================= */
 
 function handleAuthAction(){
@@ -978,7 +986,6 @@ if(profileAuthBtn){
     profileAuthBtn.innerText = "Google Login खुल रहा है...";
 }
 
-// Popup Login (पेज रीलोड नहीं होगा और 1-क्लिक में साइन-इन होगा)
 auth.signInWithPopup(provider).then(function(result) {
     console.log("Sign-in Success:", result.user.displayName);
 }).catch(function(error) {
@@ -998,14 +1005,24 @@ alert("Logout Error: " + error.message);
 
 
 /* =========================================================
-   WHATSAPP INTEGRATION
+   WHATSAPP INTEGRATION (APP-SAFE INTENT)
 ========================================================= */
 
 function openWhatsApp(message){
 const phoneNumber = "919264137710";
 const text = encodeURIComponent(message);
-const whatsappUrl = "https://wa.me/" + phoneNumber + "?text=" + text;
-window.location.href = whatsappUrl;
+
+// Native App Intent Link (वेबसाइट/ब्राउज़र नहीं खोलेगा)
+const whatsappAppUrl = "whatsapp://send?phone=" + phoneNumber + "&text=" + text;
+const whatsappWebUrl = "https://wa.me/" + phoneNumber + "?text=" + text;
+
+// App Context Check
+window.location.href = whatsappAppUrl;
+
+setTimeout(function(){
+    // अगर Native App ट्रिगर नहीं हुआ तो फॉलबैक लिंक
+    window.open(whatsappWebUrl, '_self');
+}, 500);
 }
 
 
@@ -1129,26 +1146,32 @@ btn.innerText = "✅ पेमेंट करके आर्डर भेज�
 
 
 /* =========================================================
-   SAVE ORDER TO FIREBASE REALTIME DATABASE
+   SAVE ORDER TO FIREBASE REALTIME DATABASE (WITH UTR)
 ========================================================= */
 
 async function submitOnlineOrder(){
 const name = document.getElementById("custName").value.trim();
 const phone = document.getElementById("custPhone").value.trim();
 const address = document.getElementById("custAddress").value.trim();
+const utr = document.getElementById("custUtr").value.trim();
 
 if(!currentUser){
 alert("कृपया पहले Google Account से Login करें!");
 return;
 }
 
-if(!name || !phone || !address){
-alert("कृपया अपनी सभी जानकारी भरें!");
+if(!name || !phone || !address || !utr){
+alert("कृपया नाम, फोन, पता और UTR नंबर सभी जानकारी भरें!");
 return;
 }
 
 if(!/^[0-9]{10}$/.test(phone)){
 alert("कृपया 10 अंकों का सही मोबाइल नंबर डालें!");
+return;
+}
+
+if(utr.length < 6){
+alert("कृपया सही UTR / Transaction No. दर्ज करें!");
 return;
 }
 
@@ -1164,7 +1187,9 @@ customerPhone: phone,
 customerPhoto: currentUser.photoURL || "",
 product: selectedProduct,
 price: Number(selectedPrice),
+deliveryCharge: "₹10/km",
 address: address,
+utrNumber: utr,
 location: userLocationLink,
 status: "pending",
 paymentStatus: "submitted",
@@ -1185,20 +1210,22 @@ const message =
 "🌟 *नया ऑनलाइन पेमेंट आर्डर* 🌟\n\n" +
 "🆔 *Order ID:* " + orderId + "\n\n" +
 "📦 *सामान:* " + selectedProduct + "\n" +
-"💰 *कीमत:* ₹" + Number(selectedPrice).toLocaleString("en-IN") + "\n\n" +
+"💰 *कीमत:* ₹" + Number(selectedPrice).toLocaleString("en-IN") + "\n" +
+"🚚 *डिलीवरी शुल्क:* ₹10 प्रति किलोमीटर\n" +
+"🔢 *UTR/Txn ID:* " + utr + "\n\n" +
 "👤 *ग्राहक का नाम:* " + name + "\n" +
 "📞 *फोन नंबर:* " + phone + "\n" +
 "🏠 *पूरा पता:* " + address + "\n\n" +
 "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" +
-"💳 *Payment:* UPI\n" +
-"📸 *पेमेंट स्क्रीनशॉट WhatsApp पर भेजा गया है। कृपया चेक करें।";
+"💳 *Payment:* UPI Verified";
 
 document.getElementById("custName").value = "";
 document.getElementById("custPhone").value = "";
 document.getElementById("custAddress").value = "";
+document.getElementById("custUtr").value = "";
 
 closeOrderForm();
-alert("✅ आपका Order सफलतापूर्वक सेव हो गया!\n\nOrder ID:\n" + orderId);
+alert("✅ आपका Order और UTR सफलतापूर्वक सेव हो गया!\n\nOrder ID:\n" + orderId);
 openWhatsApp(message);
 
 }catch(error){
@@ -1266,6 +1293,8 @@ orderEl.innerHTML =
 '</div>' +
 '<div><b>🆔 Order ID:</b> ' + escapeHtml(order.orderId || order._id) + '</div>' +
 '<div style="margin-top:6px;"><b>💰 कीमत:</b> ₹' + Number(order.price || 0).toLocaleString("en-IN") + '</div>' +
+'<div style="margin-top:6px;"><b>🚚 डिलीवरी:</b> ₹10/km</div>' +
+'<div style="margin-top:6px;"><b>🔢 UTR ID:</b> ' + escapeHtml(order.utrNumber || "N/A") + '</div>' +
 '<div style="margin-top:6px;"><b>👤 नाम:</b> ' + escapeHtml(order.customerName || "") + '</div>' +
 '<div style="margin-top:6px;"><b>📞 मोबाइल:</b> ' + escapeHtml(order.customerPhone || "") + '</div>' +
 '<div style="margin-top:6px;"><b>🏠 पता:</b> ' + escapeHtml(order.address || "") + '</div>' +
@@ -1295,7 +1324,8 @@ function buyNow(productName,price){
 const message =
 "नमस्ते Topper Stitching! मुझे यह सामान ऑर्डर करना है:\n\n" +
 "📦 सामान: " + productName + "\n" +
-"💰 कीमत: ₹" + Number(price).toLocaleString("en-IN") + "\n\n" +
+"💰 कीमत: ₹" + Number(price).toLocaleString("en-IN") + "\n" +
+"🚚 डिलीवरी शुल्क: ₹10 प्रति किलोमीटर\n\n" +
 "📍 लाइव लोकेशन: " + userLocationLink + "\n\n" +
 "कृपया डिलीवरी की जानकारी भेजें।";
 
@@ -1309,7 +1339,8 @@ const finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
 const message =
 "नमस्ते Topper Stitching! मुझे यह सामान ऑर्डर करना है:\n\n" +
 "📦 सामान: " + finalProduct + "\n" +
-"💰 कीमत: ₹550\n\n" +
+"💰 कीमत: ₹550\n" +
+"🚚 डिलीवरी शुल्क: ₹10 प्रति किलोमीटर\n\n" +
 "📍 लाइव लोकेशन: " + userLocationLink + "\n\n" +
 "कृपया डिलीवरी की जानकारी भेजें।";
 
@@ -1357,4 +1388,5 @@ return String(value)
 </script>
 
 </body>
-</html>
+    </html>
+         
