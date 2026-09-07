@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-
 <title>Topper Sewing Machine Shopping</title>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
@@ -11,7 +10,6 @@
 <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
 
 <style>
-
 *{
     box-sizing:border-box;
     font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
@@ -414,7 +412,7 @@ button:disabled{
     background:#fff;
     border-top:1px solid #ddd;
     display:flex;
-    justify-content:space-around;
+    justify-style:space-around;
     padding:8px 0;
     box-shadow:0 -2px 10px rgba(0,0,0,.08);
     z-index:100;
@@ -534,33 +532,22 @@ button:disabled{
         height:200px;
     }
 }
-
 </style>
 </head>
 
 <body>
 
 <header>
-
 <div>
 <div class="brand-title">TOPPER STITCHING</div>
-<div class="brand-subtitle">
-विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें
-</div>
+<div class="brand-subtitle">विश्वास और बेहतरीन क्वालिटी की सिलाई मशीनें</div>
 </div>
 
-<button
-id="authBtn"
-class="auth-header-btn"
-onclick="handleAuthAction()">
-Sign In
-</button>
-
+<button id="authBtn" class="auth-header-btn" onclick="handleAuthAction()">Sign In</button>
 </header>
 
 
 <!-- ================= HOME ================= -->
-
 <div id="homeView" class="view-section active-view">
 
 <div class="banner">
@@ -756,7 +743,6 @@ Gmail: <b>ankitsingh926413@gmail.com</b>
 
 
 <!-- ================= ORDERS ================= -->
-
 <div id="ordersView" class="view-section">
 <div class="orders-container">
 <h2 class="orders-title">आपके ऑर्डर्स (My Orders)</h2>
@@ -768,7 +754,6 @@ Gmail: <b>ankitsingh926413@gmail.com</b>
 
 
 <!-- ================= PROFILE ================= -->
-
 <div id="profileView" class="view-section">
 <div class="profile-container">
 <img id="profilePageImg" src="https://via.placeholder.com/80" class="profile-img" alt="Profile">
@@ -782,7 +767,6 @@ Gmail: <b>ankitsingh926413@gmail.com</b>
 
 
 <!-- ================= ORDER MODAL ================= -->
-
 <div id="orderModal" class="modal">
 <div class="modal-content">
 <h3>🛒 ऑनलाइन आर्डर और पेमेंट</h3>
@@ -825,7 +809,6 @@ Gmail: <b>ankitsingh926413@gmail.com</b>
 
 
 <!-- ================= BOTTOM NAV ================= -->
-
 <div class="bottom-nav">
 <button class="nav-item active" onclick="switchTab('homeView',this)">
 <span class="icon">🏠</span>Home
@@ -840,11 +823,9 @@ Gmail: <b>ankitsingh926413@gmail.com</b>
 
 
 <script>
-
 /* =========================================================
    FIREBASE CONFIG
 ========================================================= */
-
 const firebaseConfig = {
 apiKey: "AIzaSyDrsMo4f15JZxUk8LkNYqlYqfzEHOQ8Q4w",
 authDomain: "toppersewingmachine.firebaseapp.com",
@@ -856,11 +837,6 @@ appId: "1:281176461879:web:97648170de01d8c975e5b2",
 measurementId: "G-GRP6EXGE3L"
 };
 
-
-/* =========================================================
-   FIREBASE INIT
-========================================================= */
-
 if(!firebase.apps.length){
 firebase.initializeApp(firebaseConfig);
 }
@@ -868,22 +844,38 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.database();
 
-
-/* =========================================================
-   GLOBAL VARIABLES
-========================================================= */
-
 let currentUser = null;
 let selectedProduct = "";
 let selectedPrice = "";
 let userLocationLink = "उपलब्ध नहीं (GPS अनुमति दें)";
 let ordersListenerAttached = false;
 
+/* =========================================================
+   GPS LOCATION ON-DEMAND (परमिशन पॉप-अप फिक्स)
+========================================================= */
+function fetchLocation(callback) {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            function(position) {
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+                userLocationLink = "https://www.google.com/maps?q=" + lat + "," + lng;
+                if(callback) callback();
+            },
+            function(error) {
+                console.log("GPS Denied or Error");
+                if(callback) callback();
+            },
+            { enableHighAccuracy: true, timeout: 5000, maximumAge: 0 }
+        );
+    } else {
+        if(callback) callback();
+    }
+}
 
 /* =========================================================
    AUTH STATE LISTENER
 ========================================================= */
-
 function resetAuthButtons(){
     const authBtn = document.getElementById("authBtn");
     const profileAuthBtn = document.getElementById("profileAuthBtn");
@@ -922,7 +914,6 @@ if(profileAuthBtn){
     profileAuthBtn.onclick = googleSignOut;
 }
 
-/* USER KE ORDERS LOAD */
 loadUserOrders(user.uid);
 
 }else{
@@ -951,11 +942,9 @@ document.getElementById("ordersList").innerHTML =
 }
 });
 
-
 /* =========================================================
-   LOGIN & LOGOUT (POPUP LOGIN)
+   LOGIN & LOGOUT
 ========================================================= */
-
 function handleAuthAction(){
 if(currentUser){
 googleSignOut();
@@ -1003,33 +992,26 @@ alert("Logout Error: " + error.message);
 });
 }
 
-
 /* =========================================================
-   WHATSAPP INTEGRATION (APP-SAFE INTENT)
+   SAFE WHATSAPP OPENER (WEBVIEW BLOCK FIX)
 ========================================================= */
-
 function openWhatsApp(message){
 const phoneNumber = "919264137710";
 const text = encodeURIComponent(message);
+const intentUrl = "whatsapp://send?phone=" + phoneNumber + "&text=" + text;
+const webUrl = "https://wa.me/" + phoneNumber + "?text=" + text;
 
-// Native App Intent Link (वेबसाइट/ब्राउज़र नहीं खोलेगा)
-const whatsappAppUrl = "whatsapp://send?phone=" + phoneNumber + "&text=" + text;
-const whatsappWebUrl = "https://wa.me/" + phoneNumber + "?text=" + text;
-
-// App Context Check
-window.location.href = whatsappAppUrl;
+// Try launching WhatsApp Protocol directly
+window.location.href = intentUrl;
 
 setTimeout(function(){
-    // अगर Native App ट्रिगर नहीं हुआ तो फॉलबैक लिंक
-    window.open(whatsappWebUrl, '_self');
-}, 500);
+    window.location.assign(webUrl);
+}, 600);
 }
-
 
 /* =========================================================
    TAB NAVIGATION
 ========================================================= */
-
 function switchTab(viewId,btnEl){
 document.querySelectorAll(".view-section").forEach(function(view){
 view.classList.remove("active-view");
@@ -1043,11 +1025,9 @@ document.getElementById(viewId).classList.add("active-view");
 btnEl.classList.add("active");
 }
 
-
 /* =========================================================
    TABLE SLIDER LOGIC
 ========================================================= */
-
 const tableSliderTrack = document.getElementById("tableSlider");
 
 if(tableSliderTrack){
@@ -1084,34 +1064,9 @@ const tableColors = ["Light Wooden","Grey Wooden","Light Dark Wooden","Dark Wood
 return (tableColors[index] || "Light Wooden");
 }
 
-
-/* =========================================================
-   GPS LOCATION SERVICES
-========================================================= */
-
-if(navigator.geolocation){
-navigator.geolocation.getCurrentPosition(
-function(position){
-const lat = position.coords.latitude;
-const lng = position.coords.longitude;
-userLocationLink = "https://www.google.com/maps?q=" + lat + "," + lng;
-},
-function(error){
-console.log("GPS permission denied.");
-},
-{
-enableHighAccuracy:true,
-timeout:10000,
-maximumAge:0
-}
-);
-}
-
-
 /* =========================================================
    ORDER MODAL CONTROLS
 ========================================================= */
-
 function openOrderForm(productName,price){
 if(!currentUser){
 alert("ऑर्डर करने के लिए पहले Google Account से Sign-In करें!");
@@ -1144,11 +1099,9 @@ btn.disabled = false;
 btn.innerText = "✅ पेमेंट करके आर्डर भेजें (WhatsApp)";
 }
 
-
 /* =========================================================
-   SAVE ORDER TO FIREBASE REALTIME DATABASE (WITH UTR)
+   SAVE ORDER TO FIREBASE REALTIME DATABASE
 ========================================================= */
-
 async function submitOnlineOrder(){
 const name = document.getElementById("custName").value.trim();
 const phone = document.getElementById("custPhone").value.trim();
@@ -1177,70 +1130,71 @@ return;
 
 const btn = document.getElementById("onlineOrderBtn");
 btn.disabled = true;
-btn.innerText = "⏳ Order Firebase में Save हो रहा है...";
+btn.innerText = "⏳ Order Save हो रहा है...";
 
-const orderData = {
-userId: currentUser.uid,
-userEmail: currentUser.email || "",
-customerName: name,
-customerPhone: phone,
-customerPhoto: currentUser.photoURL || "",
-product: selectedProduct,
-price: Number(selectedPrice),
-deliveryCharge: "₹10/km",
-address: address,
-utrNumber: utr,
-location: userLocationLink,
-status: "pending",
-paymentStatus: "submitted",
-paymentMethod: "UPI",
-createdAt: Date.now(),
-timestamp: new Date().toISOString(),
-date: new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"})
-};
+// Get Location before order submit
+fetchLocation(async function() {
+    const orderData = {
+    userId: currentUser.uid,
+    userEmail: currentUser.email || "",
+    customerName: name,
+    customerPhone: phone,
+    customerPhoto: currentUser.photoURL || "",
+    product: selectedProduct,
+    price: Number(selectedPrice),
+    deliveryCharge: "₹10/km",
+    address: address,
+    utrNumber: utr,
+    location: userLocationLink,
+    status: "pending",
+    paymentStatus: "submitted",
+    paymentMethod: "UPI",
+    createdAt: Date.now(),
+    timestamp: new Date().toISOString(),
+    date: new Date().toLocaleString("en-IN",{dateStyle:"medium",timeStyle:"short"})
+    };
 
-try{
-const newOrderRef = db.ref("orders").push();
-const orderId = newOrderRef.key;
-orderData.orderId = orderId;
+    try{
+    const newOrderRef = db.ref("orders").push();
+    const orderId = newOrderRef.key;
+    orderData.orderId = orderId;
 
-await newOrderRef.set(orderData);
+    await newOrderRef.set(orderData);
 
-const message =
-"🌟 *नया ऑनलाइन पेमेंट आर्डर* 🌟\n\n" +
-"🆔 *Order ID:* " + orderId + "\n\n" +
-"📦 *सामान:* " + selectedProduct + "\n" +
-"💰 *कीमत:* ₹" + Number(selectedPrice).toLocaleString("en-IN") + "\n" +
-"🚚 *डिलीवरी शुल्क:* ₹10 प्रति किलोमीटर\n" +
-"🔢 *UTR/Txn ID:* " + utr + "\n\n" +
-"👤 *ग्राहक का नाम:* " + name + "\n" +
-"📞 *फोन नंबर:* " + phone + "\n" +
-"🏠 *पूरा पता:* " + address + "\n\n" +
-"📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" +
-"💳 *Payment:* UPI Verified";
+    const message =
+    "🌟 *नया ऑनलाइन पेमेंट आर्डर* 🌟\n\n" +
+    "🆔 *Order ID:* " + orderId + "\n\n" +
+    "📦 *सामान:* " + selectedProduct + "\n" +
+    "💰 *कीमत:* ₹" + Number(selectedPrice).toLocaleString("en-IN") + "\n" +
+    "🚚 *डिलीवरी शुल्क:* ₹10 प्रति किलोमीटर\n" +
+    "🔢 *UTR/Txn ID:* " + utr + "\n\n" +
+    "👤 *ग्राहक का नाम:* " + name + "\n" +
+    "📞 *फोन नंबर:* " + phone + "\n" +
+    "🏠 *पूरा पता:* " + address + "\n\n" +
+    "📍 *लाइव लोकेशन:* " + userLocationLink + "\n\n" +
+    "💳 *Payment:* UPI Verified";
 
-document.getElementById("custName").value = "";
-document.getElementById("custPhone").value = "";
-document.getElementById("custAddress").value = "";
-document.getElementById("custUtr").value = "";
+    document.getElementById("custName").value = "";
+    document.getElementById("custPhone").value = "";
+    document.getElementById("custAddress").value = "";
+    document.getElementById("custUtr").value = "";
 
-closeOrderForm();
-alert("✅ आपका Order और UTR सफलतापूर्वक सेव हो गया!\n\nOrder ID:\n" + orderId);
-openWhatsApp(message);
+    closeOrderForm();
+    alert("✅ आपका Order और UTR सफलतापूर्वक सेव हो गया!");
+    openWhatsApp(message);
 
-}catch(error){
-console.error("Firebase Order Error:",error);
-btn.disabled = false;
-btn.innerText = "✅ पेमेंट करके आर्डर भेजें (WhatsApp)";
-alert("❌ Order Save नहीं हो पाया!\n\n" + error.message);
+    }catch(error){
+    console.error("Firebase Order Error:",error);
+    btn.disabled = false;
+    btn.innerText = "✅ पेमेंट करके आर्डर भेजें (WhatsApp)";
+    alert("❌ Order Save नहीं हो पाया!\n\n" + error.message);
+    }
+});
 }
-}
-
 
 /* =========================================================
-   LOAD ONLY CURRENT USER ORDERS
+   LOAD USER ORDERS
 ========================================================= */
-
 function loadUserOrders(userId){
 const ordersList = document.getElementById("ordersList");
 
@@ -1315,42 +1269,39 @@ ordersList.innerHTML = '<p style="text-align:center;color:#d32f2f;margin-top:30p
 });
 }
 
-
 /* =========================================================
    WHATSAPP DIRECT BUY LOGIC
 ========================================================= */
-
 function buyNow(productName,price){
-const message =
-"नमस्ते Topper Stitching! मुझे यह सामान ऑर्डर करना है:\n\n" +
-"📦 सामान: " + productName + "\n" +
-"💰 कीमत: ₹" + Number(price).toLocaleString("en-IN") + "\n" +
-"🚚 डिलीवरी शुल्क: ₹10 प्रति किलोमीटर\n\n" +
-"📍 लाइव लोकेशन: " + userLocationLink + "\n\n" +
-"कृपया डिलीवरी की जानकारी भेजें।";
+fetchLocation(function() {
+    const message =
+    "नमस्ते Topper Stitching! मुझे यह सामान ऑर्डर करना है:\n\n" +
+    "📦 सामान: " + productName + "\n" +
+    "💰 कीमत: ₹" + Number(price).toLocaleString("en-IN") + "\n" +
+    "🚚 डिलीवरी शुल्क: ₹10 प्रति किलोमीटर\n\n" +
+    "📍 लाइव लोकेशन: " + userLocationLink + "\n\n" +
+    "कृपया डिलीवरी की जानकारी भेजें।";
 
-openWhatsApp(message);
+    openWhatsApp(message);
+});
 }
 
 function buyTableNow(){
-const chosenColor = getSelectedTableColor();
-const finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
+fetchLocation(function() {
+    const chosenColor = getSelectedTableColor();
+    const finalProduct = "Sewing Machine Top Table [" + chosenColor + "]";
 
-const message =
-"नमस्ते Topper Stitching! मुझे यह सामान ऑर्डर करना है:\n\n" +
-"📦 सामान: " + finalProduct + "\n" +
-"💰 कीमत: ₹550\n" +
-"🚚 डिलीवरी शुल्क: ₹10 प्रति किलोमीटर\n\n" +
-"📍 लाइव लोकेशन: " + userLocationLink + "\n\n" +
-"कृपया डिलीवरी की जानकारी भेजें।";
+    const message =
+    "नमस्ते Topper Stitching! मुझे यह सामान ऑर्डर करना है:\n\n" +
+    "📦 सामान: " + finalProduct + "\n" +
+    "💰 कीमत: ₹550\n" +
+    "🚚 डिलीवरी शुल्क: ₹10 प्रति किलोमीटर\n\n" +
+    "📍 लाइव लोकेशन: " + userLocationLink + "\n\n" +
+    "कृपया डिलीवरी की जानकारी भेजें।";
 
-openWhatsApp(message);
+    openWhatsApp(message);
+});
 }
-
-
-/* =========================================================
-   MODAL OUTSIDE CLICK & INPUT FORMATTING
-========================================================= */
 
 window.addEventListener("click",function(event){
 const modal = document.getElementById("orderModal");
@@ -1362,11 +1313,6 @@ closeOrderForm();
 document.getElementById("custPhone").addEventListener("input",function(){
 this.value = this.value.replace(/[^0-9]/g,"").slice(0,10);
 });
-
-
-/* =========================================================
-   SECURITY / HTML ESCAPE HELPERS
-========================================================= */
 
 function escapeHtml(value){
 return String(value)
@@ -1384,9 +1330,7 @@ return String(value)
 .replace(/</g,"&lt;")
 .replace(/>/g,"&gt;");
 }
-
 </script>
 
 </body>
-    </html>
-         
+</html>
