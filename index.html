@@ -3,11 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
+<!-- Cross-Origin Opener Policy Fix for Firebase Popups/Redirects -->
+<meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin-allow-popups">
 <title>Topper Sewing Machine Shopping</title>
 
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
+<!-- Firebase Web SDK (Compat Mode v9) -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 
 <style>
 *{
@@ -32,7 +35,7 @@ header{
     z-index:100;
     box-shadow:0 4px 10px rgba(0,0,0,.2);
     display:flex;
-    justify-content:space-between;
+    justify-space:between;
     align-items:center;
 }
 
@@ -412,7 +415,7 @@ button:disabled{
     background:#fff;
     border-top:1px solid #ddd;
     display:flex;
-    justify-style:space-around;
+    justify-space:around;
     padding:8px 0;
     box-shadow:0 -2px 10px rgba(0,0,0,.08);
     z-index:100;
@@ -463,7 +466,7 @@ button:disabled{
 
 .order-header{
     display:flex;
-    justify-content:space-between;
+    justify-space:between;
     gap:10px;
     border-bottom:1px solid #f0f0f0;
     padding-bottom:8px;
@@ -851,7 +854,7 @@ let userLocationLink = "उपलब्ध नहीं (GPS अनुमति 
 let ordersListenerAttached = false;
 
 /* =========================================================
-   GPS LOCATION ON-DEMAND (परमिशन पॉप-अप फिक्स)
+   GPS LOCATION ON-DEMAND
 ========================================================= */
 function fetchLocation(callback) {
     if (navigator.geolocation) {
@@ -874,7 +877,7 @@ function fetchLocation(callback) {
 }
 
 /* =========================================================
-   AUTH STATE LISTENER
+   AUTH STATE LISTENER & REDIRECT RESULT HANDLING
 ========================================================= */
 function resetAuthButtons(){
     const authBtn = document.getElementById("authBtn");
@@ -890,6 +893,16 @@ function resetAuthButtons(){
         }
     }
 }
+
+// Handle Redirect Login Results (Prevents Blank Screen)
+auth.getRedirectResult().then(function(result) {
+    if (result && result.user) {
+        console.log("Redirect Login Success:", result.user.displayName);
+    }
+}).catch(function(error) {
+    console.error("Redirect Login Error:", error);
+    resetAuthButtons();
+});
 
 auth.onAuthStateChanged(function(user){
 currentUser = user;
@@ -943,7 +956,7 @@ document.getElementById("ordersList").innerHTML =
 });
 
 /* =========================================================
-   LOGIN & LOGOUT
+   LOGIN & LOGOUT (Redirect Flow Solution)
 ========================================================= */
 function handleAuthAction(){
 if(currentUser){
@@ -975,13 +988,8 @@ if(profileAuthBtn){
     profileAuthBtn.innerText = "Google Login खुल रहा है...";
 }
 
-auth.signInWithPopup(provider).then(function(result) {
-    console.log("Sign-in Success:", result.user.displayName);
-}).catch(function(error) {
-    console.error("Login Error:", error);
-    alert("Login Error: " + error.message);
-    resetAuthButtons();
-});
+// Redirect method is used instead of signInWithPopup for WebViews
+auth.signInWithRedirect(provider);
 }
 
 function googleSignOut(){
@@ -993,20 +1001,19 @@ alert("Logout Error: " + error.message);
 }
 
 /* =========================================================
-   SAFE WHATSAPP OPENER (WEBVIEW BLOCK FIX)
+   SAFE WHATSAPP OPENER (WebView & Intent Fix)
 ========================================================= */
 function openWhatsApp(message){
 const phoneNumber = "919264137710";
 const text = encodeURIComponent(message);
-const intentUrl = "whatsapp://send?phone=" + phoneNumber + "&text=" + text;
-const webUrl = "https://wa.me/" + phoneNumber + "?text=" + text;
+const intentUrl = "intent://send?phone=" + phoneNumber + "&text=" + text + "#Intent;scheme=whatsapp;package=com.whatsapp;end";
+const fallbackUrl = "https://api.whatsapp.com/send?phone=" + phoneNumber + "&text=" + text;
 
-// Try launching WhatsApp Protocol directly
-window.location.href = intentUrl;
-
-setTimeout(function(){
-    window.location.assign(webUrl);
-}, 600);
+try {
+    window.location.href = intentUrl;
+} catch (e) {
+    window.location.href = fallbackUrl;
+}
 }
 
 /* =========================================================
@@ -1132,7 +1139,6 @@ const btn = document.getElementById("onlineOrderBtn");
 btn.disabled = true;
 btn.innerText = "⏳ Order Save हो रहा है...";
 
-// Get Location before order submit
 fetchLocation(async function() {
     const orderData = {
     userId: currentUser.uid,
